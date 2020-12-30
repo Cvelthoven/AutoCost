@@ -9,6 +9,7 @@
 //---------------------------------------------------------------------------------------
 //
 // AutoCost specific header files
+#include "applicationsettingsdialog.h"
 #include "AutoCost.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -54,5 +55,6 @@ void MainWindow::on_action_FileExit_triggered()
 void MainWindow::on_action_ToolsOptions_triggered()
 {
     qDebug() << "Tools -> Options triggered";
+    AppSettingDialog = new ApplicationSettingsDialog;
 
 }

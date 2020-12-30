@@ -21,7 +21,9 @@ ApplicationSettingsDialog::ApplicationSettingsDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ApplicationSettingsDialog)
 {
+    qDebug() << "Settings dialog -> constructor triggered";
     ui->setupUi(this);
+    ApplicationSettingsDialog::exec();
 }
 
 ApplicationSettingsDialog::~ApplicationSettingsDialog()
