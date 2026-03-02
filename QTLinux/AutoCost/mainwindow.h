@@ -19,5 +19,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    int ProgramConfigurationLoad();
 };
 #endif // MAINWINDOW_H
