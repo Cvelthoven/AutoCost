@@ -1,35 +1,27 @@
 //---------------------------------------------------------------------------------------
 //
-//  Module: mainwindow.h
+//  Module: appsettings.h
 //
 //---------------------------------------------------------------------------------------
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef APPSETTINGS_H
+#define APPSETTINGS_H
 
 //---------------------------------------------------------------------------------------
 //
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include <QMainWindow>
+#include <QObject>
 
-QT_BEGIN_NAMESPACE
-namespace Ui {
-class MainWindow;
-}
-QT_END_NAMESPACE
-
-class MainWindow : public QMainWindow
+//---------------------------------------------------------------------------------------
+//
+//  Clsass AppSettings definitions
+//
+//---------------------------------------------------------------------------------------
+class AppSettings
 {
-    Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-
-private:
-    Ui::MainWindow *ui;
-
-    int ProgramConfigurationLoad();
+    AppSettings();
 };
-#endif // MAINWINDOW_H
+
+#endif // APPSETTINGS_H

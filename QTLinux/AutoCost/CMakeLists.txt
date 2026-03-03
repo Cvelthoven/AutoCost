@@ -23,6 +23,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(AutoCost
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        AutoCost.h
+        appsettings.h appsettings.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET AutoCost APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

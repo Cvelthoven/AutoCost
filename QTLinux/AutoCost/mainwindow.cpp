@@ -5,6 +5,7 @@
 //  Main module the handles the GUI of the application
 //
 //---------------------------------------------------------------------------------------
+#include "AutoCost.h"
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
