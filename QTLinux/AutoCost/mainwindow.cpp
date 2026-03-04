@@ -6,8 +6,11 @@
 //
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
+#include "appsettings.h"
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+
+#include <QString>
 
 //---------------------------------------------------------------------------------------
 //
@@ -59,5 +62,23 @@ MainWindow::~MainWindow()
 //---------------------------------------------------------------------------------------
 int MainWindow::ProgramConfigurationLoad()
 {
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Create instance of AppSettings and configure the instance
+    //
+    //-----------------------------------------------------------------------------------
+    ApplicationConfig = new AppSettings;
+    ApplicationConfig->SetApplicationDomain(strApplicationDomain);
+    ApplicationConfig->SetApplicationOrganization(strApplicationOrganization);
+    ApplicationConfig->SetApplicationName(strApplicationName);
     return 0;
+
+    //----------------------------------------------------------------------------
+    //
+    // Build and Test values !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    QString strTestSectionName = "[General]";
+    QString strTestKeyName = "TestKey01";
+    QString strTestKeyValue = "TestValue01";
+    //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }

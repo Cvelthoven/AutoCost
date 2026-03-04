@@ -41,6 +41,8 @@ public:
                        QString &strKeyValue);
     int WriteKeyValues();
 
+private:
+
 };
 
 #endif // APPSETTINGS_H

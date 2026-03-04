@@ -9,6 +9,9 @@
 //---------------------------------------------------------------------------------------
 #include "appsettings.h"
 
+#include <QCoreApplication>
+#include <QString>
+
 //---------------------------------------------------------------------------------------
 //
 //  AppSettings default constructor
@@ -49,7 +52,16 @@ int AppSettings::LoadKeyValues()
 //---------------------------------------------------------------------------------------
 int AppSettings::SetApplicationDomain(const QString &strApplicationDomain)
 {
-    return 0;
+    if (strApplicationDomain.length() != 0)
+    {
+        QCoreApplication::setOrganizationDomain(strApplicationDomain);
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+
 }
 
 //---------------------------------------------------------------------------------------
@@ -59,7 +71,15 @@ int AppSettings::SetApplicationDomain(const QString &strApplicationDomain)
 //---------------------------------------------------------------------------------------
 int AppSettings::SetApplicationName(const QString &strApplicationName)
 {
-    return 0;
+    if (strApplicationName.length() != 0)
+    {
+        QCoreApplication::setApplicationName(strApplicationName);
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
 }
 
 //---------------------------------------------------------------------------------------
@@ -69,7 +89,15 @@ int AppSettings::SetApplicationName(const QString &strApplicationName)
 //---------------------------------------------------------------------------------------
 int AppSettings::SetApplicationOrganization(const QString &strApplicationOrganization)
 {
-    return 0;
+    if (strApplicationOrganization.length() != 0)
+    {
+        QCoreApplication::setOrganizationName(strApplicationOrganization);
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
 }
 
 

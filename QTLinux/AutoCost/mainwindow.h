@@ -11,6 +11,8 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "appsettings.h"
+
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -31,5 +33,6 @@ private:
     Ui::MainWindow *ui;
 
     int ProgramConfigurationLoad();
+    AppSettings *ApplicationConfig;
 };
 #endif // MAINWINDOW_H
