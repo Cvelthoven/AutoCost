@@ -72,13 +72,25 @@ int MainWindow::ProgramConfigurationLoad()
     ApplicationConfig->SetApplicationDomain(strApplicationDomain);
     ApplicationConfig->SetApplicationOrganization(strApplicationOrganization);
     ApplicationConfig->SetApplicationName(strApplicationName);
-    return 0;
+
 
     //----------------------------------------------------------------------------
     //
     // Build and Test values !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    QString strTestSectionName = "[General]";
+    QString strTestSectionName = "General";
     QString strTestKeyName = "TestKey01";
     QString strTestKeyValue = "TestValue01";
+
+    if (ApplicationConfig->SetAppSettings(strTestSectionName, strTestKeyName, strTestKeyValue) != 0)
+    {
+        return 0;
+    }
     //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    strTestKeyValue = "";
+    if (ApplicationConfig->GetAppSettings(strTestSectionName, strTestKeyName, strTestKeyValue) != 0)
+    {
+        return 0;
+    }
+
+    return 0;
 }

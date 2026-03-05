@@ -10,6 +10,7 @@
 #include "appsettings.h"
 
 #include <QCoreApplication>
+#include <QSettings>
 #include <QString>
 
 //---------------------------------------------------------------------------------------
@@ -32,16 +33,46 @@ int AppSettings::GetAppSettings(const QString &strKeySection,
                                 const QString &strKeyName,
                                 QString &strKeyValue)
 {
-    return 0;
-}
+    //-----------------------------------------------------------------------------------
+    //
+    //  Ensure keyname is defined
+    //
+    //-----------------------------------------------------------------------------------
+    if (strKeyName.size() == 0)
+    {
+        return 1;
+    }
 
-//---------------------------------------------------------------------------------------
-//
-//  LoadKeyValues
-//
-//---------------------------------------------------------------------------------------
-int AppSettings::LoadKeyValues()
-{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Build full path to application key
+    //
+    //-----------------------------------------------------------------------------------
+    if (strKeySection.size() !=0)
+    {
+        strFullKeyPath = strKeySection + "/" + strKeyName;
+    }
+    else
+    {
+        strFullKeyPath = strKeyName;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieve the value of the application key
+    //
+    //-----------------------------------------------------------------------------------
+    QSettings programConfig;
+    QVariant temp = programConfig.value(strFullKeyPath);
+    if (temp.isValid())
+    {
+        strKeyValue = temp.toString();
+    }
+    else
+    {
+        strKeyValue = "";
+    }
+
     return 0;
 }
 
@@ -80,7 +111,7 @@ int AppSettings::SetApplicationName(const QString &strApplicationName)
     {
         return 1;
     }
-}
+ }
 
 //---------------------------------------------------------------------------------------
 //
@@ -100,7 +131,6 @@ int AppSettings::SetApplicationOrganization(const QString &strApplicationOrganiz
     }
 }
 
-
 //---------------------------------------------------------------------------------------
 //
 //  SetAppSettings
@@ -110,15 +140,38 @@ int AppSettings::SetAppSettings(const QString &strKeySection,
                                 const QString &strKeyName,
                                 QString &strKeyValue)
 {
-    return 0;
-}
+    //-----------------------------------------------------------------------------------
+    //
+    //  Ensure keyname is defined
+    //
+    //-----------------------------------------------------------------------------------
+    if (strKeyName.size() == 0)
+    {
+        return 1;
+    }
 
-//---------------------------------------------------------------------------------------
-//
-//  WriteKeyValues
-//
-//---------------------------------------------------------------------------------------
-int AppSettings::WriteKeyValues()
-{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Build full path to application key
+    //
+    //-----------------------------------------------------------------------------------
+    if (strKeySection.size() !=0)
+    {
+        strFullKeyPath = strKeySection + "/" + strKeyName;
+    }
+    else
+    {
+        strFullKeyPath = strKeyName;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set and force write of the application key
+    //
+    //-----------------------------------------------------------------------------------
+    QSettings programConfig;
+    programConfig.setValue(strFullKeyPath, strKeyValue);
+    programConfig.sync();
+
     return 0;
 }

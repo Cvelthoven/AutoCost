@@ -32,16 +32,15 @@ public:
     int GetAppSettings(const QString &strKeySection,
                        const QString &strKeyName,
                        QString &strKeyValue);
-    int LoadKeyValues();
     int SetApplicationDomain(const QString &strApplicationDomain);
     int SetApplicationName(const QString &strApplicationName);
     int SetApplicationOrganization(const QString &strApplicationOrganization);
     int SetAppSettings(const QString &strKeySection,
                        const QString &strKeyName,
                        QString &strKeyValue);
-    int WriteKeyValues();
 
 private:
+    QString strFullKeyPath;
 
 };
 
