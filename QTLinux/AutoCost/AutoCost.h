@@ -22,6 +22,23 @@
 const QString
     strApplicationName = "AutoCost",
     strApplicationDomain = "CVelthoven.com",
-    strApplicationOrganization = "CVelthoven";
+    strApplicationOrganization = "CVelthoven",
+    //-----------------------------------------------------------------------------------
+    //
+    //  Configuration General section key names
+    //
+    strSectionNameGeneral = "General",
+    strGeneralSSHKeyKey = "SSHKey",
+    strGeneralSSHIVKey = "SSHIV",
+    //-----------------------------------------------------------------------------------
+    //
+    //  Configuraton Application Database section key names
+    //
+    strSectionNameAppDB = "Application Database",
+    strAppDBServerIPKey = "ServerIP",
+    strAppDBServerPortKey = "ServerPort",
+    strAppDBNameKey = "AppDBName",
+    strAppDBUserIDKey = "AppDBUersID",
+    strAppDBUserPasswordKey= "AppDBUserPassword";
 
 #endif // AUTOCOST_H

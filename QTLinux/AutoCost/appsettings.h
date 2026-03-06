@@ -23,6 +23,9 @@ class AppSettings
 {
 public:
     AppSettings();
+    AppSettings(const QString &strApplicationDomain,
+                const QString &strApplicationName,
+                const QString &strApplicationOrganization);
 
     //-----------------------------------------------------------------------------------
     //

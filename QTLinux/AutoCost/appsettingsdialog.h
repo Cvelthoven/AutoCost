@@ -11,6 +11,8 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "appsettings.h"
+
 #include <QDialog>
 
 //---------------------------------------------------------------------------------------
@@ -32,6 +34,9 @@ public:
 
 private:
     Ui::AppSettingsDialog *ui;
-};
+
+    AppSettings *AppConfiguration;
+
+ };
 
 #endif // APPSETTINGSDIALOG_H

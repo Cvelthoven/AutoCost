@@ -22,6 +22,32 @@ AppSettings::AppSettings() {}
 
 //---------------------------------------------------------------------------------------
 //
+//  Constructor that loads the configuration into memory
+//
+//---------------------------------------------------------------------------------------
+AppSettings::AppSettings(const QString &strApplicationDomain,
+                         const QString &strApplicationName,
+                         const QString &strApplicationOrganization)
+{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set application enviroment definitions
+    //
+    //-----------------------------------------------------------------------------------
+    QCoreApplication::setOrganizationDomain(strApplicationDomain);
+    QCoreApplication::setApplicationName(strApplicationName);
+    QCoreApplication::setOrganizationName(strApplicationOrganization);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Load the application configuration
+    //
+    //-----------------------------------------------------------------------------------
+
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  Class methods
 //
 //---------------------------------------------------------------------------------------

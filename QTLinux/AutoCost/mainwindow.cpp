@@ -70,30 +70,38 @@ int MainWindow::ProgramConfigurationLoad()
     //  Create instance of AppSettings and configure the instance
     //
     //-----------------------------------------------------------------------------------
-    ApplicationConfig = new AppSettings;
-    ApplicationConfig->SetApplicationDomain(strApplicationDomain);
-    ApplicationConfig->SetApplicationOrganization(strApplicationOrganization);
-    ApplicationConfig->SetApplicationName(strApplicationName);
+    ApplicationConfig = new AppSettings(strApplicationDomain,
+                                        strApplicationName,
+                                        strApplicationOrganization);
 
 
-    //----------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------
     //
     // Build and Test values !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    QString strTestSectionName = "General";
-    QString strTestKeyName = "TestKey01";
-    QString strTestKeyValue = "TestValue01";
+    // QString strTestSectionName = "General";
+    // QString strTestKeyName = "SSHKey";
+    // QString strTestKeyValue = "SSHKeyValue01";
 
-    if (ApplicationConfig->SetAppSettings(strTestSectionName, strTestKeyName, strTestKeyValue) != 0)
-    {
-        return 0;
-    }
-    //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    strTestKeyValue = "";
-    if (ApplicationConfig->GetAppSettings(strTestSectionName, strTestKeyName, strTestKeyValue) != 0)
-    {
-        return 0;
-    }
+    // if (ApplicationConfig->SetAppSettings(strTestSectionName, strTestKeyName, strTestKeyValue) != 0)
+    // {
+    //     return 0;
+    // }
+    // strTestKeyName = "SSHIV";
+    // strTestKeyValue = "SSHIV01";
+    // if (ApplicationConfig->SetAppSettings(strTestSectionName, strTestKeyName, strTestKeyValue) != 0)
+    // {
+    //     return 0;
+    // }
+    // strTestSectionName = "Application database";
+    // strTestKeyName = "Server";
+    // strTestKeyValue = "Server01";
+    // if (ApplicationConfig->SetAppSettings(strTestSectionName, strTestKeyName, strTestKeyValue) != 0)
+    // {
+    //     return 0;
+    // }
 
+
+    //------------- End test part !!!!!!!!!!!!!!!!!!!!!    ------------------------------
     return 0;
 }
 
@@ -111,5 +119,11 @@ void MainWindow::on_actionOptions_triggered()
 {
     ApplicationSettings = new AppSettingsDialog;
 
+}
+
+
+void MainWindow::on_actionExit_triggered()
+{
+    exit(0);
 }
 
