@@ -12,6 +12,7 @@
 //
 //---------------------------------------------------------------------------------------
 #include "appsettings.h"
+#include "appsettingsdialog.h"
 
 #include <QMainWindow>
 
@@ -28,6 +29,11 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    AppSettingsDialog *ApplicationSettings;
+
+private slots:
+    void on_actionOptions_triggered();
 
 private:
     Ui::MainWindow *ui;

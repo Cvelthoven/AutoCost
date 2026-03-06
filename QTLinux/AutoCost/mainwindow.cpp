@@ -12,6 +12,8 @@
 
 #include <QString>
 
+#include <QDebug>
+
 //---------------------------------------------------------------------------------------
 //
 //  MainWindow constructor
@@ -26,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     //  Load the Program configuration
     //
     //-----------------------------------------------------------------------------------
-    if (!ProgramConfigurationLoad())
+    if (ProgramConfigurationLoad() != 0)
     {
         exit(0);
     }
@@ -94,3 +96,20 @@ int MainWindow::ProgramConfigurationLoad()
 
     return 0;
 }
+
+//---------------------------------------------------------------------------------------
+//
+//  Main menu slots
+//
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//
+//  Menu -> File -> Options
+//
+//---------------------------------------------------------------------------------------
+void MainWindow::on_actionOptions_triggered()
+{
+    ApplicationSettings = new AppSettingsDialog;
+
+}
+
