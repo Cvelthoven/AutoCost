@@ -37,6 +37,25 @@ private:
 
     AppSettings *AppConfiguration;
 
+    enum AppGeneralOptions
+    {
+        AppOptionSSHKey = 0,
+        AppOptionSSHIV
+    };
+    enum AppAppDBOptions
+    {
+        AppOptionServerIP = 0,
+        AppOptionServerPort,
+        AppOptionAppDBName,
+        AppOptionAppDBUserID,
+        AppOptionAppDBPassword
+    };
+
+
+    QList<QString>
+        lsGeneralOptions,
+        lsAppDBOptions;
+
  };
 
 #endif // APPSETTINGSDIALOG_H

@@ -11,6 +11,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include <QList>
 #include <QObject>
 #include <QString>
 
@@ -44,6 +45,7 @@ public:
 
 private:
     QString strFullKeyPath;
+
 
 };
 

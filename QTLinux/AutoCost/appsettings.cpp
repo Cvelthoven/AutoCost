@@ -29,6 +29,10 @@ AppSettings::AppSettings(const QString &strApplicationDomain,
                          const QString &strApplicationName,
                          const QString &strApplicationOrganization)
 {
+    QString strSectionName = "General",
+        strKeyName = "",
+        strKeyValue = "";
+
     //-----------------------------------------------------------------------------------
     //
     //  Set application enviroment definitions
@@ -38,11 +42,6 @@ AppSettings::AppSettings(const QString &strApplicationDomain,
     QCoreApplication::setApplicationName(strApplicationName);
     QCoreApplication::setOrganizationName(strApplicationOrganization);
 
-    //-----------------------------------------------------------------------------------
-    //
-    //  Load the application configuration
-    //
-    //-----------------------------------------------------------------------------------
 
 }
 
