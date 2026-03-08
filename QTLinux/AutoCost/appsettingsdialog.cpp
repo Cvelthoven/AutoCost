@@ -58,16 +58,16 @@ AppSettingsDialog::AppSettingsDialog(QWidget *parent)
     //  General Options
     //
     //-----------------------------------------------------------------------------------
-    strTempSectionName = "General";
+    strTempSectionName = strSectionNameGeneral;
     for (int iCnt1 = AppOptionSSHKey; iCnt1 <= AppOptionSSHIV; iCnt1++)
     {
         switch (iCnt1)
         {
         case AppOptionSSHKey:
-            strTempKeyName = "SSHKey";
+            strTempKeyName = strGeneralSSHKeyKey;
             break;
         case AppOptionSSHIV:
-            strTempKeyName = "SSHIV";
+            strTempKeyName = strGeneralSSHIVKey;
             break;
         default:
             break;
@@ -88,25 +88,25 @@ AppSettingsDialog::AppSettingsDialog(QWidget *parent)
     //  Application database Options
     //
     //-----------------------------------------------------------------------------------
-    strTempSectionName = "Application database";
+    strTempSectionName = strSectionNameAppDB;
     for (int iCnt1 = AppOptionServerIP; iCnt1 <= AppOptionAppDBPassword; iCnt1++)
     {
         switch (iCnt1)
         {
         case AppOptionServerIP:
-            strTempKeyName = "ServerIP";
+            strTempKeyName = strAppDBServerIPKey;
             break;
         case AppOptionServerPort:
-            strTempKeyName = "ServerPort";
+            strTempKeyName = strAppDBServerPortKey;
             break;
         case AppOptionAppDBName:
-            strTempKeyName = "AppDBName";
+            strTempKeyName = strAppDBNameKey;
             break;
         case AppOptionAppDBUserID:
-            strTempKeyName = "AppDBUserID";
+            strTempKeyName = strAppDBUserIDKey;
             break;
         case AppOptionAppDBPassword:
-            strTempKeyName = "AppDBUserPassword";
+            strTempKeyName = strAppDBUserPasswordKey;
             break;
         default:
             break;
@@ -188,3 +188,118 @@ AppSettingsDialog::~AppSettingsDialog()
 {
     delete ui;
 }
+
+//---------------------------------------------------------------------------------------
+//
+//  Slots methodes
+//
+//---------------------------------------------------------------------------------------
+//
+//  Method on_buttonBox_accepted
+//  Handles the activation of the accept button in the options dialog.
+//  Checks if values have been changes and when changes store the in memory and write to
+//  file
+//
+//---------------------------------------------------------------------------------------
+void AppSettingsDialog::on_buttonBox_accepted()
+{
+    qDebug() << "appsettingdialog -> accept button triggered";
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Local variables
+    //
+    //----------------------------------------------------------------------------------
+    int iCnt1;
+
+    QString
+        strTempKeyValue = "",
+        strKeyName = "",
+        strSectionName = "";
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Check if values are changed
+    //
+    //-----------------------------------------------------------------------------------
+    //
+    //  General options
+    //
+    //-----------------------------------------------------------------------------------
+    strSectionName = strSectionNameGeneral;
+    for (iCnt1 = AppOptionSSHKey; iCnt1 <= AppOptionSSHIV; iCnt1++)
+    {
+        switch (iCnt1)
+        {
+        case AppOptionSSHKey:
+            strTempKeyValue = ui->lneSSHKey->text();
+            strKeyName = strGeneralSSHKeyKey;
+            break;
+        case AppOptionSSHIV:
+            strTempKeyValue = ui->lneSSHIV->text();
+            strKeyName = strGeneralSSHIVKey;
+            break;
+        default:
+            break;
+        }
+        //-------------------------------------------------------------------------------
+        //
+        //  Compare value with value in memory
+        //  Update is changed in memory and file
+        //
+        //-------------------------------------------------------------------------------
+        if (lsGeneralOptions[iCnt1] != strTempKeyValue)
+        {
+            lsGeneralOptions[iCnt1] = strTempKeyValue;
+            AppConfiguration->SetAppSettings(strSectionName,strKeyName,lsGeneralOptions[iCnt1]);
+        }
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Application database options
+    //
+    //-----------------------------------------------------------------------------------
+    strSectionName = strSectionNameAppDB;
+    for (iCnt1 = AppOptionServerIP; iCnt1 <= AppOptionAppDBPassword; iCnt1++)
+    {
+        switch (iCnt1)
+        {
+        case AppOptionServerIP:
+            strTempKeyValue = ui->lneAppServerIP->text();
+            strKeyName = strAppDBServerIPKey;
+            break;
+        case AppOptionServerPort:
+            strTempKeyValue = ui->lneAppServerPort->text();
+            strKeyName = strAppDBServerPortKey;
+            break;
+        case AppOptionAppDBName:
+            strTempKeyValue = ui->lneAppDBName->text();
+            strKeyName = strAppDBNameKey;
+            break;
+        case AppOptionAppDBUserID:
+            strTempKeyValue = ui->lneAppDBUserID->text();
+            strKeyName = strAppDBUserIDKey;
+            break;
+        case AppOptionAppDBPassword:
+            strTempKeyValue = ui->lneAppDBPassword->text();
+            strKeyName = strAppDBUserPasswordKey;
+            break;
+        default:
+            break;
+        }
+        //-------------------------------------------------------------------------------
+        //
+        //  Compare value with value in memory
+        //  Update is changed in memory and file
+        //
+        //-------------------------------------------------------------------------------
+        if (lsAppDBOptions[iCnt1] != strTempKeyValue)
+        {
+            lsAppDBOptions[iCnt1] = strTempKeyValue;
+            AppConfiguration->SetAppSettings(strSectionName,strKeyName,lsAppDBOptions[iCnt1]);
+        }
+    }
+
+}
+

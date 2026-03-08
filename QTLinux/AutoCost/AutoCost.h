@@ -39,6 +39,6 @@ const QString
     strAppDBServerPortKey = "ServerPort",
     strAppDBNameKey = "AppDBName",
     strAppDBUserIDKey = "AppDBUersID",
-    strAppDBUserPasswordKey= "AppDBUserPassword";
+    strAppDBUserPasswordKey = "AppDBUserPassword";
 
 #endif // AUTOCOST_H

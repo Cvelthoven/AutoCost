@@ -32,6 +32,9 @@ public:
     explicit AppSettingsDialog(QWidget *parent = nullptr);
     ~AppSettingsDialog();
 
+private slots:
+    void on_buttonBox_accepted();
+
 private:
     Ui::AppSettingsDialog *ui;
 
@@ -50,7 +53,6 @@ private:
         AppOptionAppDBUserID,
         AppOptionAppDBPassword
     };
-
 
     QList<QString>
         lsGeneralOptions,
