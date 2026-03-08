@@ -11,6 +11,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+# Add OpenSSL components
+find_package(Qt6 REQUIRED COMPONENTS Network)
+find_package(OpenSSL REQUIRED)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -26,6 +29,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         AutoCost.h
         appsettings.h appsettings.cpp
         appsettingsdialog.h appsettingsdialog.cpp appsettingsdialog.ui
+        qstringcrypto.h qstringcrypto.cpp
 
 
 
@@ -49,6 +53,9 @@ else()
 endif()
 
 target_link_libraries(AutoCost PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+# Link openssl libraries
+target_link_libraries(AutoCost PRIVATE Qt6::Network)
+target_link_libraries(AutoCost PRIVATE OpenSSL::SSL OpenSSL::Crypto)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
