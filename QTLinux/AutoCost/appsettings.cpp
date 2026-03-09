@@ -19,6 +19,7 @@
 //---------------------------------------------------------------------------------------
 //
 //  Helpers for encryption/decryption
+//  These need to be at the beginning of the code (calls are not in header file)
 //
 //---------------------------------------------------------------------------------------
 static QString cryptoKeySettingsPath()
@@ -101,7 +102,8 @@ AppSettings::AppSettings(const QString &strApplicationDomain,
 //---------------------------------------------------------------------------------------
 int AppSettings::GetAppSettings(const QString &strKeySection,
                                 const QString &strKeyName,
-                                QString &strKeyValue)
+                                QString &strKeyValue,
+                                bool bEncrypt)
 {
     //-----------------------------------------------------------------------------------
     //
@@ -134,33 +136,46 @@ int AppSettings::GetAppSettings(const QString &strKeySection,
     //-----------------------------------------------------------------------------------
     QSettings programConfig;
     QVariant temp = programConfig.value(strFullKeyPath);
-    // if (temp.isValid())
-    // {
-    //     strKeyValue = temp.toString();
-    // }
-    // else
-    // {
-    //     strKeyValue = "";
-    // }
-    if (temp.isValid())
+     if (temp.isValid())
     {
-        const QString stored = temp.toString();
-
-        QSettings programConfig; // or reuse the one you already created above if you prefer
-        const QByteArray key32 = ensureCryptoKey32(programConfig);
-
-        if (!key32.isEmpty() && isProbablyEncryptedPayloadV2(stored))
+        //-------------------------------------------------------------------------------
+        //
+        //  Check if the value is encrypted
+        if (bEncrypt)
         {
-            const auto dec = QStringCrypto::decryptFromBase64Url(stored, key32);
-            if (dec.ok)
-                strKeyValue = dec.value;
+            const QString stored = temp.toString();
+
+    //        QSettings programConfig; // or reuse the one you already created above if you prefer
+            const QByteArray key32 = ensureCryptoKey32(programConfig);
+
+            if (!key32.isEmpty() && isProbablyEncryptedPayloadV2(stored))
+            {
+                const auto dec = QStringCrypto::decryptFromBase64Url(stored, key32);
+                if (dec.ok)
+                    strKeyValue = dec.value;
+                else
+                    strKeyValue = stored; // fallback
+            }
             else
-                strKeyValue = stored; // fallback
+            {
+                strKeyValue = stored; // plaintext legacy value
+            }
         }
+        //-------------------------------------------------------------------------------
+        //
+        //  Value is not encrypted
         else
         {
-            strKeyValue = stored; // plaintext legacy value
+            strKeyValue = temp.toString();
         }
+    }
+    //-----------------------------------------------------------------------------------
+    //
+    //  Key not found return empty string
+    //
+    else
+    {
+        strKeyValue = "";
     }
 
     return 0;
@@ -228,7 +243,8 @@ int AppSettings::SetApplicationOrganization(const QString &strApplicationOrganiz
 //---------------------------------------------------------------------------------------
 int AppSettings::SetAppSettings(const QString &strKeySection,
                                 const QString &strKeyName,
-                                QString &strKeyValue)
+                                QString &strKeyValue,
+                                bool bEncrypt)
 {
     //-----------------------------------------------------------------------------------
     //
@@ -259,32 +275,35 @@ int AppSettings::SetAppSettings(const QString &strKeySection,
     //  Set and force write of the application key
     //
     //-----------------------------------------------------------------------------------
-    // QSettings programConfig;
-    // programConfig.setValue(strFullKeyPath, strKeyValue);
-    // programConfig.sync();
     QSettings programConfig;
 
-    const QByteArray key32 = ensureCryptoKey32(programConfig);
-
-    if (!key32.isEmpty() && !strKeyValue.isEmpty())
+    if (bEncrypt)
     {
-        const auto enc = QStringCrypto::encryptToBase64Url(strKeyValue, key32);
-        if (enc.ok)
+        const QByteArray key32 = ensureCryptoKey32(programConfig);
+
+        if (!key32.isEmpty() && !strKeyValue.isEmpty())
         {
-            programConfig.setValue(strFullKeyPath, enc.value);
+            const auto enc = QStringCrypto::encryptToBase64Url(strKeyValue, key32);
+            if (enc.ok)
+            {
+                programConfig.setValue(strFullKeyPath, enc.value);
+            }
+            else
+            {
+                // Fallback to plaintext if encryption fails
+                programConfig.setValue(strFullKeyPath, strKeyValue);
+            }
         }
         else
         {
-            // Fallback to plaintext if encryption fails
+            // If key missing/empty -> store plaintext
             programConfig.setValue(strFullKeyPath, strKeyValue);
         }
     }
     else
     {
-        // If key missing/empty -> store plaintext
         programConfig.setValue(strFullKeyPath, strKeyValue);
     }
-
     programConfig.sync();
     return 0;
 }

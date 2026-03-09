@@ -72,7 +72,7 @@ AppSettingsDialog::AppSettingsDialog(QWidget *parent)
         default:
             break;
         }
-        if (AppConfiguration->GetAppSettings(strTempSectionName,strTempKeyName,strTempKeyValue) == 0)
+        if (AppConfiguration->GetAppSettings(strTempSectionName,strTempKeyName,strTempKeyValue, false) == 0)
         {
             lsGeneralOptions.append(strTempKeyValue);
             strTempKeyValue = "";
@@ -111,7 +111,7 @@ AppSettingsDialog::AppSettingsDialog(QWidget *parent)
         default:
             break;
         }
-        if (AppConfiguration->GetAppSettings(strTempSectionName,strTempKeyName,strTempKeyValue) == 0)
+        if (AppConfiguration->GetAppSettings(strTempSectionName,strTempKeyName,strTempKeyValue, false) == 0)
         {
             lsAppDBOptions.append(strTempKeyValue);
             strTempKeyValue = "";
@@ -251,7 +251,7 @@ void AppSettingsDialog::on_buttonBox_accepted()
         if (lsGeneralOptions[iCnt1] != strTempKeyValue)
         {
             lsGeneralOptions[iCnt1] = strTempKeyValue;
-            AppConfiguration->SetAppSettings(strSectionName,strKeyName,lsGeneralOptions[iCnt1]);
+            AppConfiguration->SetAppSettings(strSectionName,strKeyName,lsGeneralOptions[iCnt1], false);
         }
     }
 
@@ -297,7 +297,7 @@ void AppSettingsDialog::on_buttonBox_accepted()
         if (lsAppDBOptions[iCnt1] != strTempKeyValue)
         {
             lsAppDBOptions[iCnt1] = strTempKeyValue;
-            AppConfiguration->SetAppSettings(strSectionName,strKeyName,lsAppDBOptions[iCnt1]);
+            AppConfiguration->SetAppSettings(strSectionName,strKeyName,lsAppDBOptions[iCnt1], false);
         }
     }
 

@@ -35,13 +35,15 @@ public:
     //-----------------------------------------------------------------------------------
     int GetAppSettings(const QString &strKeySection,
                        const QString &strKeyName,
-                       QString &strKeyValue);
+                       QString &strKeyValue,
+                       bool bEncrypt);
     int SetApplicationDomain(const QString &strApplicationDomain);
     int SetApplicationName(const QString &strApplicationName);
     int SetApplicationOrganization(const QString &strApplicationOrganization);
     int SetAppSettings(const QString &strKeySection,
                        const QString &strKeyName,
-                       QString &strKeyValue);
+                       QString &strKeyValue,
+                       bool bEncrypt);
 
 private:
     QString strFullKeyPath;
