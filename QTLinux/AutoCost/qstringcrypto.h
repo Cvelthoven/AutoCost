@@ -1,0 +1,1 @@
+#ifndef QSTRINGCRYPTO_H\n#define QSTRINGCRYPTO_H\n\n#include <QString>\n\nclass QStringCrypto {\npublic: \n    QString encrypt(const QString& plainText);\n    QString decrypt(const QString& encryptedText);\n};\n\n#endif // QSTRINGCRYPTO_H\n
