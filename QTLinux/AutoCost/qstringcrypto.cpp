@@ -1,23 +1,22 @@
 #include "qstringcrypto.h"
 
 #include <QByteArray>
-#include <QRandomGenerator>
 
 // OpenSSL
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 
-static QByteArray randomBytes(int n)
+static QByteArray secureRandomBytes(int n, bool* okOut = nullptr)
 {
+    if (okOut) *okOut = false;
+
     QByteArray out(n, Qt::Uninitialized);
-
-    if (RAND_bytes(reinterpret_cast<unsigned char*>(out.data()), n) == 1)
+    if (RAND_bytes(reinterpret_cast<unsigned char*>(out.data()), n) != 1) {
+        out.clear();
         return out;
+    }
 
-    // Fallback (rare)
-    for (int i = 0; i < n; ++i)
-        out[i] = static_cast<char>(QRandomGenerator::global()->generate() & 0xFF);
-
+    if (okOut) *okOut = true;
     return out;
 }
 
@@ -30,6 +29,51 @@ bool QStringCrypto::validateKey32(const QByteArray& key32, QString& err)
     return true;
 }
 
+// --- Key helpers ---
+
+QByteArray QStringCrypto::generateKey32(bool* ok)
+{
+    return secureRandomBytes(32, ok);
+}
+
+QStringCrypto::Result QStringCrypto::generateKey32Base64Url()
+{
+    Result r;
+    bool ok = false;
+    const QByteArray key = generateKey32(&ok);
+    if (!ok || key.size() != 32) {
+        r.error = "Failed to generate secure 32-byte key (OpenSSL RAND_bytes failed)";
+        return r;
+    }
+
+    r.ok = true;
+    r.value = QString::fromLatin1(key.toBase64(QByteArray::Base64UrlEncoding | QByteArray::OmitTrailingEquals));
+    return r;
+}
+
+QStringCrypto::Result QStringCrypto::key32FromBase64Url(const QString& keyBase64Url)
+{
+    Result r;
+
+    const QByteArray key = QByteArray::fromBase64(keyBase64Url.toLatin1(), QByteArray::Base64UrlEncoding);
+    if (key.size() != 32) {
+        r.error = QString("Decoded key length is %1 bytes; expected 32.").arg(key.size());
+        return r;
+    }
+
+    r.ok = true;
+    // For this helper, put the raw bytes into value is awkward (QString may corrupt binary).
+    // So return the same Base64Url if you want a Result, and the caller should use the QByteArray version.
+    // To make this actually useful, we’ll return the key as HEX in value:
+    r.value = QString::fromLatin1(key.toHex());
+    return r;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Encrypt methode: encryptToBase64Url
+//
+//---------------------------------------------------------------------------------------
 QStringCrypto::Result QStringCrypto::encryptToBase64Url(const QString& plaintext, const QByteArray& key32)
 {
     Result r;
@@ -37,7 +81,13 @@ QStringCrypto::Result QStringCrypto::encryptToBase64Url(const QString& plaintext
         return r;
 
     const QByteArray plain = plaintext.toUtf8();
-    const QByteArray iv    = randomBytes(12); // recommended nonce length for GCM
+
+    bool rndOk = false;
+    const QByteArray iv = secureRandomBytes(12, &rndOk); // recommended nonce length for GCM
+    if (!rndOk || iv.size() != 12) {
+        r.error = "Failed to generate IV (OpenSSL RAND_bytes failed)";
+        return r;
+    }
 
     EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
     if (!ctx) {
@@ -91,6 +141,11 @@ QStringCrypto::Result QStringCrypto::encryptToBase64Url(const QString& plaintext
     return r;
 }
 
+//---------------------------------------------------------------------------------------
+//
+//  Decrypt methode: decryptFromBase64Url
+//
+//---------------------------------------------------------------------------------------
 QStringCrypto::Result QStringCrypto::decryptFromBase64Url(const QString& payloadBase64Url, const QByteArray& key32)
 {
     Result r;
