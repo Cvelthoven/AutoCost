@@ -34,11 +34,11 @@ const QString
     //
     //  Configuraton Application Database section key names
     //
-    strSectionNameAppDB = "Application Database",
+    strSectionNameAppDB = "Application database",
     strAppDBServerIPKey = "ServerIP",
     strAppDBServerPortKey = "ServerPort",
     strAppDBNameKey = "AppDBName",
-    strAppDBUserIDKey = "AppDBUersID",
+    strAppDBUserIDKey = "AppDBUserID",
     strAppDBUserPasswordKey = "AppDBUserPassword";
 
 #endif // AUTOCOST_H

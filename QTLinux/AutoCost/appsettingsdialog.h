@@ -40,6 +40,9 @@ private:
 
     AppSettings *AppConfiguration;
 
+    bool
+        bEncrypted = false;
+
     enum AppGeneralOptions
     {
         AppOptionSSHKey = 0,

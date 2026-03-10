@@ -65,14 +65,16 @@ AppSettingsDialog::AppSettingsDialog(QWidget *parent)
         {
         case AppOptionSSHKey:
             strTempKeyName = strGeneralSSHKeyKey;
+            bEncrypted = false;
             break;
         case AppOptionSSHIV:
             strTempKeyName = strGeneralSSHIVKey;
+            bEncrypted = false;
             break;
         default:
             break;
         }
-        if (AppConfiguration->GetAppSettings(strTempSectionName,strTempKeyName,strTempKeyValue, false) == 0)
+        if (AppConfiguration->GetAppSettings(strTempSectionName,strTempKeyName,strTempKeyValue, bEncrypted) == 0)
         {
             lsGeneralOptions.append(strTempKeyValue);
             strTempKeyValue = "";
@@ -95,23 +97,28 @@ AppSettingsDialog::AppSettingsDialog(QWidget *parent)
         {
         case AppOptionServerIP:
             strTempKeyName = strAppDBServerIPKey;
+            bEncrypted = false;
             break;
         case AppOptionServerPort:
             strTempKeyName = strAppDBServerPortKey;
+            bEncrypted = false;
             break;
         case AppOptionAppDBName:
             strTempKeyName = strAppDBNameKey;
+            bEncrypted = false;
             break;
         case AppOptionAppDBUserID:
             strTempKeyName = strAppDBUserIDKey;
+            bEncrypted = false;
             break;
         case AppOptionAppDBPassword:
             strTempKeyName = strAppDBUserPasswordKey;
+            bEncrypted = true;
             break;
         default:
             break;
         }
-        if (AppConfiguration->GetAppSettings(strTempSectionName,strTempKeyName,strTempKeyValue, false) == 0)
+        if (AppConfiguration->GetAppSettings(strTempSectionName,strTempKeyName,strTempKeyValue, bEncrypted) == 0)
         {
             lsAppDBOptions.append(strTempKeyValue);
             strTempKeyValue = "";
@@ -234,10 +241,12 @@ void AppSettingsDialog::on_buttonBox_accepted()
         case AppOptionSSHKey:
             strTempKeyValue = ui->lneSSHKey->text();
             strKeyName = strGeneralSSHKeyKey;
+            bEncrypted = false;
             break;
         case AppOptionSSHIV:
             strTempKeyValue = ui->lneSSHIV->text();
             strKeyName = strGeneralSSHIVKey;
+            bEncrypted = false;
             break;
         default:
             break;
@@ -251,7 +260,7 @@ void AppSettingsDialog::on_buttonBox_accepted()
         if (lsGeneralOptions[iCnt1] != strTempKeyValue)
         {
             lsGeneralOptions[iCnt1] = strTempKeyValue;
-            AppConfiguration->SetAppSettings(strSectionName,strKeyName,lsGeneralOptions[iCnt1], false);
+            AppConfiguration->SetAppSettings(strSectionName,strKeyName,lsGeneralOptions[iCnt1], bEncrypted);
         }
     }
 
@@ -268,22 +277,27 @@ void AppSettingsDialog::on_buttonBox_accepted()
         case AppOptionServerIP:
             strTempKeyValue = ui->lneAppServerIP->text();
             strKeyName = strAppDBServerIPKey;
+            bEncrypted = false;
             break;
         case AppOptionServerPort:
             strTempKeyValue = ui->lneAppServerPort->text();
             strKeyName = strAppDBServerPortKey;
+            bEncrypted = false;
             break;
         case AppOptionAppDBName:
             strTempKeyValue = ui->lneAppDBName->text();
             strKeyName = strAppDBNameKey;
+            bEncrypted = false;
             break;
         case AppOptionAppDBUserID:
             strTempKeyValue = ui->lneAppDBUserID->text();
             strKeyName = strAppDBUserIDKey;
+            bEncrypted = false;
             break;
         case AppOptionAppDBPassword:
             strTempKeyValue = ui->lneAppDBPassword->text();
             strKeyName = strAppDBUserPasswordKey;
+            bEncrypted = true;
             break;
         default:
             break;
@@ -297,7 +311,7 @@ void AppSettingsDialog::on_buttonBox_accepted()
         if (lsAppDBOptions[iCnt1] != strTempKeyValue)
         {
             lsAppDBOptions[iCnt1] = strTempKeyValue;
-            AppConfiguration->SetAppSettings(strSectionName,strKeyName,lsAppDBOptions[iCnt1], false);
+            AppConfiguration->SetAppSettings(strSectionName,strKeyName,lsAppDBOptions[iCnt1], bEncrypted);
         }
     }
 
