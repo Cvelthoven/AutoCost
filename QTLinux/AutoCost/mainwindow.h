@@ -13,6 +13,7 @@
 //---------------------------------------------------------------------------------------
 #include "appsettings.h"
 #include "appsettingsdialog.h"
+#include "postgresqldb.h"
 
 #include <QMainWindow>
 
@@ -40,7 +41,20 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Private methods
+    //
+    //-----------------------------------------------------------------------------------
     int ProgramConfigurationLoad();
+    int ProgramDBConnect();
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Private variables
+    //
+    //-----------------------------------------------------------------------------------
     AppSettings *ApplicationConfig;
+    PostGreSQLDB *AppDatabase;
 };
 #endif // MAINWINDOW_H

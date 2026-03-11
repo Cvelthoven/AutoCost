@@ -8,6 +8,7 @@
 #include "AutoCost.h"
 #include "appsettings.h"
 #include "mainwindow.h"
+#include "postgresqldb.h"
 #include "./ui_mainwindow.h"
 
 #include <QString>
@@ -29,6 +30,16 @@ MainWindow::MainWindow(QWidget *parent)
     //
     //-----------------------------------------------------------------------------------
     if (ProgramConfigurationLoad() != 0)
+    {
+        exit(0);
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Load the Program configuration
+    //
+    //-----------------------------------------------------------------------------------
+    if (ProgramDBConnect() != 0)
     {
         exit(0);
     }
@@ -74,34 +85,25 @@ int MainWindow::ProgramConfigurationLoad()
                                         strApplicationName,
                                         strApplicationOrganization);
 
+    return 0;
+}
 
+//---------------------------------------------------------------------------------------
+//
+//  ProgramDBConnect
+//
+//  Creates an AppDatabase instance
+//
+//---------------------------------------------------------------------------------------
+int MainWindow::ProgramDBConnect()
+{
     //-----------------------------------------------------------------------------------
     //
-    // Build and Test values !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // QString strTestSectionName = "General";
-    // QString strTestKeyName = "SSHKey";
-    // QString strTestKeyValue = "SSHKeyValue01";
+    //  Create an instance of the connection to the Application database
+    //
+    //-----------------------------------------------------------------------------------
+    AppDatabase = new PostGreSQLDB();
 
-    // if (ApplicationConfig->SetAppSettings(strTestSectionName, strTestKeyName, strTestKeyValue) != 0)
-    // {
-    //     return 0;
-    // }
-    // strTestKeyName = "SSHIV";
-    // strTestKeyValue = "SSHIV01";
-    // if (ApplicationConfig->SetAppSettings(strTestSectionName, strTestKeyName, strTestKeyValue) != 0)
-    // {
-    //     return 0;
-    // }
-    // strTestSectionName = "Application database";
-    // strTestKeyName = "Server";
-    // strTestKeyValue = "Server01";
-    // if (ApplicationConfig->SetAppSettings(strTestSectionName, strTestKeyName, strTestKeyValue) != 0)
-    // {
-    //     return 0;
-    // }
-
-
-    //------------- End test part !!!!!!!!!!!!!!!!!!!!!    ------------------------------
     return 0;
 }
 

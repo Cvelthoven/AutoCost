@@ -11,7 +11,11 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include <QObject>
+#include "appsettings.h"
+#include "AutoCost.h"
+
+//#include <QObject>
+#include <QString>
 
 //---------------------------------------------------------------------------------------
 //
@@ -23,6 +27,20 @@ class PostGreSQLDB
 //    Q_OBJECT
 public:
     PostGreSQLDB();
+
+private:
+    bool bEncrypted = false;
+    QString
+        strSectionName = strSectionNameAppDB,
+        strKeyName = "",
+        strDBServerIP = "",
+        strDBServerPort = "",
+        strDBName = "",
+        strDBUserID = "",
+        strDBPassword = "";
+
+    AppSettings *ApplicationConfig;
+
 };
 
 #endif // POSTGRESQLDB_H

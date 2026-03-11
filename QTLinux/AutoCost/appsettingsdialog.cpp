@@ -14,7 +14,7 @@
 
 #include <QString>
 
-#include <QDebug>
+//#include <QDebug>
 
 //---------------------------------------------------------------------------------------
 //
@@ -25,7 +25,6 @@ AppSettingsDialog::AppSettingsDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AppSettingsDialog)
 {
-    qDebug() << "appsettingdialog -> constructor triggered";
     //-----------------------------------------------------------------------------------
     //
     //  Local variables
