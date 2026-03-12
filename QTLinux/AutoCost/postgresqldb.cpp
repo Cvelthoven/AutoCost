@@ -57,5 +57,36 @@ PostGreSQLDB::PostGreSQLDB()
         strDBPassword = "";
     }
 
-    qDebug() << "database configuration loaded";
+    //-----------------------------------------------------------------------------------
+    //
+    //  Connect to application database
+    //
+    //-----------------------------------------------------------------------------------
+    if ((!strDBServerIP.isEmpty())&&
+        (!strDBServerPort.isEmpty())&&
+        (!strDBName.isEmpty())&&
+        (!strDBUserID.isEmpty())&&
+        (!strDBPassword.isEmpty()))
+    {
+        dbAppDatabase = QSqlDatabase::addDatabase("QPSQL");
+        dbAppDatabase.setHostName(strDBServerIP);
+        int iDBServerPort = strDBServerPort.toInt();
+        dbAppDatabase.setPort(iDBServerPort);
+        dbAppDatabase.setDatabaseName(strDBName);
+        dbAppDatabase.setUserName(strDBUserID);
+        dbAppDatabase.setPassword(strDBPassword);
+
+        if (dbAppDatabase.open())
+        {
+            qDebug() << "Database connected";
+        }
+        else
+        {
+            qDebug() << "Database connection failed";
+        }
+    }
+    else
+    {
+        qDebug() << "Not all parameters for connection are set";
+    }
 }

@@ -15,6 +15,7 @@
 #include "AutoCost.h"
 
 //#include <QObject>
+#include <QSqlDatabase>
 #include <QString>
 
 //---------------------------------------------------------------------------------------
@@ -40,6 +41,8 @@ private:
         strDBPassword = "";
 
     AppSettings *ApplicationConfig;
+
+    QSqlDatabase dbAppDatabase;
 
 };
 
