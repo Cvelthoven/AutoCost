@@ -17,6 +17,7 @@
 //#include <QObject>
 #include <QAbstractTableModel>
 #include <QSqlDatabase>
+#include <QSqlQueryModel>
 #include <QString>
 
 //---------------------------------------------------------------------------------------
@@ -24,7 +25,7 @@
 //  Clsass AppSettings definitions
 //
 //---------------------------------------------------------------------------------------
-class PostGreSQLDB : public QAbstractTableModel
+class PostGreSQLDB : public QSqlQueryModel
 {
     Q_OBJECT
 public:

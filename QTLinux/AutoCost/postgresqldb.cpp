@@ -13,6 +13,7 @@
 
 #include <QAbstractTableModel>
 #include <QSqlDatabase>
+#include <QSqlQueryModel>
 
 #include <QDebug>
 
@@ -22,85 +23,85 @@
 //
 //---------------------------------------------------------------------------------------
 PostGreSQLDB::PostGreSQLDB(QObject *parent)
-    : QAbstractTableModel(parent)
+    : QSqlQueryModel(parent)
 {
     //-----------------------------------------------------------------------------------
     //
     //  Local variable
     //
     //-----------------------------------------------------------------------------------
-    // int iDBServerPort = 0;
+    int iDBServerPort = 0;
 
-    // //-----------------------------------------------------------------------------------
-    // //
-    // //  Retrieve application database configuration
-    // //
-    // //-----------------------------------------------------------------------------------
-    // ApplicationConfig = new AppSettings(strApplicationDomain,
-    //                                     strApplicationName,
-    //                                     strApplicationOrganization);
-    // strKeyName = strAppDBServerIPKey;
-    // if (ApplicationConfig->GetAppSettings(strSectionName,strKeyName,strDBServerIP, bEncrypted) != 0)
-    // {
-    //     strDBServerIP = "";
-    // }
-    // strKeyName = strAppDBServerPortKey;
-    // if (ApplicationConfig->GetAppSettings(strSectionName,strKeyName,strDBServerPort, bEncrypted) != 0)
-    // {
-    //     strDBServerPort = "";
-    // }
-    // else
-    // {
-    //     iDBServerPort = strDBServerPort.toInt();
-    // }
-    // strKeyName = strAppDBNameKey;
-    // if (ApplicationConfig->GetAppSettings(strSectionName,strKeyName,strDBName, bEncrypted) != 0)
-    // {
-    //     strDBName = "";
-    // }
-    // strKeyName = strAppDBUserIDKey;
-    // if (ApplicationConfig->GetAppSettings(strSectionName,strKeyName,strDBUserID, bEncrypted) != 0)
-    // {
-    //     strDBUserID = "";
-    // }
-    // strKeyName = strAppDBUserPasswordKey;
-    // bEncrypted = true;
-    // if (ApplicationConfig->GetAppSettings(strSectionName,strKeyName,strDBPassword, bEncrypted) != 0)
-    // {
-    //     strDBPassword = "";
-    // }
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieve application database configuration
+    //
+    //-----------------------------------------------------------------------------------
+    ApplicationConfig = new AppSettings(strApplicationDomain,
+                                        strApplicationName,
+                                        strApplicationOrganization);
+    strKeyName = strAppDBServerIPKey;
+    if (ApplicationConfig->GetAppSettings(strSectionName,strKeyName,strDBServerIP, bEncrypted) != 0)
+    {
+        strDBServerIP = "";
+    }
+    strKeyName = strAppDBServerPortKey;
+    if (ApplicationConfig->GetAppSettings(strSectionName,strKeyName,strDBServerPort, bEncrypted) != 0)
+    {
+        strDBServerPort = "";
+    }
+    else
+    {
+        iDBServerPort = strDBServerPort.toInt();
+    }
+    strKeyName = strAppDBNameKey;
+    if (ApplicationConfig->GetAppSettings(strSectionName,strKeyName,strDBName, bEncrypted) != 0)
+    {
+        strDBName = "";
+    }
+    strKeyName = strAppDBUserIDKey;
+    if (ApplicationConfig->GetAppSettings(strSectionName,strKeyName,strDBUserID, bEncrypted) != 0)
+    {
+        strDBUserID = "";
+    }
+    strKeyName = strAppDBUserPasswordKey;
+    bEncrypted = true;
+    if (ApplicationConfig->GetAppSettings(strSectionName,strKeyName,strDBPassword, bEncrypted) != 0)
+    {
+        strDBPassword = "";
+    }
 
-    // //-----------------------------------------------------------------------------------
-    // //
-    // //  Connect to application database
-    // //
-    // //-----------------------------------------------------------------------------------
-    // if ((!strDBServerIP.isEmpty())&&
-    //     (!strDBServerPort.isEmpty())&&
-    //     (!strDBName.isEmpty())&&
-    //     (!strDBUserID.isEmpty())&&
-    //     (!strDBPassword.isEmpty()))
-    // {
-    //     dbAppDatabase = QSqlDatabase::addDatabase("QPSQL");
-    //     dbAppDatabase.setHostName(strDBServerIP);
-    //     dbAppDatabase.setPort(iDBServerPort);
-    //     dbAppDatabase.setDatabaseName(strDBName);
-    //     dbAppDatabase.setUserName(strDBUserID);
-    //     dbAppDatabase.setPassword(strDBPassword);
+    //-----------------------------------------------------------------------------------
+    //
+    //  Connect to application database
+    //
+    //-----------------------------------------------------------------------------------
+    if ((!strDBServerIP.isEmpty())&&
+        (!strDBServerPort.isEmpty())&&
+        (!strDBName.isEmpty())&&
+        (!strDBUserID.isEmpty())&&
+        (!strDBPassword.isEmpty()))
+    {
+        dbAppDatabase = QSqlDatabase::addDatabase("QPSQL");
+        dbAppDatabase.setHostName(strDBServerIP);
+        dbAppDatabase.setPort(iDBServerPort);
+        dbAppDatabase.setDatabaseName(strDBName);
+        dbAppDatabase.setUserName(strDBUserID);
+        dbAppDatabase.setPassword(strDBPassword);
 
-    //     if (dbAppDatabase.open())
-    //     {
-    //         qDebug() << "Database connected";
-    //     }
-    //     else
-    //     {
-    //         qDebug() << "Database connection failed";
-    //     }
-    // }
-    // else
-    // {
-    //     qDebug() << "Not all parameters for connection are set";
-    // }
+        if (dbAppDatabase.open())
+        {
+            qDebug() << "Database connected";
+        }
+        else
+        {
+            qDebug() << "Database connection failed";
+        }
+    }
+    else
+    {
+        qDebug() << "Not all parameters for connection are set";
+    }
 }
 
 //---------------------------------------------------------------------------------------
