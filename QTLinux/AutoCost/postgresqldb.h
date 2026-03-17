@@ -15,6 +15,7 @@
 #include "AutoCost.h"
 
 //#include <QObject>
+#include <QAbstractTableModel>
 #include <QSqlDatabase>
 #include <QString>
 
@@ -23,11 +24,14 @@
 //  Clsass AppSettings definitions
 //
 //---------------------------------------------------------------------------------------
-class PostGreSQLDB
+class PostGreSQLDB : public QAbstractTableModel
 {
-//    Q_OBJECT
+    Q_OBJECT
 public:
-    PostGreSQLDB();
+    PostGreSQLDB(QObject *parent = nullptr);
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    ~PostGreSQLDB();
 
 private:
     bool bEncrypted = false;

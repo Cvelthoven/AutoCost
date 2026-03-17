@@ -12,6 +12,7 @@
 #include "./ui_mainwindow.h"
 
 #include <QString>
+#include <QTableView>
 
 #include <QDebug>
 
@@ -102,7 +103,7 @@ int MainWindow::ProgramDBConnect()
     //  Create an instance of the connection to the Application database
     //
     //-----------------------------------------------------------------------------------
-    AppDatabase = new PostGreSQLDB();
+    AppDatabase = new PostGreSQLDB(this);
 
     return 0;
 }

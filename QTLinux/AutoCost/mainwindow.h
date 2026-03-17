@@ -16,6 +16,7 @@
 #include "postgresqldb.h"
 
 #include <QMainWindow>
+#include <QTableView>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -56,5 +57,6 @@ private:
     //-----------------------------------------------------------------------------------
     AppSettings *ApplicationConfig;
     PostGreSQLDB *AppDatabase;
+
 };
 #endif // MAINWINDOW_H
