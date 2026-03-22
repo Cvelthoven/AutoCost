@@ -1,6 +1,8 @@
 //---------------------------------------------------------------------------------------
 //
-//  Module: postgresqldb.cpp
+//  Module: autocostdetailsmodel.cpp
+//
+//  This is the class that does the data retrieval and handling of the auto cost details
 //
 //---------------------------------------------------------------------------------------
 //
