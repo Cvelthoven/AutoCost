@@ -22,7 +22,7 @@
 
 //---------------------------------------------------------------------------------------
 //
-//  Clsass AppSettings definitions
+//  Class PostGreSQLDB definitions
 //
 //---------------------------------------------------------------------------------------
 class PostGreSQLDB : public QSqlQueryModel
