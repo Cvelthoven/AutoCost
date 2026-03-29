@@ -31,6 +31,8 @@ class AutoCostDetailsModel : public QSqlQueryModel
     Q_OBJECT
 public:
     AutoCostDetailsModel(QObject *parent, PostGreSQLDB *AppDatabase);
+
+    PostGreSQLDB *AutoCostData;
 };
 
 #endif // AUTOCOSTDETAILSMODEL_H

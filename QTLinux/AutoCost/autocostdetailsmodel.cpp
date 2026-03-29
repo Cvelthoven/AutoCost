@@ -16,6 +16,8 @@
 #include "autocostdetailsmodel.h"
 #include "postgresqldb.h"
 
+#include <QString>
+
 //---------------------------------------------------------------------------------------
 //
 //  AppSettings default constructor
@@ -23,5 +25,16 @@
 //---------------------------------------------------------------------------------------
 AutoCostDetailsModel::AutoCostDetailsModel(QObject *parent, PostGreSQLDB *AppDatabase)
 {
+    AutoCostData = new PostGreSQLDB(this);
 
+    QString strQuery = "SELECT * FROM public.\"acAutoCost\" ORDER BY \"Date\" ASC;";
+    int iNbRows = AutoCostData->ExecQuery(&strQuery);
+    if (iNbRows >= 0)
+    {
+
+    }
+    else
+    {
+
+    }
 }

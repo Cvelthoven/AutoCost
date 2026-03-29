@@ -7,8 +7,8 @@
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
 #include "appsettings.h"
+#include "autocostdetailsmodel.h"
 #include "mainwindow.h"
-#include "postgresqldb.h"
 #include "./ui_mainwindow.h"
 
 #include <QString>
@@ -37,10 +37,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     //-----------------------------------------------------------------------------------
     //
-    //  Load the Program configuration
+    //  Load detailed auto cost records from the database
     //
     //-----------------------------------------------------------------------------------
-    if (ProgramDBConnect() != 0)
+    if (OpenAutoCostDetails() != 0)
     {
         exit(0);
     }
@@ -91,19 +91,19 @@ int MainWindow::ProgramConfigurationLoad()
 
 //---------------------------------------------------------------------------------------
 //
-//  ProgramDBConnect
+//  OpenAutoCostDetails
 //
 //  Creates an AppDatabase instance
 //
 //---------------------------------------------------------------------------------------
-int MainWindow::ProgramDBConnect()
+int MainWindow::OpenAutoCostDetails()
 {
     //-----------------------------------------------------------------------------------
     //
-    //  Create an instance of the connection to the Application database
+    //  Create an instance of details autocost overview
     //
     //-----------------------------------------------------------------------------------
-    AppDatabase = new PostGreSQLDB(this);
+    AutoCostDetails = new AutoCostDetailsModel(this, AppDatabase);
 
     return 0;
 }
