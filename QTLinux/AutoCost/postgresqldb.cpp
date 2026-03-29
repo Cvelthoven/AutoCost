@@ -12,6 +12,7 @@
 #include "postgresqldb.h"
 
 #include <QAbstractTableModel>
+#include <QtSql>
 #include <QSqlDatabase>
 #include <QSqlQueryModel>
 
@@ -124,4 +125,36 @@ int PostGreSQLDB::rowCount(const QModelIndex &) const
 int PostGreSQLDB::columnCount(const QModelIndex &) const
 {
     return 10;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Class methodes
+//
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//
+//  ExecQuery
+//
+//  This method runs a query
+//  Input:
+//      - strQuery: string containing the query that requires execution
+//
+//  Output:
+//      - ExecQuery:
+//          - number of rows in result
+//          - -1: query did fail
+//
+//---------------------------------------------------------------------------------------
+int PostGreSQLDB::ExecQuery(QString *strQuery)
+{
+    QSqlQuery qQuery("",dbAppDatabase);
+    if (qQuery.exec(*strQuery))
+    {
+        return qQuery.size();
+    }
+    else
+    {
+        return -1;
+    }
 }

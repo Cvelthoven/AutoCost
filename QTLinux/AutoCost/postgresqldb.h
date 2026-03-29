@@ -30,9 +30,11 @@ class PostGreSQLDB : public QSqlQueryModel
     Q_OBJECT
 public:
     PostGreSQLDB(QObject *parent = nullptr);
+     ~PostGreSQLDB();
+
+    int ExecQuery(QString *strQuery);
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-    ~PostGreSQLDB();
 
 private:
     bool bEncrypted = false;
