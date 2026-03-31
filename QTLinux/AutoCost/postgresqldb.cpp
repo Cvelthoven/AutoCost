@@ -144,6 +144,7 @@ int PostGreSQLDB::columnCount(const QModelIndex &) const
 //      - ExecQuery:
 //          - number of rows in result
 //          - -1: query did fail
+//          - -2: query returned with an error
 //
 //---------------------------------------------------------------------------------------
 int PostGreSQLDB::ExecQuery(QString *strQuery)
@@ -151,10 +152,14 @@ int PostGreSQLDB::ExecQuery(QString *strQuery)
     QSqlQuery qQuery("",dbAppDatabase);
     if (qQuery.exec(*strQuery))
     {
+        if (qQuery.size() > 0)
+        {
+            int iNbRows = 1;
+        }
         return qQuery.size();
     }
     else
     {
-        return -1;
+        return -2;
     }
 }

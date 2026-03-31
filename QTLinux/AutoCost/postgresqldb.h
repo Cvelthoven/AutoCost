@@ -36,6 +36,8 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
+    QSqlDatabase dbAppDatabase;
+
 private:
     bool bEncrypted = false;
     QString
@@ -48,8 +50,6 @@ private:
         strDBPassword = "";
 
     AppSettings *ApplicationConfig;
-
-    QSqlDatabase dbAppDatabase;
 
 };
 

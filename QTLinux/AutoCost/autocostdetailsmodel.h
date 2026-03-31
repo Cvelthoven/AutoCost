@@ -19,19 +19,20 @@
 #include "postgresqldb.h"
 
 #include <QObject>
-#include <QSqlQueryModel>
+#include <QSqlTableModel>
 
 //---------------------------------------------------------------------------------------
 //
 //  Class AutoCostDetailsModel definitions
 //
 //---------------------------------------------------------------------------------------
-class AutoCostDetailsModel : public QSqlQueryModel
+class AutoCostDetailsModel : public QSqlTableModel
 {
     Q_OBJECT
 public:
-    AutoCostDetailsModel(QObject *parent, PostGreSQLDB *AppDatabase);
+    AutoCostDetailsModel(QObject *parent);
 
+    QSqlTableModel *tmDetailCostRecords;
     PostGreSQLDB *AutoCostData;
 };
 

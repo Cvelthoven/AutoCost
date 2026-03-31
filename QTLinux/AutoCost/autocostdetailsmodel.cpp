@@ -16,25 +16,36 @@
 #include "autocostdetailsmodel.h"
 #include "postgresqldb.h"
 
+#include <QSqlTableModel>
 #include <QString>
+
+#include <QDebug>
 
 //---------------------------------------------------------------------------------------
 //
 //  AppSettings default constructor
 //
 //---------------------------------------------------------------------------------------
-AutoCostDetailsModel::AutoCostDetailsModel(QObject *parent, PostGreSQLDB *AppDatabase)
+AutoCostDetailsModel::AutoCostDetailsModel(QObject *parent)
 {
     AutoCostData = new PostGreSQLDB(this);
 
-    QString strQuery = "SELECT * FROM public.\"acAutoCost\" ORDER BY \"Date\" ASC;";
-    int iNbRows = AutoCostData->ExecQuery(&strQuery);
+    //-----------------------------------------------------------------------------------
+    //
+    //  Create a QSqlTableModel
+    //
+    //-----------------------------------------------------------------------------------
+    tmDetailCostRecords = new QSqlTableModel;
+    tmDetailCostRecords->setTable("acAutoCost");
+    tmDetailCostRecords->setSort(3, Qt::AscendingOrder);
+    tmDetailCostRecords->select();
+    int iNbRows = tmDetailCostRecords->rowCount();
     if (iNbRows >= 0)
     {
-
+        qDebug() << "number of records found: " << iNbRows;
     }
     else
     {
-
+        qDebug() << "error reading table";
     }
 }

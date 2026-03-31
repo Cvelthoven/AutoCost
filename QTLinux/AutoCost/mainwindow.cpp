@@ -103,7 +103,7 @@ int MainWindow::OpenAutoCostDetails()
     //  Create an instance of details autocost overview
     //
     //-----------------------------------------------------------------------------------
-    AutoCostDetails = new AutoCostDetailsModel(this, AppDatabase);
+    AutoCostDetails = new AutoCostDetailsModel(this);
 
     return 0;
 }
