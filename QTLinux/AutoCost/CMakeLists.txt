@@ -34,6 +34,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         qstringcrypto.h qstringcrypto.cpp
         postgresqldb.h postgresqldb.cpp
         autocostdetailsmodel.h autocostdetailsmodel.cpp
+        autodetailcostmodel.h autodetailcostmodel.cpp
 
 
 

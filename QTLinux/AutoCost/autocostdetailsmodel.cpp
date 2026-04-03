@@ -2,12 +2,9 @@
 //
 //  Module: autocostdetailsmodel.cpp
 //
-//  This class retrieves the data and handling of the auto cost details
-//  The result is a table filled with the auto cost details per column. All calculations
-//  and positioning will be done in this table. Based on the SQL query to retrieve all
-//  autocost details.
+//  This class retrieves the autocost records in a table format which is input for the
+//  autodetailcostmodel class.
 //
-//  std::wstring sqlQuery = L"SELECT * FROM public.\"acAutoCost\" ORDER BY \"Date\" ASC;";
 //---------------------------------------------------------------------------------------
 //
 //  Header files
@@ -25,7 +22,7 @@
 
 //---------------------------------------------------------------------------------------
 //
-//  AppSettings default constructor
+//  AutoCostDetailsModel default constructor
 //
 //---------------------------------------------------------------------------------------
 AutoCostDetailsModel::AutoCostDetailsModel(QObject *parent)
