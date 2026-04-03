@@ -3,7 +3,7 @@
 //  Module: DetailCostSqlModel.cpp
 //
 //  This class retrieves the autocost records in a table format which is input for the
-//  autodetailcostmodel class.
+//  DetailCostTableModel class.
 //
 //---------------------------------------------------------------------------------------
 //
@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------------------
 //
-//  AutoCostDetailsModel default constructor
+//  DetailCostSqlModel default constructor
 //
 //---------------------------------------------------------------------------------------
 DetailCostSqlModel::DetailCostSqlModel(QObject *parent)

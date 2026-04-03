@@ -3,7 +3,7 @@
 //  Module: DetailCostSqlModel.h
 //
 //  This class retrieves the autocost records in a table format which is input for the
-//  autodetailcostmodel class.
+//  DetailCostTableModel class.
 //
 //---------------------------------------------------------------------------------------
 #ifndef DETAILCOSTSQLMODEL_H
@@ -21,11 +21,11 @@
 #include <QObject>
 #include <QSqlTableModel>
 
-    //---------------------------------------------------------------------------------------
-    //
-    //  Class AutoCostDetailsModel definitions
-    //
-    //---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//
+//  Class DetailCostSqlModel definitions
+//
+//---------------------------------------------------------------------------------------
 class DetailCostSqlModel
   : public QSqlTableModel
 {
