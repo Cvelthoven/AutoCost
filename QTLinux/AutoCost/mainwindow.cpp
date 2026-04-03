@@ -7,7 +7,7 @@
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
 #include "appsettings.h"
-#include "autocostdetailsmodel.h"
+#include "detailcostsqlmodel.h"
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
@@ -103,7 +103,7 @@ int MainWindow::OpenAutoCostDetails()
     //  Create an instance of details autocost overview
     //
     //-----------------------------------------------------------------------------------
-    AutoCostDetails = new AutoCostDetailsModel(this);
+    AutoCostDetails = new DetailCostSqlModel(this);
 
     return 0;
 }

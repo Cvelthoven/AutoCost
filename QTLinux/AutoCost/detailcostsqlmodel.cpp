@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------------------
 //
-//  Module: autocostdetailsmodel.cpp
+//  Module: DetailCostSqlModel.cpp
 //
 //  This class retrieves the autocost records in a table format which is input for the
 //  autodetailcostmodel class.
@@ -10,10 +10,9 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "autocostdetailsmodel.h"
+#include "detailcostsqlmodel.h"
 #include "postgresqldb.h"
 
-#include <QAbstractTableModel>
 #include <QSqlRecord>
 #include <QSqlTableModel>
 #include <QString>
@@ -25,7 +24,7 @@
 //  AutoCostDetailsModel default constructor
 //
 //---------------------------------------------------------------------------------------
-AutoCostDetailsModel::AutoCostDetailsModel(QObject *parent)
+DetailCostSqlModel::DetailCostSqlModel(QObject *parent)
 {
     AutoCostData = new PostGreSQLDB(this);
 
@@ -40,17 +39,17 @@ AutoCostDetailsModel::AutoCostDetailsModel(QObject *parent)
     tmSqlDetailCostRecords->select();
     iNbRows = tmSqlDetailCostRecords->rowCount();
 
-     if (iNbRows > 0)
+    if (iNbRows > 0)
     {
-//----------  Begin Test only -----------------------------------------------------------------
-//
+        //----------  Begin Test only -----------------------------------------------------------------
+        //
         qDebug() << "number of records found: " << iNbRows;
         QString fieldRecId = "",
-                fieldType = "",
-                fieldDate = "",
-                fieldDescr = "",
-                fieldTotal = "",
-                fieldFreq = "";
+            fieldType = "",
+            fieldDate = "",
+            fieldDescr = "",
+            fieldTotal = "",
+            fieldFreq = "";
         for (int iCnt1 = 0; iCnt1 < iNbRows; iCnt1++)
         {
             QSqlRecord tmSqlDetailCostRecord = tmSqlDetailCostRecords->record(iCnt1);
@@ -75,6 +74,6 @@ AutoCostDetailsModel::AutoCostDetailsModel(QObject *parent)
     }
     qDebug() << "Method ended succesfull";
 
-//
-//---------------- End Test only --------------------------------------------------------
+    //
+    //---------------- End Test only --------------------------------------------------------
 }

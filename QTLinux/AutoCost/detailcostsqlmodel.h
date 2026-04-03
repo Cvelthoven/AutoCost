@@ -1,13 +1,15 @@
 //---------------------------------------------------------------------------------------
 //
-//  Module: autocostdetailsmodel.h
+//  Module: DetailCostSqlModel.h
 //
 //  This class retrieves the autocost records in a table format which is input for the
 //  autodetailcostmodel class.
 //
 //---------------------------------------------------------------------------------------
-#ifndef AUTOCOSTDETAILSMODEL_H
-#define AUTOCOSTDETAILSMODEL_H
+#ifndef DETAILCOSTSQLMODEL_H
+#define DETAILCOSTSQLMODEL_H
+
+#include <QObject>
 
 //---------------------------------------------------------------------------------------
 //
@@ -19,16 +21,17 @@
 #include <QObject>
 #include <QSqlTableModel>
 
-//---------------------------------------------------------------------------------------
-//
-//  Class AutoCostDetailsModel definitions
-//
-//---------------------------------------------------------------------------------------
-class AutoCostDetailsModel : public QSqlTableModel
+    //---------------------------------------------------------------------------------------
+    //
+    //  Class AutoCostDetailsModel definitions
+    //
+    //---------------------------------------------------------------------------------------
+class DetailCostSqlModel
+  : public QSqlTableModel
 {
     Q_OBJECT
 public:
-    AutoCostDetailsModel(QObject *parent = nullptr);
+    DetailCostSqlModel(QObject *parent = nullptr);
 
 private:
     QSqlTableModel *tmSqlDetailCostRecords;
@@ -49,4 +52,4 @@ private:
 
 };
 
-#endif // AUTOCOSTDETAILSMODEL_H
+#endif // DETAILCOSTSQLMODEL_H
