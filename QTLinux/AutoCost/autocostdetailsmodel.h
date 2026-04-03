@@ -30,10 +30,25 @@ class AutoCostDetailsModel : public QSqlTableModel
 {
     Q_OBJECT
 public:
-    AutoCostDetailsModel(QObject *parent);
+    AutoCostDetailsModel(QObject *parent = nullptr);
 
-    QSqlTableModel *tmDetailCostRecords;
+private:
+    QSqlTableModel *tmSqlDetailCostRecords;
     PostGreSQLDB *AutoCostData;
+
+    int
+        iNbRows = 0;
+
+    enum acAutoCostFields
+    {
+        RecordID = 0,
+        RecordType,
+        Date,
+        Description,
+        Amount,
+        Frequency
+    };
+
 };
 
 #endif // AUTOCOSTDETAILSMODEL_H
