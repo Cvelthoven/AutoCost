@@ -33,12 +33,31 @@ class DetailCostSqlModel
 public:
     DetailCostSqlModel(QObject *parent = nullptr);
 
-private:
+    void GetRecordData(const int iRecordNb,
+                      int* iRecID,
+                      int* iRecordType,
+                      QString* strDate,
+                      QString* strDescription,
+                      double* dTotalCost,
+                      int* iFrequency);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Public class variables
+    //
+    //-----------------------------------------------------------------------------------
     QSqlTableModel *tmSqlDetailCostRecords;
-    PostGreSQLDB *AutoCostData;
 
     int
         iNbRows = 0;
+
+private:
+    //-----------------------------------------------------------------------------------
+    //
+    //  Private class variables
+    //
+    //-----------------------------------------------------------------------------------
+    PostGreSQLDB *AutoCostData;
 
     enum acAutoCostFields
     {

@@ -14,6 +14,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "detailcostsqlmodel.h"
 #include <QObject>
 
 //---------------------------------------------------------------------------------------
@@ -25,6 +26,9 @@ class DetailCostTableModel
 {
 public:
     DetailCostTableModel();
+
+private:
+    DetailCostSqlModel *DetailedCostSqlTable;
 };
 
 #endif // DETAILCOSTTABLEMODEL_H

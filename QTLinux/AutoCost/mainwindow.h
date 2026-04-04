@@ -13,7 +13,8 @@
 //---------------------------------------------------------------------------------------
 #include "appsettings.h"
 #include "appsettingsdialog.h"
-#include "detailcostsqlmodel.h"
+//#include "detailcostsqlmodel.h"
+#include "detailcosttablemodel.h"
 #include "postgresqldb.h"
 
 #include <QMainWindow>
@@ -57,7 +58,7 @@ private:
     //
     //-----------------------------------------------------------------------------------
     AppSettings *ApplicationConfig;
-    DetailCostSqlModel *AutoCostDetails;
+    DetailCostTableModel *AutoCostDetails;
     PostGreSQLDB *AppDatabase;
 
 

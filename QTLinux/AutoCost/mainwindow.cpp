@@ -103,7 +103,7 @@ int MainWindow::OpenAutoCostDetails()
     //  Create an instance of details autocost overview
     //
     //-----------------------------------------------------------------------------------
-    AutoCostDetails = new DetailCostSqlModel(this);
+    AutoCostDetails = new DetailCostTableModel();
 
     return 0;
 }

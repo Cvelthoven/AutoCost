@@ -39,41 +39,77 @@ DetailCostSqlModel::DetailCostSqlModel(QObject *parent)
     tmSqlDetailCostRecords->select();
     iNbRows = tmSqlDetailCostRecords->rowCount();
 
-    if (iNbRows > 0)
+}
+//---------------------------------------------------------------------------------------
+//
+//  Class methodes
+//
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//
+//  GetRecordData
+//
+//  Input:
+//      - iRecordNb: position of the record in sorted table (not RecID)
+//  Output:
+//      - iRecID: recordID
+//      - iRecordType: record type
+//      - strDate: content date field
+//      - strDescription: content description field
+//      - dTotalCost: content totalcost field
+//      - iFrequency: content frequency field
+//
+//---------------------------------------------------------------------------------------
+void DetailCostSqlModel::GetRecordData(const int iRecordNb,
+                                      int* iRecID,
+                                      int* iRecordType,
+                                      QString* strDate,
+                                      QString* strDescription,
+                                      double* dTotalCost,
+                                      int* iFrequency)
+{
+    bool bOk;
+    double dTemp;
+    int iTemp;
+    QSqlRecord tmSqlDetailCostRecord = tmSqlDetailCostRecords->record(iRecordNb);
+    iTemp = tmSqlDetailCostRecord.value("AutoCostRecID").toInt(&bOk);
+    if (bOk)
     {
-        //----------  Begin Test only -----------------------------------------------------------------
-        //
-        qDebug() << "number of records found: " << iNbRows;
-        QString fieldRecId = "",
-            fieldType = "",
-            fieldDate = "",
-            fieldDescr = "",
-            fieldTotal = "",
-            fieldFreq = "";
-        for (int iCnt1 = 0; iCnt1 < iNbRows; iCnt1++)
-        {
-            QSqlRecord tmSqlDetailCostRecord = tmSqlDetailCostRecords->record(iCnt1);
-            fieldRecId = tmSqlDetailCostRecord.value("AutoCostRecID").toString();
-            fieldType = tmSqlDetailCostRecord.value("RecordType").toString();
-            fieldDate = tmSqlDetailCostRecord.value("Date").toString();
-            fieldDescr = tmSqlDetailCostRecord.value("Description").toString();
-            fieldTotal = tmSqlDetailCostRecord.value("TotalCost").toString();
-            fieldFreq = tmSqlDetailCostRecord.value("Frequency").toString();
-            qDebug() << "RecID: " <<fieldRecId << "RecordType: "<< fieldType << "Date: " << fieldDate << "Description: " << fieldDescr;
-
-        }
-    }
-    else if (iNbRows == 0)
-    {
-        qDebug() << "Query succesfull but no records found";
-
+        *iRecID = iTemp;
     }
     else
     {
-        qDebug() << "error reading table";
+        *iRecID = -1;
     }
-    qDebug() << "Method ended succesfull";
+    iTemp = tmSqlDetailCostRecord.value("RecordType").toInt(&bOk);
+    if (bOk)
+    {
+        *iRecordType = iTemp;
+    }
+    else
+    {
+        *iRecordType = -1;
+    }
+    *strDate = tmSqlDetailCostRecord.value("Date").toString();
+    *strDescription = tmSqlDetailCostRecord.value("Description").toString();
+    dTemp = tmSqlDetailCostRecord.value("TotalCost").toDouble(&bOk);
+    if (bOk)
+    {
+        *dTotalCost = dTemp;
+    }
+    else
+    {
+        *dTotalCost = -9999999;
+    }
+    iTemp = tmSqlDetailCostRecord.value("Frequency").toInt(&bOk);
+    if (bOk)
+    {
+        *iFrequency = iTemp;
+    }
+    else
+    {
+        *iFrequency = -1;
+    }
 
-    //
-    //---------------- End Test only --------------------------------------------------------
 }
+
