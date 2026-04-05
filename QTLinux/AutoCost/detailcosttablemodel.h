@@ -29,6 +29,7 @@ class DetailCostTableModel : public QAbstractTableModel
     Q_OBJECT
 public:
     DetailCostTableModel(QObject *parent = nullptr);
+    ~DetailCostTableModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;

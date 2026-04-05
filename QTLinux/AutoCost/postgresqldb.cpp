@@ -11,7 +11,6 @@
 #include "appsettings.h"
 #include "postgresqldb.h"
 
-#include <QAbstractTableModel>
 #include <QtSql>
 #include <QSqlDatabase>
 #include <QSqlQueryModel>
@@ -115,16 +114,6 @@ PostGreSQLDB::~PostGreSQLDB()
     dbAppDatabase.close();
     qDebug() << "PostgreSQLDB destructor is callled";
 
-}
-
-int PostGreSQLDB::rowCount(const QModelIndex &) const
-{
-    return 5;
-}
-
-int PostGreSQLDB::columnCount(const QModelIndex &) const
-{
-    return 10;
 }
 
 //---------------------------------------------------------------------------------------

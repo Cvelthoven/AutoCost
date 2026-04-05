@@ -15,7 +15,7 @@
 #include "AutoCost.h"
 
 //#include <QObject>
-#include <QAbstractTableModel>
+//#include <QAbstractTableModel>
 #include <QSqlDatabase>
 #include <QSqlQueryModel>
 #include <QString>
@@ -33,8 +33,6 @@ public:
      ~PostGreSQLDB();
 
     int ExecQuery(QString *strQuery);
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
     QSqlDatabase dbAppDatabase;
 

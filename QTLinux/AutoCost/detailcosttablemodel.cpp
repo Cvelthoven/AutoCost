@@ -36,15 +36,27 @@ DetailCostTableModel::DetailCostTableModel(QObject *parent)
         strDate = "",
         strDescription = "";
 
-    // DetailedCostSqlTable = new DetailCostSqlModel();
-    // int iNBRows = DetailedCostSqlTable->iNbRows;
-    // qDebug() << "number of records found: " << iNBRows;
+    DetailedCostSqlTable = new DetailCostSqlModel();
+    int iNBRows = DetailedCostSqlTable->iNbRows;
+    qDebug() << "number of records found: " << iNBRows;
 
     // for (int iCnt1 = 0; iCnt1 < iNBRows; iCnt1++)
     // {
     //     DetailedCostSqlTable->GetRecordData(iCnt1, &iRecId, &iRecordType, &strDate, &strDescription, &dTotalCost, &iFrequency);
     //     qDebug() << iRecId;
     // }
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  DetailCostTableModel destructor
+//
+//  Clean up first
+//
+//---------------------------------------------------------------------------------------
+DetailCostTableModel::~DetailCostTableModel()
+{
+    delete DetailedCostSqlTable;
 }
 
 //---------------------------------------------------------------------------------------
