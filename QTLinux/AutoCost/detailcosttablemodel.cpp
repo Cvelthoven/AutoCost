@@ -12,6 +12,7 @@
 //---------------------------------------------------------------------------------------
 #include "detailcosttablemodel.h"
 
+#include <QAbstractTableModel>
 #include <QString>
 
 #include <QDebug>
@@ -20,7 +21,8 @@
 //  DetailCostTableModel default constructor
 //
 //---------------------------------------------------------------------------------------
-DetailCostTableModel::DetailCostTableModel()
+DetailCostTableModel::DetailCostTableModel(QObject *parent)
+    : QAbstractTableModel(parent)
 {
 
     double
@@ -34,13 +36,60 @@ DetailCostTableModel::DetailCostTableModel()
         strDate = "",
         strDescription = "";
 
-    DetailedCostSqlTable = new DetailCostSqlModel();
-    int iNBRows = DetailedCostSqlTable->iNbRows;
-    qDebug() << "number of records found: " << iNBRows;
+    // DetailedCostSqlTable = new DetailCostSqlModel();
+    // int iNBRows = DetailedCostSqlTable->iNbRows;
+    // qDebug() << "number of records found: " << iNBRows;
 
-    for (int iCnt1 = 0; iCnt1 < iNBRows; iCnt1++)
-    {
-        DetailedCostSqlTable->GetRecordData(iCnt1, &iRecId, &iRecordType, &strDate, &strDescription, &dTotalCost, &iFrequency);
-        qDebug() << iRecId;
-    }
+    // for (int iCnt1 = 0; iCnt1 < iNBRows; iCnt1++)
+    // {
+    //     DetailedCostSqlTable->GetRecordData(iCnt1, &iRecId, &iRecordType, &strDate, &strDescription, &dTotalCost, &iFrequency);
+    //     qDebug() << iRecId;
+    // }
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Class methodes
+//
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//
+//  rowCount
+//
+//  Required methods for QAbstractTableModel
+//
+//---------------------------------------------------------------------------------------
+int DetailCostTableModel::rowCount(const QModelIndex & /*parent*/) const
+{
+    int iNBRows = DetailedCostSqlTable->iNbRows;
+    return iNBRows;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  columnCount
+//
+//  Required methods for QAbstractTableModel
+//
+//---------------------------------------------------------------------------------------
+int DetailCostTableModel::columnCount(const QModelIndex & /*parent*/) const
+{
+    return CostOverViewPeriod;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  data
+//
+//  Required methods for QAbstractTableModel
+//
+//---------------------------------------------------------------------------------------
+QVariant DetailCostTableModel::data(const QModelIndex &index, int role) const
+{
+    if (role == Qt::DisplayRole)
+        return QString("Row%1, Column%2")
+            .arg(index.row() + 1)
+            .arg(index.column() +1);
+
+    return QVariant();
 }

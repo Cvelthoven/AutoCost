@@ -7,7 +7,6 @@
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
 #include "appsettings.h"
-#include "detailcostsqlmodel.h"
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
@@ -104,6 +103,14 @@ int MainWindow::OpenAutoCostDetails()
     //
     //-----------------------------------------------------------------------------------
     AutoCostDetails = new DetailCostTableModel();
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Create the view of the detail cost
+    //
+    //-----------------------------------------------------------------------------------
+    DetailCostView.setModel(AutoCostDetails);
+    DetailCostView.show();
 
     return 0;
 }

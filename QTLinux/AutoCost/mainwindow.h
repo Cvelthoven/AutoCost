@@ -13,7 +13,6 @@
 //---------------------------------------------------------------------------------------
 #include "appsettings.h"
 #include "appsettingsdialog.h"
-//#include "detailcostsqlmodel.h"
 #include "detailcosttablemodel.h"
 #include "postgresqldb.h"
 
@@ -35,6 +34,7 @@ public:
     ~MainWindow();
 
     AppSettingsDialog *ApplicationSettings;
+    QTableView DetailCostView;
 
 private slots:
     void on_actionOptions_triggered();
