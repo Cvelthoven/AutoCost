@@ -36,6 +36,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     //-----------------------------------------------------------------------------------
     //
+    //  Activate the GUI of the application
+    //  This creates the elements of the MainWindow
+    //
+    //-----------------------------------------------------------------------------------
+    ui->setupUi(this);
+
+    //-----------------------------------------------------------------------------------
+    //
     //  Load detailed auto cost records from the database
     //
     //-----------------------------------------------------------------------------------
@@ -44,12 +52,6 @@ MainWindow::MainWindow(QWidget *parent)
         exit(0);
     }
 
-    //-----------------------------------------------------------------------------------
-    //
-    //  Activate the GUI of the application
-    //
-    //-----------------------------------------------------------------------------------
-    ui->setupUi(this);
 }
 
 //---------------------------------------------------------------------------------------
@@ -111,9 +113,7 @@ int MainWindow::OpenAutoCostDetails()
     //  Create the view of the detail cost
     //
     //-----------------------------------------------------------------------------------
-    DetailCostView.setModel(AutoCostDetails);
- //   ui->ViewCostDetails->;
- //   DetailCostView.show();
+    ui->tblDetailOverview->setModel(AutoCostDetails);
 
     return 0;
 }
