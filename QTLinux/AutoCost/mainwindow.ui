@@ -6,22 +6,76 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1323</width>
-    <height>733</height>
+    <width>1711</width>
+    <height>927</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTableView" name="DetailOverviewCost">
+   <widget class="QTableView" name="tblDetailOverview">
     <property name="geometry">
      <rect>
-      <x>5</x>
-      <y>201</y>
-      <width>1281</width>
-      <height>491</height>
+      <x>20</x>
+      <y>270</y>
+      <width>1675</width>
+      <height>600</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tblYearTotalOverview">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>1675</width>
+      <height>200</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblMainYearTotals">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>1675</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Overview year totals</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblMainDetailOverview">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>250</y>
+      <width>1675</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Detail cost overview</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
   </widget>
@@ -30,7 +84,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1323</width>
+     <width>1711</width>
      <height>23</height>
     </rect>
    </property>

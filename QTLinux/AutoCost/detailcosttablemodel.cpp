@@ -68,6 +68,7 @@ DetailCostTableModel::~DetailCostTableModel()
 //
 //  rowCount
 //
+//  Set the number of rows in the overview
 //  Required methods for QAbstractTableModel
 //
 //---------------------------------------------------------------------------------------
@@ -81,6 +82,7 @@ int DetailCostTableModel::rowCount(const QModelIndex & /*parent*/) const
 //
 //  columnCount
 //
+//  Set the number of columns in overview
 //  Required methods for QAbstractTableModel
 //
 //---------------------------------------------------------------------------------------

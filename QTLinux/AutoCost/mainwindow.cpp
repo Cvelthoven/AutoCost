@@ -112,7 +112,8 @@ int MainWindow::OpenAutoCostDetails()
     //
     //-----------------------------------------------------------------------------------
     DetailCostView.setModel(AutoCostDetails);
-    DetailCostView.show();
+ //   ui->ViewCostDetails->;
+ //   DetailCostView.show();
 
     return 0;
 }
@@ -138,4 +139,3 @@ void MainWindow::on_actionExit_triggered()
 {
     exit(0);
 }
-
