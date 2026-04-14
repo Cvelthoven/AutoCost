@@ -29,8 +29,12 @@ DetailCostTableModel::DetailCostTableModel(QObject *parent)
 {
     DetailedCostSqlTable = new DetailCostSqlModel();
 
-    //---- TEST only -----------------------------------------------------
+    //-----------------------------------------------------------------------------------
     //
+    //  Fill tblDetailCostValues with the values out of the database and the calculated
+    //  values
+    //
+    //-----------------------------------------------------------------------------------
     for (int iCnt1 = 0; iCnt1 < DetailedCostSqlTable->iNbRows; iCnt1++)
     {
         ConvertSqlrecordToTableViewRow(iCnt1);
@@ -150,7 +154,7 @@ int DetailCostTableModel::rowCount(const QModelIndex & /*parent*/) const
 //---------------------------------------------------------------------------------------
 int DetailCostTableModel::columnCount(const QModelIndex & /*parent*/) const
 {
-    return CostOverViewPeriod;
+    return CostOverViewPeriod + 1;
 }
 
 //---------------------------------------------------------------------------------------
@@ -162,22 +166,6 @@ int DetailCostTableModel::columnCount(const QModelIndex & /*parent*/) const
 //---------------------------------------------------------------------------------------
 QVariant DetailCostTableModel::data(const QModelIndex &index, int role) const
 {
-
-    // if (role == Qt::DisplayRole)
-    // {
-    //     if (index.row() == CostOverViewRecID)
-    //     {
-    //         QString strFieldText = strRecID;
-
-    //     }
-    //     else
-    //     {
-    //     return QString("Row%1, Column%2")
-    //         .arg(index.row() + 1)
-    //         .arg(index.column() +1);
-    //     }
-    // }
-
     if (role == Qt::DisplayRole && checkIndex(index))
         return tblDetailCostValues[index.row()][index.column()];
 
