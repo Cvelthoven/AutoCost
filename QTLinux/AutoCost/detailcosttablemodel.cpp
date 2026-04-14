@@ -10,9 +10,11 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "AutoCost.h"
 #include "detailcosttablemodel.h"
 
 #include <QAbstractTableModel>
+#include <QDate>
 #include <QTableView>
 #include <QString>
 
@@ -26,6 +28,13 @@ DetailCostTableModel::DetailCostTableModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
     DetailedCostSqlTable = new DetailCostSqlModel();
+
+    //---- TEST only -----------------------------------------------------
+    //
+    for (int iCnt1 = 0; iCnt1 < DetailedCostSqlTable->iNbRows; iCnt1++)
+    {
+        ConvertSqlrecordToTableViewRow(iCnt1);
+    }
 }
 
 //---------------------------------------------------------------------------------------
@@ -51,6 +60,8 @@ DetailCostTableModel::~DetailCostTableModel()
 //
 //  Input:
 //  - iRowNumber
+//
+//  Fill the tblDetailCostValues to display the default values
 //
 //---------------------------------------------------------------------------------------
 void DetailCostTableModel::ConvertSqlrecordToTableViewRow(int iRowNumber)
@@ -83,8 +94,34 @@ void DetailCostTableModel::ConvertSqlrecordToTableViewRow(int iRowNumber)
                                         &strDescription,
                                         &dTotalCost,
                                         &iFrequency);
-    strRecID = QString::number(iRecId);
-    qDebug() << strRecID;
+    tblDetailCostValues[iRowNumber][CostOverViewRecID] = QString::number(iRecId);
+    tblDetailCostValues[iRowNumber][CostOverViewRecType] = QString::number(iRecordType);
+
+    QDate dtTemp = QDate::fromString(strDate, "yyyy-MM-dd");
+    if (dtTemp.isValid())
+    {
+        tblDetailCostValues[iRowNumber][CostOverViewDate] = dtTemp.toString("dd-MMM-yyyy");
+    }
+    tblDetailCostValues[iRowNumber][CostOverViewDescription] = strDescription;
+
+    switch (iRecordType) {
+    case 1:
+        tblDetailCostValues[iRowNumber][CostOverViewPeriodic] = QString::number(dTotalCost, 'f', 2);
+        break;
+    case 2:
+        tblDetailCostValues[iRowNumber][CostOverViewElectricity] = QString::number(dTotalCost, 'f', 2);
+        break;
+    case 3:
+        tblDetailCostValues[iRowNumber][CostOverViewOther] = QString::number(dTotalCost, 'f', 2);
+        break;
+    case 4:
+        tblDetailCostValues[iRowNumber][CostOverViewAccessory] = QString::number(dTotalCost, 'f', 2);
+        break;
+    default:
+        break;
+    }
+
+    tblDetailCostValues[iRowNumber][CostOverViewPeriod] = QString::number(iFrequency);
 
 }
 
@@ -120,33 +157,59 @@ int DetailCostTableModel::columnCount(const QModelIndex & /*parent*/) const
 //
 //  data
 //
-//  Fills the fields of the table overview
+//  Displays the data in tblDetailCostValues
 //
 //---------------------------------------------------------------------------------------
 QVariant DetailCostTableModel::data(const QModelIndex &index, int role) const
 {
 
-    if (role == Qt::DisplayRole)
-    {
-        if (index.row() == CostOverViewRecID)
-        {
-            QString strFieldText = strRecID;
+    // if (role == Qt::DisplayRole)
+    // {
+    //     if (index.row() == CostOverViewRecID)
+    //     {
+    //         QString strFieldText = strRecID;
 
-        }
-        else
-        {
-        return QString("Row%1, Column%2")
-            .arg(index.row() + 1)
-            .arg(index.column() +1);
-        }
-    }
+    //     }
+    //     else
+    //     {
+    //     return QString("Row%1, Column%2")
+    //         .arg(index.row() + 1)
+    //         .arg(index.column() +1);
+    //     }
+    // }
+
+    if (role == Qt::DisplayRole && checkIndex(index))
+        return tblDetailCostValues[index.row()][index.column()];
+
     return QVariant();
 }
 
+//---------------------------------------------------------------------------------------
+//
+//  setData
+//
+//  Fills tblDetailCostValues with the converted values from the sqlquery
+//
+//  Now reacts to update in window
+//
+//---------------------------------------------------------------------------------------
 bool DetailCostTableModel::setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole)
 {
-    return true;
-}
+    if (role == Qt::EditRole) {
+        if (!checkIndex(index))
+            return false;
+        //save value from editor to member m_gridData
+        tblDetailCostValues[index.row()][index.column()] = value.toString();
+        //for presentation purposes only: build and emit a joined string
+        QString result;
+        for (int row = 0; row < 109; row++) {
+            for (int col= 0; col < CostOverViewPeriod; col++)
+                result += tblDetailCostValues[row][col] + ' ';
+        }
+        emit editCompleted(result);
+        return true;
+    }
+    return false;}
 
 
 
@@ -207,4 +270,9 @@ QVariant DetailCostTableModel::headerData(int section, Qt::Orientation orientati
         }
     }
     return QVariant();
+}
+
+Qt::ItemFlags DetailCostTableModel::flags(const QModelIndex &index) const
+{
+    return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
 }

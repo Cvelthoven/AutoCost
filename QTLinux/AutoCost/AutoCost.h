@@ -41,4 +41,35 @@ const QString
     strAppDBUserIDKey = "AppDBUserID",
     strAppDBUserPasswordKey = "AppDBUserPassword";
 
+//-----------------------------------------------------------------------------------
+//
+//  Enums for Cost overview dialog columns with descriptive names
+//
+enum CostOverViewCol
+{
+    CostOverViewRecID = 0,
+    CostOverViewRecType,
+    CostOverViewDate,
+    CostOverViewDescription,
+    CostOverViewPeriodic,
+    CostOverViewElectricity,
+    CostOverViewOther,
+    CostOverViewAccessory,
+    CostOverViewMillage,
+    CostOverViewMillageTrip,
+    CostOverViewKWhTrip,
+    CostOverViewKWhLoaded,
+    CostOverViewCostKWhperKM,
+    CostOverViewAvgEuroPerKWh,
+    CostOverViewKWhPerPercentage,
+    CostOverViewKMPerPercentage,
+    CostOverViewAccuStartPercentage,
+    CostOverViewAccuEndPercentage,
+    CostOverViewAccuUsagePercentage,
+    CostOverViewAccuLoadDeltaPercentage,
+    CostOverViewPeriod
+
+};
+
+
 #endif // AUTOCOST_H

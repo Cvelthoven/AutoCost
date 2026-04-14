@@ -14,6 +14,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "AutoCost.h"
 #include "detailcostsqlmodel.h"
 
 #include <QAbstractTableModel>
@@ -43,6 +44,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
 
 private:
     //-----------------------------------------------------------------------------------
@@ -59,59 +61,12 @@ private:
     //-----------------------------------------------------------------------------------
     DetailCostSqlModel *DetailedCostSqlTable;
 
-    QString
-        strRecID = "",
-        strRecType = "",
-        strRecDate = "",
-        strRecDescription = "",
-        strRecPeriodic ="",
-        strRecElectricity = "",
-        strRecOther = "",
-        strRecAccessory = "",
-        strRecMillage = "",
-        strRecMillageTrip = "",
-        strRecKWhTrip = "",
-        strRecKWhLoaded = "",
-        strRecCostKWhPerKm = "",
-        strRecCostKWhperKM = "",
-        strRecAvgEuroPerKWh = "",
-        strKWhPercentage = "",
-        strKmPerPercentage = "",
-        strAccuStartPercentage = "",
-        strAccuEndPercentage = "",
-        strAccuLoadDeltaPercentange = "",
-        strPeriod = "";
 
-    //-----------------------------------------------------------------------------------
-    //
-    //  Enums for Cost overview dialog columns with descriptive names
-    //
-    enum CostOverViewCol
-    {
-        CostOverViewRecID = 0,
-        CostOverViewRecType,
-        CostOverViewDate,
-        CostOverViewDescription,
-        CostOverViewPeriodic,
-        CostOverViewElectricity,
-        CostOverViewOther,
-        CostOverViewAccessory,
-        CostOverViewMillage,
-        CostOverViewMillageTrip,
-        CostOverViewKWhTrip,
-        CostOverViewKWhLoaded,
-        CostOverViewCostKWhperKM,
-        CostOverViewAvgEuroPerKWh,
-        CostOverViewKWhPerPercentage,
-        CostOverViewKMPerPercentage,
-        CostOverViewAccuStartPercentage,
-        CostOverViewAccuEndPercentage,
-        CostOverViewAccuUsagePercentage,
-        CostOverViewAccuLoadDeltaPercentage,
-        CostOverViewPeriod
+    // //--- Row value needs to become dynamic --------------------
+    QString tblDetailCostValues[109][CostOverViewPeriod+1];
 
-    };
-
+signals:
+    void editCompleted(const QString &);
 };
 
 #endif // DETAILCOSTTABLEMODEL_H
