@@ -169,6 +169,30 @@ QVariant DetailCostTableModel::data(const QModelIndex &index, int role) const
     if (role == Qt::DisplayRole && checkIndex(index))
         return tblDetailCostValues[index.row()][index.column()];
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set the column and row alignment
+    //
+    //-----------------------------------------------------------------------------------
+    if (role == Qt::TextAlignmentRole)
+    {
+        switch (index.column()) {
+        case CostOverViewRecID:
+        case CostOverViewRecType:
+        case CostOverViewDate:
+            return int(Qt::AlignHCenter | Qt::AlignVCenter);
+            break;
+        case CostOverViewPeriodic:
+        case CostOverViewElectricity:
+        case CostOverViewOther:
+        case CostOverViewAccessory:
+            return int(Qt::AlignRight | Qt::AlignVCenter);
+        default:
+            return int(Qt::AlignLeft | Qt::AlignVCenter);
+            break;
+        }
+    }
+
     return QVariant();
 }
 

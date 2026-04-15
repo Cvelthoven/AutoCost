@@ -114,6 +114,14 @@ int MainWindow::OpenAutoCostDetails()
     //
     //-----------------------------------------------------------------------------------
     ui->tblDetailOverview->setModel(AutoCostDetails);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewRecID, 20);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewRecType, 20);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewDate, 90);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewDescription, 250);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewPeriodic, 75);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewElectricity, 75);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewOther, 75);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewAccessory, 75);
 
     return 0;
 }
