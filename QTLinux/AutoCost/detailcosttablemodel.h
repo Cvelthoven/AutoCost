@@ -53,6 +53,7 @@ private:
     //
     //-----------------------------------------------------------------------------------
     void ConvertSqlrecordToTableViewRow(int iRowNumber);
+    int GetElectricityRecord(int &iRecID);
 
     //-----------------------------------------------------------------------------------
     //

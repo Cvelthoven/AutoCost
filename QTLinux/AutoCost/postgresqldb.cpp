@@ -112,7 +112,6 @@ PostGreSQLDB::PostGreSQLDB(QObject *parent)
 PostGreSQLDB::~PostGreSQLDB()
 {
     dbAppDatabase.close();
-    qDebug() << "PostgreSQLDB destructor is callled";
 
 }
 

@@ -127,8 +127,30 @@ void DetailCostTableModel::ConvertSqlrecordToTableViewRow(int iRowNumber)
 
     tblDetailCostValues[iRowNumber][CostOverViewPeriod] = QString::number(iFrequency);
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieve electricity record and convert it if an recordtype is electricity
+    //
+    //-----------------------------------------------------------------------------------
+    if (GetElectricityRecord(iRecId) == 0)
+    {
+
+    }
+
 }
 
+//---------------------------------------------------------------------------------------
+//
+//  GetElectricityRecord
+//
+//  Retrieves the related electricity record when the recordtype is electricity
+//  SELECT * FROM public."acElectricity" Where "AutoCostRecId" = '18'
+//
+//---------------------------------------------------------------------------------------
+int DetailCostTableModel:: GetElectricityRecord(int &iRecID)
+{
+    return 0;
+}
 
 //---------------------------------------------------------------------------------------
 //
