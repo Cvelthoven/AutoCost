@@ -16,6 +16,7 @@
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
 #include "detailcostsqlmodel.h"
+#include "postgresqldb.h"
 
 #include <QAbstractTableModel>
 #include <QTableView>
@@ -61,9 +62,34 @@ private:
     //
     //-----------------------------------------------------------------------------------
     DetailCostSqlModel *DetailedCostSqlTable;
+    PostGreSQLDB *dbElectricity;
 
+    double
+        dAccuUsagePercentage,
+        dAvgEuroPerKWh,
+        dCostKWhperKM,
+        dKWhLoaded,
+        dKMPerPercentage,
+        dKWhPerPercentage,
+        dKWhTrip,
+        dTotalCost;
 
-    // //--- Row value needs to become dynamic --------------------
+    int
+        iAccuEndPercentage,
+        iAccuLoadDeltaPercentage,
+        iAccuStartPercentage,
+        iFrequency,
+        iMillage,
+        iMillageTrip,
+        iRecId,
+        iRecordType;
+
+    QString
+        strDate,
+        strDescription,
+        strStartTime;
+
+    // //--- Row value needs to become dynamic !!!!!!!!!!!!!!!!   --------------------
     QString tblDetailCostValues[109][CostOverViewPeriod+1];
 
 signals:

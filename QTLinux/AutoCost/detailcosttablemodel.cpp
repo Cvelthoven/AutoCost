@@ -12,6 +12,7 @@
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
 #include "detailcosttablemodel.h"
+#include "postgresqldb.h"
 
 #include <QAbstractTableModel>
 #include <QDate>
@@ -27,7 +28,19 @@
 DetailCostTableModel::DetailCostTableModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieven the detail cost records
+    //
+    //-----------------------------------------------------------------------------------
     DetailedCostSqlTable = new DetailCostSqlModel();
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Open the database to be able to retrieve the electricity records
+    //
+    //-----------------------------------------------------------------------------------
+    dbElectricity = new PostGreSQLDB(this);
 
     //-----------------------------------------------------------------------------------
     //
@@ -37,6 +50,36 @@ DetailCostTableModel::DetailCostTableModel(QObject *parent)
     //-----------------------------------------------------------------------------------
     for (int iCnt1 = 0; iCnt1 < DetailedCostSqlTable->iNbRows; iCnt1++)
     {
+        //-------------------------------------------------------------------------------
+        //
+        //  Reset variables to empty values
+        //
+        //-------------------------------------------------------------------------------
+        dAccuUsagePercentage = -1;
+        dAvgEuroPerKWh = -1;
+        dCostKWhperKM = -1;
+        dKWhLoaded = -1;
+        dKMPerPercentage = -1;
+        dKWhPerPercentage = -1;
+        dKWhTrip = -1;
+        dTotalCost = -99999.99;
+        iAccuEndPercentage = -1,
+        iAccuLoadDeltaPercentage = -1;
+        iAccuStartPercentage = -1;
+        iFrequency = -1;
+        iMillage = -1;
+        iMillageTrip = -1;
+        iRecId = -1;
+        iRecordType = -1;
+        strDate = "";
+        strDescription = "";
+        strStartTime = "";
+
+        //-------------------------------------------------------------------------------
+        //
+        //  Convert values and load them to tblDetailCostValues
+        //
+        //-------------------------------------------------------------------------------
         ConvertSqlrecordToTableViewRow(iCnt1);
     }
 }
@@ -51,6 +94,7 @@ DetailCostTableModel::DetailCostTableModel(QObject *parent)
 DetailCostTableModel::~DetailCostTableModel()
 {
     delete DetailedCostSqlTable;
+    delete dbElectricity;
 }
 
 //---------------------------------------------------------------------------------------
@@ -70,22 +114,6 @@ DetailCostTableModel::~DetailCostTableModel()
 //---------------------------------------------------------------------------------------
 void DetailCostTableModel::ConvertSqlrecordToTableViewRow(int iRowNumber)
 {
-    //-----------------------------------------------------------------------------------
-    //
-    //  Local variables
-    //
-    //-----------------------------------------------------------------------------------
-    double
-        dTotalCost;
-    int
-        iRecId = -1,
-        iRecordType = -1,
-        iFrequency = -1;
-
-    QString
-        strDate = "",
-        strDescription = "";
-
     //-----------------------------------------------------------------------------------
     //
     //  Retrieve and convert record to detailtableview layout
@@ -109,33 +137,44 @@ void DetailCostTableModel::ConvertSqlrecordToTableViewRow(int iRowNumber)
     tblDetailCostValues[iRowNumber][CostOverViewDescription] = strDescription;
 
     switch (iRecordType) {
-    case 1:
+    case CostRecPeriodic:
         tblDetailCostValues[iRowNumber][CostOverViewPeriodic] = QString::number(dTotalCost, 'f', 2);
         break;
-    case 2:
+
+    case CostRecElectricity:
         tblDetailCostValues[iRowNumber][CostOverViewElectricity] = QString::number(dTotalCost, 'f', 2);
+        if (GetElectricityRecord(iRecId) == 0)
+        {
+            tblDetailCostValues[iRowNumber][CostOverViewMillage] = QString::number(iMillage);
+            tblDetailCostValues[iRowNumber][CostOverViewMillageTrip] = QString::number(iMillageTrip);
+            tblDetailCostValues[iRowNumber][CostOverViewKWhTrip] = QString::number(dKWhTrip, 'f', 3);
+            tblDetailCostValues[iRowNumber][CostOverViewKWhLoaded] = QString::number(dKWhLoaded, 'f', 1);
+            tblDetailCostValues[iRowNumber][CostOverViewCostKWhperKM] = QString::number(dCostKWhperKM, 'f', 3);
+            tblDetailCostValues[iRowNumber][CostOverViewAvgEuroPerKWh] = QString::number(dAvgEuroPerKWh, 'f', 3);
+            tblDetailCostValues[iRowNumber][CostOverViewKWhPerPercentage] = QString::number(dKWhPerPercentage, 'f', 4);
+            tblDetailCostValues[iRowNumber][CostOverViewKMPerPercentage] = QString::number(dKMPerPercentage, 'f', 4);
+            tblDetailCostValues[iRowNumber][CostOverViewAccuStartPercentage] = QString::number(iAccuStartPercentage);
+            tblDetailCostValues[iRowNumber][CostOverViewAccuEndPercentage] = QString::number(iAccuEndPercentage);
+            tblDetailCostValues[iRowNumber][CostOverViewAccuLoadDeltaPercentage] = QString::number(iAccuLoadDeltaPercentage);
+
+        }
+
         break;
-    case 3:
+
+    case CostRecOther:
         tblDetailCostValues[iRowNumber][CostOverViewOther] = QString::number(dTotalCost, 'f', 2);
         break;
-    case 4:
+
+    case CostRecAccessory:
         tblDetailCostValues[iRowNumber][CostOverViewAccessory] = QString::number(dTotalCost, 'f', 2);
         break;
+
     default:
         break;
     }
 
     tblDetailCostValues[iRowNumber][CostOverViewPeriod] = QString::number(iFrequency);
 
-    //-----------------------------------------------------------------------------------
-    //
-    //  Retrieve electricity record and convert it if an recordtype is electricity
-    //
-    //-----------------------------------------------------------------------------------
-    if (GetElectricityRecord(iRecId) == 0)
-    {
-
-    }
 
 }
 
@@ -149,6 +188,16 @@ void DetailCostTableModel::ConvertSqlrecordToTableViewRow(int iRowNumber)
 //---------------------------------------------------------------------------------------
 int DetailCostTableModel:: GetElectricityRecord(int &iRecID)
 {
+    //-----------------------------------------------------------------------------------
+    //
+    //  local variables
+    //
+    //-----------------------------------------------------------------------------------
+    QString strElectricityQuery = "SELECT * FROM public.\"acElectricity\" Where \"AutoCostRecId\" = \'",
+        strElecRecID = "";
+
+    strElecRecID = QString::number(iRecID);
+
     return 0;
 }
 
@@ -202,12 +251,24 @@ QVariant DetailCostTableModel::data(const QModelIndex &index, int role) const
         case CostOverViewRecID:
         case CostOverViewRecType:
         case CostOverViewDate:
+        case CostOverViewAccuStartPercentage:
+        case CostOverViewAccuEndPercentage:
+        case CostOverViewAccuUsagePercentage:
             return int(Qt::AlignHCenter | Qt::AlignVCenter);
             break;
         case CostOverViewPeriodic:
         case CostOverViewElectricity:
         case CostOverViewOther:
         case CostOverViewAccessory:
+        case CostOverViewMillage:
+        case CostOverViewMillageTrip:
+        case CostOverViewKWhTrip:
+        case CostOverViewKWhLoaded:
+        case CostOverViewCostKWhperKM:
+        case CostOverViewAvgEuroPerKWh:
+        case CostOverViewKWhPerPercentage:
+        case CostOverViewKMPerPercentage:
+        case CostOverViewAccuLoadDeltaPercentage:
             return int(Qt::AlignRight | Qt::AlignVCenter);
         default:
             return int(Qt::AlignLeft | Qt::AlignVCenter);

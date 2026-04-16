@@ -27,9 +27,9 @@ const QString
     //
     //  Configuration General section key names
     //
-    strSectionNameGeneral = "General",
-    strGeneralSSHKeyKey = "SSHKey",
-    strGeneralSSHIVKey = "SSHIV",
+    strSectionNameGeneral = "General",//!!!!1!!!! No longer used
+    strGeneralSSHKeyKey = "SSHKey",//!!!!!!!!!!!! No longer used
+    strGeneralSSHIVKey = "SSHIV",//!!!!!!!!!!!!!! No longer used
     //-----------------------------------------------------------------------------------
     //
     //  Configuraton Application Database section key names
@@ -69,6 +69,13 @@ enum CostOverViewCol
     CostOverViewAccuLoadDeltaPercentage,
     CostOverViewPeriod
 
+};
+enum CostRecordTypes
+{
+    CostRecPeriodic = 1,
+    CostRecElectricity,
+    CostRecOther,
+    CostRecAccessory
 };
 
 
