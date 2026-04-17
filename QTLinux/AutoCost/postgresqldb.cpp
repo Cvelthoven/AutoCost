@@ -11,6 +11,7 @@
 #include "appsettings.h"
 #include "postgresqldb.h"
 
+#include <QMessageBox>
 #include <QtSql>
 #include <QSqlDatabase>
 #include <QSqlQueryModel>
@@ -31,6 +32,7 @@ PostGreSQLDB::PostGreSQLDB(QObject *parent)
     //
     //-----------------------------------------------------------------------------------
     int iDBServerPort = 0;
+    QMessageBox errorMessage;
 
     //-----------------------------------------------------------------------------------
     //
@@ -95,12 +97,14 @@ PostGreSQLDB::PostGreSQLDB(QObject *parent)
         }
         else
         {
-            qDebug() << "Database connection failed";
+            errorMessage.setText("Database connection failed.");
+            errorMessage.exec();
         }
     }
     else
     {
-        qDebug() << "Not all parameters for connection are set";
+        errorMessage.setText("Not all parameters for connection are set.");
+        errorMessage.exec();
     }
 }
 
@@ -108,11 +112,15 @@ PostGreSQLDB::PostGreSQLDB(QObject *parent)
 //
 //  Destructor
 //
+//  Cleanup:
+//  - close the connection with the database
+//  - delete the instance of ApplicationConfig
+//
 //---------------------------------------------------------------------------------------
 PostGreSQLDB::~PostGreSQLDB()
 {
     dbAppDatabase.close();
-
+    delete ApplicationConfig;
 }
 
 //---------------------------------------------------------------------------------------
