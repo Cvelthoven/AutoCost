@@ -150,7 +150,6 @@ int PostGreSQLDB::ExecQuery(QString *strQuery)
     {
         if (qQuery.size() >= 0)
         {
-//            QSqlRecord rResult = qQuery.record();
             rResult = qQuery.record();
             return qQuery.size();
         }
@@ -164,12 +163,21 @@ int PostGreSQLDB::ExecQuery(QString *strQuery)
 
 //---------------------------------------------------------------------------------------
 //
-//  Handles select queries with returning also the result records
+//  Handles select queries with returning also the result record
+//  Can handle only 1 record as result, returns it in a stringlist (stlRecordContent)
 //
 //---------------------------------------------------------------------------------------
 int PostGreSQLDB::SelectQuery(QString *strQuery)
 {
     QString strTemp ="";
+    stlRecordContent.clear();
+    stlRecordContent.squeeze();
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Execute query and store content of 1 record in a stringlist
+    //
+    //-----------------------------------------------------------------------------------
     QSqlQuery qQuery("",dbAppDatabase);
     if ((qQuery.exec(*strQuery))&&(qQuery.size() == 1))
     {

@@ -90,6 +90,4 @@ enum ElecRecordFiels
     ElecRecAutoCostRecID
 };
 
-
-
 #endif // AUTOCOST_H

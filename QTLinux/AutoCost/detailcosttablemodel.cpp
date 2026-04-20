@@ -231,16 +231,14 @@ int DetailCostTableModel:: GetElectricityRecord(int &iRecID)
             default:
                 break;
             }
-
         }
-
+        return 0;
     }
     else
     {
-        qDebug() << "Electricity record query did not give 1 as result";
+        return -1;
     }
 
-    return 0;
 }
 
 //---------------------------------------------------------------------------------------
