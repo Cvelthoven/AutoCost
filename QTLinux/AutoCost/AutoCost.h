@@ -78,5 +78,18 @@ enum CostRecordTypes
     CostRecAccessory
 };
 
+enum ElecRecordFiels
+{
+    ElecRecRecID = 0,
+    ElecRecDate,
+    ElecRecKmTotal,
+    ElekRecKWhLoaded,
+    ElecRecCapBatStart,
+    ElecRecCapBatEnd,
+    ElecRecStartTime,
+    ElecRecAutoCostRecID
+};
+
+
 
 #endif // AUTOCOST_H

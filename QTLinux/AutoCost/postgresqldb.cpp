@@ -148,14 +148,47 @@ int PostGreSQLDB::ExecQuery(QString *strQuery)
     QSqlQuery qQuery("",dbAppDatabase);
     if (qQuery.exec(*strQuery))
     {
-        if (qQuery.size() > 0)
+        if (qQuery.size() >= 0)
         {
-            int iNbRows = 1;
+//            QSqlRecord rResult = qQuery.record();
+            rResult = qQuery.record();
+            return qQuery.size();
         }
-        return qQuery.size();
     }
     else
     {
-        return -2;
+        return -1;
+    }
+    return -2;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Handles select queries with returning also the result records
+//
+//---------------------------------------------------------------------------------------
+int PostGreSQLDB::SelectQuery(QString *strQuery)
+{
+    QString strTemp ="";
+    QSqlQuery qQuery("",dbAppDatabase);
+    if ((qQuery.exec(*strQuery))&&(qQuery.size() == 1))
+    {
+        qQuery.next();
+        rResult = qQuery.record();
+
+        //-------------------------------------------------------------------------------
+        //
+        //  Create a stringlist with the content of the field in the record
+        //
+        //-------------------------------------------------------------------------------
+        for (int iCnt1 = 0; iCnt1 < rResult.count(); iCnt1++)
+        {
+            stlRecordContent << qQuery.value(iCnt1).toString();
+        }
+        return 1;
+    }
+    else
+    {
+        return qQuery.size();
     }
 }

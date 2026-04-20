@@ -109,7 +109,7 @@ DetailCostTableModel::~DetailCostTableModel()
 //  Input:
 //  - iRowNumber
 //
-//  Fill the tblDetailCostValues to display the default values
+//  Fill the tblDetailCostValues the values
 //
 //---------------------------------------------------------------------------------------
 void DetailCostTableModel::ConvertSqlrecordToTableViewRow(int iRowNumber)
@@ -183,20 +183,62 @@ void DetailCostTableModel::ConvertSqlrecordToTableViewRow(int iRowNumber)
 //  GetElectricityRecord
 //
 //  Retrieves the related electricity record when the recordtype is electricity
-//  SELECT * FROM public."acElectricity" Where "AutoCostRecId" = '18'
 //
 //---------------------------------------------------------------------------------------
 int DetailCostTableModel:: GetElectricityRecord(int &iRecID)
 {
     //-----------------------------------------------------------------------------------
     //
-    //  local variables
+    //  Built query
     //
     //-----------------------------------------------------------------------------------
-    QString strElectricityQuery = "SELECT * FROM public.\"acElectricity\" Where \"AutoCostRecId\" = \'",
-        strElecRecID = "";
+    QString strElectricityQuery = "SELECT * FROM public.\"acElectricity\" Where \"AutoCostRecId\" = \'"
+        + QString::number(iRecID) + "\'";
 
-    strElecRecID = QString::number(iRecID);
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieve corresponding electricity record and convert it
+    //
+    //-----------------------------------------------------------------------------------
+    if (dbElectricity->SelectQuery(&strElectricityQuery) == 1)
+    {
+        for (int iCnt1 = ElecRecRecID; iCnt1 < ElecRecAutoCostRecID; iCnt1++)
+        {
+            switch (iCnt1) {
+            case ElecRecRecID:
+                // Not used
+                break;
+            case ElecRecDate:
+                strDate = dbElectricity->stlRecordContent.at(iCnt1);
+                break;
+            case ElecRecKmTotal:
+                iMillage = dbElectricity->stlRecordContent.at(iCnt1).toInt();
+                break;
+            case ElekRecKWhLoaded:
+                dKWhLoaded = dbElectricity->stlRecordContent.at(iCnt1).toDouble();
+                break;
+            case ElecRecCapBatStart:
+                iAccuStartPercentage = dbElectricity->stlRecordContent.at(iCnt1).toInt();
+                break;
+            case ElecRecCapBatEnd:
+                iAccuEndPercentage = dbElectricity->stlRecordContent.at(iCnt1).toInt();
+                break;
+            case ElecRecStartTime:
+                strDate = dbElectricity->stlRecordContent.at(iCnt1);
+                break;
+            case ElecRecAutoCostRecID:
+                // Not used, already defined in query
+            default:
+                break;
+            }
+
+        }
+
+    }
+    else
+    {
+        qDebug() << "Electricity record query did not give 1 as result";
+    }
 
     return 0;
 }

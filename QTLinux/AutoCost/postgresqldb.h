@@ -17,8 +17,10 @@
 //#include <QObject>
 //#include <QAbstractTableModel>
 #include <QSqlDatabase>
+#include <QtSql>
 #include <QSqlQueryModel>
 #include <QString>
+#include <QStringList>
 
 //---------------------------------------------------------------------------------------
 //
@@ -33,8 +35,11 @@ public:
      ~PostGreSQLDB();
 
     int ExecQuery(QString *strQuery);
+    int SelectQuery(QString *strQuery);
 
     QSqlDatabase dbAppDatabase;
+
+    QStringList stlRecordContent;
 
 private:
     bool bEncrypted = false;
@@ -48,6 +53,7 @@ private:
         strDBPassword = "";
 
     AppSettings *ApplicationConfig;
+    QSqlRecord rResult;
 
 };
 
