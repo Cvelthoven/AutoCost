@@ -213,6 +213,8 @@ int DetailCostTableModel:: GetElectricityRecord(int &iRecID)
                 break;
             case ElecRecKmTotal:
                 iMillage = dbElectricity->stlRecordContent.at(iCnt1).toInt();
+                iMillageTrip = iMillage - iMillagePrevious;
+                iMillagePrevious = iMillage;
                 break;
             case ElekRecKWhLoaded:
                 dKWhLoaded = dbElectricity->stlRecordContent.at(iCnt1).toDouble();

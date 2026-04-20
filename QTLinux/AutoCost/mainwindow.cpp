@@ -122,6 +122,8 @@ int MainWindow::OpenAutoCostDetails()
     ui->tblDetailOverview->setColumnWidth(CostOverViewElectricity, 75);
     ui->tblDetailOverview->setColumnWidth(CostOverViewOther, 75);
     ui->tblDetailOverview->setColumnWidth(CostOverViewAccessory, 75);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewMillage, 60);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewMillageTrip, 60);
 
     return 0;
 }

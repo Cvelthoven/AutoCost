@@ -80,6 +80,7 @@ private:
         iAccuStartPercentage,
         iFrequency,
         iMillage,
+        iMillagePrevious = 0,
         iMillageTrip,
         iRecId,
         iRecordType;
