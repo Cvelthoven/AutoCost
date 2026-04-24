@@ -59,7 +59,7 @@ enum CostOverViewCol
     CostOverViewMillageTrip,
     CostOverViewKWhTrip,
     CostOverViewKWhLoaded,
-    CostOverViewCostKWhperKM,
+    CostOverViewKWhperKM,
     CostOverViewAvgEuroPerKWh,
     CostOverViewKWhPerPercentage,
     CostOverViewKMPerPercentage,

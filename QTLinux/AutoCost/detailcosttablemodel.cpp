@@ -56,19 +56,18 @@ DetailCostTableModel::DetailCostTableModel(QObject *parent)
         //
         //-------------------------------------------------------------------------------
         dAccuUsagePercentage = -1;
-        dAvgEuroPerKWh = -1;
-        dCostKWhperKM = -1;
+        dKWhperKM = -1;
         dKWhLoaded = -1;
         dKMPerPercentage = -1;
         dKWhPerPercentage = -1;
         dKWhTrip = -1;
+        dMillageTrip = -1;
         dTotalCost = -99999.99;
-        iAccuEndPercentage = -1,
-        iAccuLoadDeltaPercentage = -1;
+        dAccuLoadDeltaPercentage = -1;
+        dAccuUsagePercentage = -1;
         iAccuStartPercentage = -1;
         iFrequency = -1;
         iMillage = -1;
-        iMillageTrip = -1;
         iRecId = -1;
         iRecordType = -1;
         strDate = "";
@@ -146,16 +145,18 @@ void DetailCostTableModel::ConvertSqlrecordToTableViewRow(int iRowNumber)
         if (GetElectricityRecord(iRecId) == 0)
         {
             tblDetailCostValues[iRowNumber][CostOverViewMillage] = QString::number(iMillage);
-            tblDetailCostValues[iRowNumber][CostOverViewMillageTrip] = QString::number(iMillageTrip);
+            tblDetailCostValues[iRowNumber][CostOverViewMillageTrip] = QString::number(dMillageTrip, 'f', 0);
             tblDetailCostValues[iRowNumber][CostOverViewKWhTrip] = QString::number(dKWhTrip, 'f', 3);
             tblDetailCostValues[iRowNumber][CostOverViewKWhLoaded] = QString::number(dKWhLoaded, 'f', 1);
-            tblDetailCostValues[iRowNumber][CostOverViewCostKWhperKM] = QString::number(dCostKWhperKM, 'f', 3);
-            tblDetailCostValues[iRowNumber][CostOverViewAvgEuroPerKWh] = QString::number(dAvgEuroPerKWh, 'f', 3);
+            tblDetailCostValues[iRowNumber][CostOverViewKWhperKM] = QString::number(dKWhperKM, 'f', 3);
             tblDetailCostValues[iRowNumber][CostOverViewKWhPerPercentage] = QString::number(dKWhPerPercentage, 'f', 4);
             tblDetailCostValues[iRowNumber][CostOverViewKMPerPercentage] = QString::number(dKMPerPercentage, 'f', 4);
+            tblDetailCostValues[iRowNumber][CostOverViewAvgEuroPerKWh] = QString::number(dAvgEuroPerKWh, 'f', 3);
             tblDetailCostValues[iRowNumber][CostOverViewAccuStartPercentage] = QString::number(iAccuStartPercentage);
             tblDetailCostValues[iRowNumber][CostOverViewAccuEndPercentage] = QString::number(iAccuEndPercentage);
-            tblDetailCostValues[iRowNumber][CostOverViewAccuLoadDeltaPercentage] = QString::number(iAccuLoadDeltaPercentage);
+            tblDetailCostValues[iRowNumber][CostOverViewAccuUsagePercentage] = QString::number(dAccuUsagePercentage, 'f', 0);
+            tblDetailCostValues[iRowNumber][CostOverViewAccuLoadDeltaPercentage] = QString::number(dAccuLoadDeltaPercentage, 'f', 0);
+
 
         }
 
@@ -213,7 +214,7 @@ int DetailCostTableModel:: GetElectricityRecord(int &iRecID)
                 break;
             case ElecRecKmTotal:
                 iMillage = dbElectricity->stlRecordContent.at(iCnt1).toInt();
-                iMillageTrip = iMillage - iMillagePrevious;
+                dMillageTrip = iMillage - iMillagePrevious;
                 iMillagePrevious = iMillage;
                 break;
             case ElekRecKWhLoaded:
@@ -223,6 +224,7 @@ int DetailCostTableModel:: GetElectricityRecord(int &iRecID)
                 iAccuStartPercentage = dbElectricity->stlRecordContent.at(iCnt1).toInt();
                 break;
             case ElecRecCapBatEnd:
+                iAccuEndPercentagePrevious = iAccuEndPercentage;
                 iAccuEndPercentage = dbElectricity->stlRecordContent.at(iCnt1).toInt();
                 break;
             case ElecRecStartTime:
@@ -233,7 +235,59 @@ int DetailCostTableModel:: GetElectricityRecord(int &iRecID)
             default:
                 break;
             }
+
         }
+
+        //---------------------------------------------------------------------------
+        //
+        //  Calculate the calculated values
+        //  Order of the calculates is important
+        //
+        //---------------------------------------------------------------------------
+        //
+        //  Load Delta percentage
+        //  delta = end current - start current load session
+        //
+        dAccuLoadDeltaPercentage = iAccuEndPercentage - iAccuStartPercentage;
+
+        //
+        //  Percentage Usaged
+        //  usage = end previous load - start current load
+        //
+        dAccuUsagePercentage = iAccuEndPercentagePrevious - iAccuStartPercentage;
+
+        //
+        //  KWh/%
+        //  KWh/% = KWhLoaded / (end current load - start current load)
+        //
+        dKWhPerPercentage = dKWhLoaded / dAccuLoadDeltaPercentage;
+
+        //
+        //  KM/%
+        //  KM/% = (Millage current - Millage previous trip) /
+        //          (end current load - start current load)
+        //
+        dKMPerPercentage = dMillageTrip / dAccuLoadDeltaPercentage;
+
+        //
+        // KWh used in trip = percentage used * KWh/%
+        //
+        //
+        dKWhTrip = dAccuUsagePercentage * dKWhPerPercentage;
+
+        //
+        //  Average KWh price of current loading session
+        //  Electricity cost / KWh loaded
+        //
+        dAvgEuroPerKWh = dTotalCost / dKWhLoaded;
+
+
+        //
+        //  Average KWh/km
+        //  KWh loaded / Millage trip
+        //
+        dKWhperKM = dKWhLoaded / dMillageTrip;
+
         return 0;
     }
     else
@@ -306,7 +360,7 @@ QVariant DetailCostTableModel::data(const QModelIndex &index, int role) const
         case CostOverViewMillageTrip:
         case CostOverViewKWhTrip:
         case CostOverViewKWhLoaded:
-        case CostOverViewCostKWhperKM:
+        case CostOverViewKWhperKM:
         case CostOverViewAvgEuroPerKWh:
         case CostOverViewKWhPerPercentage:
         case CostOverViewKMPerPercentage:
@@ -380,13 +434,13 @@ QVariant DetailCostTableModel::headerData(int section, Qt::Orientation orientati
         case CostOverViewMillage:
             return QString("Millage");
         case CostOverViewMillageTrip:
-            return QString("Km Trip");
+            return QString("KM Trip");
         case CostOverViewKWhTrip:
             return QString("kWh Trip");
         case CostOverViewKWhLoaded:
             return QString("kWh Loaded");
-        case CostOverViewCostKWhperKM:
-            return QString("Cost kWh/km");
+        case CostOverViewKWhperKM:
+            return QString("kWh/km");
         case CostOverViewAvgEuroPerKWh:
             return QString("Avg Euro/kWh");
         case CostOverViewKWhPerPercentage:

@@ -65,23 +65,24 @@ private:
     PostGreSQLDB *dbElectricity;
 
     double
+        dAccuLoadDeltaPercentage,
         dAccuUsagePercentage,
         dAvgEuroPerKWh,
-        dCostKWhperKM,
         dKWhLoaded,
+        dKWhperKM,
         dKMPerPercentage,
         dKWhPerPercentage,
         dKWhTrip,
+        dMillageTrip,
         dTotalCost;
 
     int
-        iAccuEndPercentage,
-        iAccuLoadDeltaPercentage,
+        iAccuEndPercentage = 90, // Percentage the car was delivered with
+        iAccuEndPercentagePrevious = -1,
         iAccuStartPercentage,
         iFrequency,
         iMillage,
         iMillagePrevious = 0,
-        iMillageTrip,
         iRecId,
         iRecordType;
 

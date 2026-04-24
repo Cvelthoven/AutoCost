@@ -117,13 +117,23 @@ int MainWindow::OpenAutoCostDetails()
     ui->tblDetailOverview->setColumnWidth(CostOverViewRecID, 20);
     ui->tblDetailOverview->setColumnWidth(CostOverViewRecType, 20);
     ui->tblDetailOverview->setColumnWidth(CostOverViewDate, 90);
-    ui->tblDetailOverview->setColumnWidth(CostOverViewDescription, 250);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewDescription, 300);
     ui->tblDetailOverview->setColumnWidth(CostOverViewPeriodic, 75);
     ui->tblDetailOverview->setColumnWidth(CostOverViewElectricity, 75);
     ui->tblDetailOverview->setColumnWidth(CostOverViewOther, 75);
     ui->tblDetailOverview->setColumnWidth(CostOverViewAccessory, 75);
     ui->tblDetailOverview->setColumnWidth(CostOverViewMillage, 60);
     ui->tblDetailOverview->setColumnWidth(CostOverViewMillageTrip, 60);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewKWhTrip, 60);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewKWhLoaded, 80);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewKWhperKM, 60);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewAvgEuroPerKWh, 90);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewKWhPerPercentage, 60);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewKMPerPercentage, 60);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewAccuStartPercentage, 75);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewAccuEndPercentage, 75);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewAccuUsagePercentage, 80);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewAccuLoadDeltaPercentage, 75);
 
     return 0;
 }
