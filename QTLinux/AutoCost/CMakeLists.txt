@@ -38,6 +38,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         detailcostsqlmodel.h detailcostsqlmodel.cpp
         detailcosttablemodel.h detailcosttablemodel.cpp
         datainputdialog.h datainputdialog.cpp datainputdialog.ui
+        datainput.h datainput.cpp
 
 
 

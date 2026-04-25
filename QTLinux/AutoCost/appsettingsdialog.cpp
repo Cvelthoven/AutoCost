@@ -14,11 +14,9 @@
 
 #include <QString>
 
-//#include <QDebug>
-
 //---------------------------------------------------------------------------------------
 //
-//  AppSettings default constructor and destructor
+//  AppSettings default constructor
 //
 //---------------------------------------------------------------------------------------
 AppSettingsDialog::AppSettingsDialog(QWidget *parent)
@@ -190,6 +188,11 @@ AppSettingsDialog::AppSettingsDialog(QWidget *parent)
 
 }
 
+//---------------------------------------------------------------------------------------
+//
+//  AppSettings default destructor
+//
+//---------------------------------------------------------------------------------------
 AppSettingsDialog::~AppSettingsDialog()
 {
     delete ui;

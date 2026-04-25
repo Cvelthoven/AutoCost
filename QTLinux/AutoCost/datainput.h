@@ -1,37 +1,26 @@
 //---------------------------------------------------------------------------------------
 //
-//  Module: datainputdialog.h
+//  Module: datainput.h
 //
 //---------------------------------------------------------------------------------------
-#ifndef DATAINPUTDIALOG_H
-#define DATAINPUTDIALOG_H
-
+#ifndef DATAINPUT_H
+#define DATAINPUT_H
 //---------------------------------------------------------------------------------------
 //
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include <QDialog>
+
 
 //---------------------------------------------------------------------------------------
 //
-//  Class DataInputDialog definitions
+//  Class DataInput definitions
 //
 //---------------------------------------------------------------------------------------
-namespace Ui {
-class DataInputDialog;
-}
-
-class DataInputDialog : public QDialog
+class DataInput
 {
-    Q_OBJECT
-
 public:
-    explicit DataInputDialog(QWidget *parent = nullptr);
-    ~DataInputDialog();
-
-private:
-    Ui::DataInputDialog *ui;
+    DataInput();
 };
 
-#endif // DATAINPUTDIALOG_H
+#endif // DATAINPUT_H

@@ -1,6 +1,20 @@
+//---------------------------------------------------------------------------------------
+//
+//  Module: datainputdialog.cpp
+//
+//---------------------------------------------------------------------------------------
+//
+//  Header files
+//
+//---------------------------------------------------------------------------------------
 #include "datainputdialog.h"
 #include "ui_datainputdialog.h"
 
+//---------------------------------------------------------------------------------------
+//
+//  DataInputDialog default constructor
+//
+//---------------------------------------------------------------------------------------
 DataInputDialog::DataInputDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::DataInputDialog)
@@ -8,6 +22,11 @@ DataInputDialog::DataInputDialog(QWidget *parent)
     ui->setupUi(this);
 }
 
+//---------------------------------------------------------------------------------------
+//
+//  DataInputDialog default destructor
+//
+//---------------------------------------------------------------------------------------
 DataInputDialog::~DataInputDialog()
 {
     delete ui;
