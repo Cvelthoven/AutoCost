@@ -13,6 +13,8 @@
 //---------------------------------------------------------------------------------------
 #include "appsettings.h"
 #include "appsettingsdialog.h"
+#include "datainput.h"
+#include "datainputdialog.h"
 #include "detailcosttablemodel.h"
 #include "postgresqldb.h"
 
@@ -34,12 +36,15 @@ public:
     ~MainWindow();
 
     AppSettingsDialog *ApplicationSettings;
+    DataInputDialog *ManualDataInput;
     QTableView DetailCostView;
 
 private slots:
     void on_actionOptions_triggered();
 
     void on_actionExit_triggered();
+
+    void on_actionManual_Data_input_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -58,6 +63,7 @@ private:
     //
     //-----------------------------------------------------------------------------------
     AppSettings *ApplicationConfig;
+    DataInput *ManualData;
     DetailCostTableModel *AutoCostDetails;
     PostGreSQLDB *AppDatabase;
 

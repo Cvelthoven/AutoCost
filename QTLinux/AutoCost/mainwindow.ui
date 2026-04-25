@@ -112,7 +112,14 @@
     <addaction name="actionOptions"/>
     <addaction name="actionExit"/>
    </widget>
+   <widget class="QMenu" name="menuData_input">
+    <property name="title">
+     <string>Data input</string>
+    </property>
+    <addaction name="actionManual_Data_input"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuData_input"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionExit">
@@ -123,6 +130,11 @@
   <action name="actionOptions">
    <property name="text">
     <string>Configuration</string>
+   </property>
+  </action>
+  <action name="actionManual_Data_input">
+   <property name="text">
+    <string>Manual Data input</string>
    </property>
   </action>
  </widget>
