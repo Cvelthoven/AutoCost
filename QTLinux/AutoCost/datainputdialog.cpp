@@ -10,6 +10,8 @@
 #include "datainputdialog.h"
 #include "ui_datainputdialog.h"
 
+#include <QDate>
+
 //---------------------------------------------------------------------------------------
 //
 //  DataInputDialog default constructor
@@ -19,7 +21,28 @@ DataInputDialog::DataInputDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::DataInputDialog)
 {
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Local variables
+    //
+    //-----------------------------------------------------------------------------------
+
     ui->setupUi(this);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Preload fields
+    //
+    //-----------------------------------------------------------------------------------
+    //
+    //  Date and time field
+    //
+    //-----------------------------------------------------------------------------------
+    ui->deRecordDate->setDisplayFormat("dd-MM-yyyy");
+    ui->deRecordDate->setDate(QDate::currentDate());
+    ui->teStartTime->setDisplayFormat("HH:mm");
+    ui->teStartTime->setTime(QTime::fromString("00:00"));
 
     //-----------------------------------------------------------------------------------
     //

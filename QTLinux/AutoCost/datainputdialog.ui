@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>556</width>
-    <height>749</height>
+    <width>525</width>
+    <height>635</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,9 +16,9 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>700</y>
-     <width>341</width>
+     <x>20</x>
+     <y>580</y>
+     <width>480</width>
      <height>32</height>
     </rect>
    </property>
@@ -32,35 +32,35 @@
   <widget class="QLabel" name="lblDate">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>30</y>
-     <width>58</width>
+     <x>20</x>
+     <y>20</y>
+     <width>40</width>
      <height>18</height>
     </rect>
    </property>
    <property name="text">
-    <string>Date</string>
+    <string>Date: </string>
    </property>
   </widget>
   <widget class="QLabel" name="lblDescription">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>60</y>
-     <width>81</width>
+     <x>20</x>
+     <y>50</y>
+     <width>75</width>
      <height>18</height>
     </rect>
    </property>
    <property name="text">
-    <string>Description</string>
+    <string>Description: </string>
    </property>
   </widget>
   <widget class="QRadioButton" name="rbPeriodic">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>140</y>
-     <width>101</width>
+     <y>110</y>
+     <width>120</width>
      <height>23</height>
     </rect>
    </property>
@@ -77,9 +77,9 @@
   <widget class="QRadioButton" name="rbElectricity">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>140</y>
-     <width>101</width>
+     <x>140</x>
+     <y>110</y>
+     <width>120</width>
      <height>23</height>
     </rect>
    </property>
@@ -97,8 +97,8 @@
    <property name="geometry">
     <rect>
      <x>260</x>
-     <y>140</y>
-     <width>101</width>
+     <y>110</y>
+     <width>120</width>
      <height>23</height>
     </rect>
    </property>
@@ -116,8 +116,8 @@
    <property name="geometry">
     <rect>
      <x>380</x>
-     <y>140</y>
-     <width>101</width>
+     <y>110</y>
+     <width>120</width>
      <height>23</height>
     </rect>
    </property>
@@ -131,11 +131,11 @@
     <string notr="true">CostButtonGroup</string>
    </attribute>
   </widget>
-  <widget class="QDateEdit" name="dateEdit">
+  <widget class="QDateEdit" name="deRecordDate">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>30</y>
+     <x>100</x>
+     <y>16</y>
      <width>110</width>
      <height>27</height>
     </rect>
@@ -144,9 +144,9 @@
   <widget class="QLineEdit" name="lnDescription">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>60</y>
-     <width>381</width>
+     <x>100</x>
+     <y>48</y>
+     <width>405</width>
      <height>26</height>
     </rect>
    </property>
@@ -154,9 +154,9 @@
   <widget class="QLabel" name="lbCostTypeSelector">
    <property name="geometry">
     <rect>
-     <x>37</x>
-     <y>100</y>
-     <width>431</width>
+     <x>20</x>
+     <y>90</y>
+     <width>480</width>
      <height>20</height>
     </rect>
    </property>
@@ -170,21 +170,21 @@
   <widget class="QLabel" name="lblAmount">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>180</y>
-     <width>58</width>
+     <x>20</x>
+     <y>150</y>
+     <width>75</width>
      <height>18</height>
     </rect>
    </property>
    <property name="text">
-    <string>Amount</string>
+    <string>Amount: </string>
    </property>
   </widget>
   <widget class="QLineEdit" name="lnAmount">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>180</y>
+     <x>95</x>
+     <y>148</y>
      <width>113</width>
      <height>26</height>
     </rect>
@@ -193,9 +193,9 @@
   <widget class="QLabel" name="lbLoadSessionInfo">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>220</y>
-     <width>651</width>
+     <x>20</x>
+     <y>190</y>
+     <width>480</width>
      <height>20</height>
     </rect>
    </property>
@@ -209,22 +209,22 @@
   <widget class="QLabel" name="lblStartTime">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>290</y>
-     <width>71</width>
+     <x>20</x>
+     <y>215</y>
+     <width>75</width>
      <height>18</height>
     </rect>
    </property>
    <property name="text">
-    <string>Start time</string>
+    <string>Start time: </string>
    </property>
   </widget>
   <widget class="QTimeEdit" name="teStartTime">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>290</y>
-     <width>71</width>
+     <x>95</x>
+     <y>211</y>
+     <width>60</width>
      <height>27</height>
     </rect>
    </property>
@@ -232,48 +232,57 @@
   <widget class="QLabel" name="lblTime">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>260</y>
-     <width>58</width>
+     <x>95</x>
+     <y>250</y>
+     <width>60</width>
      <height>18</height>
     </rect>
    </property>
    <property name="text">
     <string>Time</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLabel" name="lblKWh">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>260</y>
-     <width>81</width>
+     <x>160</x>
+     <y>250</y>
+     <width>70</width>
      <height>18</height>
     </rect>
    </property>
    <property name="text">
-    <string>KW per hour</string>
+    <string>KW / hour</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="lblEuroKwh">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>260</y>
-     <width>71</width>
+     <x>235</x>
+     <y>250</y>
+     <width>70</width>
      <height>18</height>
     </rect>
    </property>
    <property name="text">
     <string>Price KWh</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lnKWh1">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>290</y>
-     <width>71</width>
+     <x>175</x>
+     <y>268</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
@@ -281,9 +290,9 @@
   <widget class="QLineEdit" name="lnPriceKWh1">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>290</y>
-     <width>71</width>
+     <x>250</x>
+     <y>268</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
@@ -291,9 +300,9 @@
   <widget class="QLineEdit" name="lnKWh2">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>320</y>
-     <width>71</width>
+     <x>175</x>
+     <y>298</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
@@ -301,9 +310,9 @@
   <widget class="QLineEdit" name="lnPriceKWh2">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>320</y>
-     <width>71</width>
+     <x>250</x>
+     <y>298</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
@@ -311,9 +320,9 @@
   <widget class="QLineEdit" name="lnKWh3">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>350</y>
-     <width>71</width>
+     <x>175</x>
+     <y>328</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
@@ -321,9 +330,9 @@
   <widget class="QLineEdit" name="lnPriceKWh3">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>350</y>
-     <width>71</width>
+     <x>250</x>
+     <y>328</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
@@ -331,9 +340,9 @@
   <widget class="QLineEdit" name="lnKWh4">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>380</y>
-     <width>71</width>
+     <x>175</x>
+     <y>358</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
@@ -341,9 +350,9 @@
   <widget class="QLineEdit" name="lnPriceKWh4">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>380</y>
-     <width>71</width>
+     <x>250</x>
+     <y>358</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
@@ -351,9 +360,9 @@
   <widget class="QLineEdit" name="lnKWh5">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>410</y>
-     <width>71</width>
+     <x>175</x>
+     <y>388</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
@@ -361,9 +370,9 @@
   <widget class="QLineEdit" name="lnPriceKWh5">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>410</y>
-     <width>71</width>
+     <x>250</x>
+     <y>388</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
@@ -371,9 +380,9 @@
   <widget class="QLineEdit" name="lnKWh6">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>440</y>
-     <width>71</width>
+     <x>175</x>
+     <y>418</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
@@ -381,19 +390,19 @@
   <widget class="QLineEdit" name="lnPriceKWh6">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>440</y>
-     <width>71</width>
-     <height>31</height>
+     <x>250</x>
+     <y>418</y>
+     <width>40</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>
   <widget class="QLineEdit" name="lnKWh7">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>470</y>
-     <width>71</width>
+     <x>175</x>
+     <y>448</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
@@ -401,9 +410,9 @@
   <widget class="QLineEdit" name="lnPriceKWh7">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>470</y>
-     <width>71</width>
+     <x>250</x>
+     <y>448</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
@@ -411,9 +420,9 @@
   <widget class="QLineEdit" name="lnKWh8">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>500</y>
-     <width>71</width>
+     <x>175</x>
+     <y>478</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
@@ -421,9 +430,9 @@
   <widget class="QLineEdit" name="lnPriceKWh8">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>500</y>
-     <width>71</width>
+     <x>250</x>
+     <y>478</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
@@ -431,9 +440,9 @@
   <widget class="QLineEdit" name="lnKWh9">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>530</y>
-     <width>71</width>
+     <x>175</x>
+     <y>508</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
@@ -441,37 +450,73 @@
   <widget class="QLineEdit" name="lnPriceKWh9">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>530</y>
-     <width>71</width>
+     <x>250</x>
+     <y>508</y>
+     <width>40</width>
      <height>26</height>
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="lblTotalKW">
+  <widget class="QLabel" name="lblKWhTime1">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>560</y>
-     <width>58</width>
+     <x>95</x>
+     <y>270</y>
+     <width>60</width>
      <height>18</height>
     </rect>
    </property>
    <property name="text">
-    <string>Total </string>
+    <string>99:99</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lblHour2">
+  <widget class="QLabel" name="lblTotalKWh">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>330</y>
-     <width>58</width>
+     <x>170</x>
+     <y>215</y>
+     <width>115</width>
      <height>18</height>
     </rect>
    </property>
    <property name="text">
-    <string>test</string>
+    <string>Total KWh loaded: </string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lnTotalKWh">
+   <property name="geometry">
+    <rect>
+     <x>285</x>
+     <y>213</y>
+     <width>40</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblKWhMaxLoad">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>215</y>
+     <width>80</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Defaul KWh:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lnKWhMax">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>213</y>
+     <width>40</width>
+     <height>26</height>
+    </rect>
    </property>
   </widget>
  </widget>
