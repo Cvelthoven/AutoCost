@@ -10,6 +10,8 @@
 #include "datainputdialog.h"
 #include "ui_datainputdialog.h"
 
+#include <QAbstractButton>
+#include <QDialogButtonBox>
 #include <QDate>
 
 //---------------------------------------------------------------------------------------
@@ -60,4 +62,25 @@ DataInputDialog::DataInputDialog(QWidget *parent)
 DataInputDialog::~DataInputDialog()
 {
     delete ui;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Handle different responses on DataInputDialog
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
+{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Select action based on which button is clicked
+    //
+    //-----------------------------------------------------------------------------------
+    QDialogButtonBox::StandardButton which = buttonBox->standardButton(button);
+
+}
+
+void onOKPressed()
+{
+
 }

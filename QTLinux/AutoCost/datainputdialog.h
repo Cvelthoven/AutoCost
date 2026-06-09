@@ -15,6 +15,14 @@
 
 //---------------------------------------------------------------------------------------
 //
+//  Extra class definitions for the buttonbox in the dialog
+//
+//---------------------------------------------------------------------------------------
+class QDialogButtonBox;
+class QAbstractButton;
+
+//---------------------------------------------------------------------------------------
+//
 //  Class DataInputDialog definitions
 //
 //---------------------------------------------------------------------------------------
@@ -30,8 +38,17 @@ public:
     explicit DataInputDialog(QWidget *parent = nullptr);
     ~DataInputDialog();
 
+private slots:
+    void on_buttonBox_clicked(QAbstractButton *button);
+
 private:
     Ui::DataInputDialog *ui;
+
+    QDialogButtonBox *buttonBox = nullptr;
+    void onOkPressed();
+    void onApplyPressed();
+    void onHelpPressed();
+
 };
 
 #endif // DATAINPUTDIALOG_H

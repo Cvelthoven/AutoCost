@@ -212,7 +212,6 @@ AppSettingsDialog::~AppSettingsDialog()
 //---------------------------------------------------------------------------------------
 void AppSettingsDialog::on_buttonBox_accepted()
 {
-    qDebug() << "appsettingdialog -> accept button triggered";
 
     //-----------------------------------------------------------------------------------
     //
