@@ -44,10 +44,10 @@ private slots:
 private:
     Ui::DataInputDialog *ui;
 
-    QDialogButtonBox *buttonBox = nullptr;
-    void onOkPressed();
     void onApplyPressed();
-    void onHelpPressed();
+    void onCancelPressed();
+    void onOKPressed();
+    void onResetPressed();
 
 };
 
