@@ -73,25 +73,45 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
     QDialogButtonBox::StandardButton which = ui->buttonBox->standardButton(button);
     switch (which)
     {
-    case QDialogButtonBox::Ok:
-        // action for OK
-        onOKPressed();
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieve the input data and store it in the database
+    //  And reset the dialog to the default again
+    //
+    //-----------------------------------------------------------------------------------
+    case QDialogButtonBox::Apply:
+        onApplyPressed();
         accept();
         break;
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Close the dialog without saving possible input
+    //
+    //-----------------------------------------------------------------------------------
     case QDialogButtonBox::Cancel:
-        // action for Cancel
+        onCancelPressed();
         reject();
         break;
 
-    case QDialogButtonBox::Apply:
-        // action for Apply
-        // do something without closing the dialog
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieve the input data and store it in the database
+    //  And close the dialog
+    //
+    //-----------------------------------------------------------------------------------
+    case QDialogButtonBox::Close:
+        onClosePressed();
         break;
 
-    case QDialogButtonBox::Reset:
-        // action for Reset
-        // clear or reset fields
+    //-----------------------------------------------------------------------------------
+    //
+    //  Discard possible input data
+    //  And reset the dialog to the default again
+    //
+    //-----------------------------------------------------------------------------------
+    case QDialogButtonBox::Discard:
+        onDiscardPressed();
         break;
 
     default:
@@ -100,22 +120,69 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
 
 }
 
-void DataInputDialog::onOKPressed()
-{
-
-}
-
-void DataInputDialog::onCancelPressed()
-{
-
-}
-
+//---------------------------------------------------------------------------------------
+//
+//  Retrieve the input data and store it in the database
+//  And reset the dialog to the default again
+//
+//---------------------------------------------------------------------------------------
 void DataInputDialog::onApplyPressed()
 {
 
 }
 
-void DataInputDialog::onResetPressed()
+//---------------------------------------------------------------------------------------
+//
+//  Close the dialog without saving possible input
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::onCancelPressed()
 {
+
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Retrieve the input data and store it in the database
+//  And close the dialog
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::onClosePressed()
+{
+
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Discard possible input data
+//  And reset the dialog to the default again
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::onDiscardPressed()
+{
+    ui->deRecordDate->setDate(QDate::currentDate());
+    ui->lnDescription->clear();
+    ui->lnAmount->clear();
+    ui->lnKWh1->clear();
+    ui->lnKWh2->clear();
+    ui->lnKWh3->clear();
+    ui->lnKWh4->clear();
+    ui->lnKWh5->clear();
+    ui->lnKWh6->clear();
+    ui->lnKWh7->clear();
+    ui->lnKWh8->clear();
+    ui->lnKWh9->clear();
+    ui->lnKWhMax->clear();
+    ui->lnPriceKWh1->clear();
+    ui->lnPriceKWh2->clear();
+    ui->lnPriceKWh3->clear();
+    ui->lnPriceKWh4->clear();
+    ui->lnPriceKWh5->clear();
+    ui->lnPriceKWh6->clear();
+    ui->lnPriceKWh7->clear();
+    ui->lnPriceKWh8->clear();
+    ui->lnPriceKWh9->clear();
+    ui->lnTotalKWh->clear();
+    ui->teStartTime->setTime(QTime::fromString("00:00"));
 
 }

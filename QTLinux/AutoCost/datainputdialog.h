@@ -46,8 +46,8 @@ private:
 
     void onApplyPressed();
     void onCancelPressed();
-    void onOKPressed();
-    void onResetPressed();
+    void onClosePressed();
+    void onDiscardPressed();
 
 };
 
