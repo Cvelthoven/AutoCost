@@ -41,11 +41,25 @@ DataInputDialog::DataInputDialog(QWidget *parent)
     //  Date and time field
     //
     //-----------------------------------------------------------------------------------
-    ui->deRecordDate->setDisplayFormat("dd-MM-yyyy");
-    ui->deRecordDate->setDate(QDate::currentDate());
-    ui->teStartTime->setDisplayFormat("HH:mm");
-    ui->teStartTime->setTime(QTime::fromString("00:00"));
+    ui->deRecordDate->setDisplayFormat(strDateFormat);
+    ui->teStartTime->setDisplayFormat(strStartTimeFormat);
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set the radiobutton id's
+    //
+    //-----------------------------------------------------------------------------------
+    ui->CostButtonGroup->setId(ui->rbPeriodic, 1);
+    ui->CostButtonGroup->setId(ui->rbElectricity, 2);
+    ui->CostButtonGroup->setId(ui->rbOther, 3);
+    ui->CostButtonGroup->setId(ui->rbAccessoires, 4);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Fill the dialog with the default values
+    //
+    //-----------------------------------------------------------------------------------
+    resetDialog();
 }
 
 //---------------------------------------------------------------------------------------
@@ -128,7 +142,8 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
 //---------------------------------------------------------------------------------------
 void DataInputDialog::onApplyPressed()
 {
-
+    retrieveData();
+    resetDialog();
 }
 
 //---------------------------------------------------------------------------------------
@@ -149,7 +164,7 @@ void DataInputDialog::onCancelPressed()
 //---------------------------------------------------------------------------------------
 void DataInputDialog::onClosePressed()
 {
-
+    retrieveData();
 }
 
 //---------------------------------------------------------------------------------------
@@ -159,6 +174,16 @@ void DataInputDialog::onClosePressed()
 //
 //---------------------------------------------------------------------------------------
 void DataInputDialog::onDiscardPressed()
+{
+    resetDialog();
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Reset the dialog to the default again
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::resetDialog()
 {
     ui->deRecordDate->setDate(QDate::currentDate());
     ui->lnDescription->clear();
@@ -185,4 +210,30 @@ void DataInputDialog::onDiscardPressed()
     ui->lnTotalKWh->clear();
     ui->teStartTime->setTime(QTime::fromString("00:00"));
 
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Retrieve input data from dialog
+//  Except the electricity data
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::retrieveData()
+{
+    QString strAmount = "";
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieve data
+    //
+    //-----------------------------------------------------------------------------------
+    strDate = ui->deRecordDate->date().toString(strDateFormat);
+    strDescription = ui->lnDescription->text();
+    strAmount = ui->lnAmount->text();
+    strStartTime = ui->teStartTime->time().toString(strStartTimeFormat);
+    int iCostTypeID = ui->CostButtonGroup->checkedId();
+    if (iCostTypeID != -1)
+    {
+
+    }
 }

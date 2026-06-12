@@ -12,6 +12,7 @@
 //
 //---------------------------------------------------------------------------------------
 #include <QDialog>
+#include <QString>
 
 //---------------------------------------------------------------------------------------
 //
@@ -48,6 +49,15 @@ private:
     void onCancelPressed();
     void onClosePressed();
     void onDiscardPressed();
+    void resetDialog();
+    void retrieveData();
+
+    QString
+        strDate = "",
+        strDateFormat = "dd-MM-yyyy",
+        strDescription = "",
+        strStartTime = "",
+        strStartTimeFormat = "HH:mm";
 
 };
 

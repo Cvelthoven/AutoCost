@@ -33,7 +33,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>20</y>
+     <y>94</y>
      <width>40</width>
      <height>18</height>
     </rect>
@@ -46,7 +46,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>50</y>
+     <y>122</y>
      <width>75</width>
      <height>18</height>
     </rect>
@@ -59,7 +59,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>110</y>
+     <y>40</y>
      <width>120</width>
      <height>23</height>
     </rect>
@@ -78,7 +78,7 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>110</y>
+     <y>40</y>
      <width>120</width>
      <height>23</height>
     </rect>
@@ -97,7 +97,7 @@
    <property name="geometry">
     <rect>
      <x>260</x>
-     <y>110</y>
+     <y>40</y>
      <width>120</width>
      <height>23</height>
     </rect>
@@ -116,7 +116,7 @@
    <property name="geometry">
     <rect>
      <x>380</x>
-     <y>110</y>
+     <y>40</y>
      <width>120</width>
      <height>23</height>
     </rect>
@@ -135,7 +135,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>16</y>
+     <y>90</y>
      <width>110</width>
      <height>27</height>
     </rect>
@@ -145,7 +145,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>48</y>
+     <y>120</y>
      <width>405</width>
      <height>26</height>
     </rect>
@@ -155,7 +155,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>90</y>
+     <y>20</y>
      <width>480</width>
      <height>20</height>
     </rect>
@@ -183,7 +183,7 @@
   <widget class="QLineEdit" name="lnAmount">
    <property name="geometry">
     <rect>
-     <x>95</x>
+     <x>100</x>
      <y>148</y>
      <width>113</width>
      <height>26</height>
@@ -222,7 +222,7 @@
   <widget class="QTimeEdit" name="teStartTime">
    <property name="geometry">
     <rect>
-     <x>95</x>
+     <x>100</x>
      <y>211</y>
      <width>60</width>
      <height>27</height>
@@ -476,7 +476,7 @@
   <widget class="QLabel" name="lblTotalKWh">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>175</x>
      <y>215</y>
      <width>115</width>
      <height>18</height>
@@ -489,7 +489,7 @@
   <widget class="QLineEdit" name="lnTotalKWh">
    <property name="geometry">
     <rect>
-     <x>285</x>
+     <x>290</x>
      <y>213</y>
      <width>40</width>
      <height>26</height>
@@ -499,7 +499,7 @@
   <widget class="QLabel" name="lblKWhMaxLoad">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>345</x>
      <y>215</y>
      <width>80</width>
      <height>18</height>
@@ -512,7 +512,7 @@
   <widget class="QLineEdit" name="lnKWhMax">
    <property name="geometry">
     <rect>
-     <x>430</x>
+     <x>435</x>
      <y>213</y>
      <width>40</width>
      <height>26</height>
