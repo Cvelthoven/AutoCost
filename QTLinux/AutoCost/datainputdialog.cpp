@@ -7,6 +7,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "AutoCost.h"
 #include "datainputdialog.h"
 #include "ui_datainputdialog.h"
 
@@ -178,39 +179,6 @@ void DataInputDialog::onDiscardPressed()
     resetDialog();
 }
 
-//---------------------------------------------------------------------------------------
-//
-//  Reset the dialog to the default again
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::resetDialog()
-{
-    ui->deRecordDate->setDate(QDate::currentDate());
-    ui->lnDescription->clear();
-    ui->lnAmount->clear();
-    ui->lnKWh1->clear();
-    ui->lnKWh2->clear();
-    ui->lnKWh3->clear();
-    ui->lnKWh4->clear();
-    ui->lnKWh5->clear();
-    ui->lnKWh6->clear();
-    ui->lnKWh7->clear();
-    ui->lnKWh8->clear();
-    ui->lnKWh9->clear();
-    ui->lnKWhMax->clear();
-    ui->lnPriceKWh1->clear();
-    ui->lnPriceKWh2->clear();
-    ui->lnPriceKWh3->clear();
-    ui->lnPriceKWh4->clear();
-    ui->lnPriceKWh5->clear();
-    ui->lnPriceKWh6->clear();
-    ui->lnPriceKWh7->clear();
-    ui->lnPriceKWh8->clear();
-    ui->lnPriceKWh9->clear();
-    ui->lnTotalKWh->clear();
-    ui->teStartTime->setTime(QTime::fromString("00:00"));
-
-}
 
 //---------------------------------------------------------------------------------------
 //
@@ -231,9 +199,119 @@ void DataInputDialog::retrieveData()
     strDescription = ui->lnDescription->text();
     strAmount = ui->lnAmount->text();
     strStartTime = ui->teStartTime->time().toString(strStartTimeFormat);
-    int iCostTypeID = ui->CostButtonGroup->checkedId();
-    if (iCostTypeID != -1)
-    {
+    // int iCostTypeID = ui->CostButtonGroup->checkedId();
+    // if (iCostTypeID != -1)
+    // {
 
+    // }
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Handle radiobuttons cost type
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_rbPeriodic_toggled(bool checked)
+{
+    if (checked)
+    {
+        iCostType = CostRecPeriodic;
+     }
+    else
+    {
+        iCostType = 0;
     }
+}
+
+void DataInputDialog::on_rbElectricity_toggled(bool checked)
+{
+    if (checked)
+    {
+        iCostType = CostRecElectricity;
+        ui->lnDescription->setText("Laden");
+        ui->teStartTime->setTime(QTime::fromString("00:00"));
+        ui->lnKWh1->setText("0.00");
+        ui->lnPriceKWh1->setText("0.00");
+    }
+    else
+    {
+        iCostType = 0;
+        clearElectricityInput();
+    }
+}
+
+
+void DataInputDialog::on_rbOther_toggled(bool checked)
+{
+    if (checked)
+    {
+        iCostType = CostRecOther;
+    }
+    else
+    {
+        iCostType = 0;
+    }
+}
+
+
+void DataInputDialog::on_rbAccessoires_toggled(bool checked)
+{
+    if (checked)
+    {
+        iCostType = CostRecAccessory;
+    }
+    else
+    {
+        iCostType = 0;
+    }
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Other methods
+//
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//
+//  Clear electricity input when switching cost type
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::clearElectricityInput()
+{
+    ui->lnKWh1->clear();
+    ui->lnKWh2->clear();
+    ui->lnKWh3->clear();
+    ui->lnKWh4->clear();
+    ui->lnKWh5->clear();
+    ui->lnKWh6->clear();
+    ui->lnKWh7->clear();
+    ui->lnKWh8->clear();
+    ui->lnKWh9->clear();
+    ui->lnKWhMax->clear();
+    ui->lnPriceKWh1->clear();
+    ui->lnPriceKWh2->clear();
+    ui->lnPriceKWh3->clear();
+    ui->lnPriceKWh4->clear();
+    ui->lnPriceKWh5->clear();
+    ui->lnPriceKWh6->clear();
+    ui->lnPriceKWh7->clear();
+    ui->lnPriceKWh8->clear();
+    ui->lnPriceKWh9->clear();
+    ui->lnTotalKWh->clear();
+
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Reset the dialog to the default again
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::resetDialog()
+{
+    ui->deRecordDate->setDate(QDate::currentDate());
+    ui->lnDescription->clear();
+    ui->lnAmount->clear();
+    ui->teStartTime->clear();
+    clearElectricityInput();
+
 }
