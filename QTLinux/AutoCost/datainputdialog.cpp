@@ -14,6 +14,7 @@
 #include <QAbstractButton>
 #include <QDialogButtonBox>
 #include <QDate>
+#include <QTime>
 
 //---------------------------------------------------------------------------------------
 //
@@ -39,11 +40,12 @@ DataInputDialog::DataInputDialog(QWidget *parent)
     //
     //-----------------------------------------------------------------------------------
     //
-    //  Date and time field
+    //  Date and time field and label
     //
     //-----------------------------------------------------------------------------------
     ui->deRecordDate->setDisplayFormat(strDateFormat);
     ui->teStartTime->setDisplayFormat(strStartTimeFormat);
+    ui->lblKWhTime1->setText("");
 
     //-----------------------------------------------------------------------------------
     //
@@ -229,6 +231,7 @@ void DataInputDialog::on_rbElectricity_toggled(bool checked)
     {
         iCostType = CostRecElectricity;
         ui->lnDescription->setText("Laden");
+        ui->teStartTime->setDisplayFormat(strStartTimeFormat);
         ui->teStartTime->setTime(QTime::fromString("00:00"));
         ui->lnKWh1->setText("0.00");
         ui->lnPriceKWh1->setText("0.00");
@@ -268,6 +271,33 @@ void DataInputDialog::on_rbAccessoires_toggled(bool checked)
 
 //---------------------------------------------------------------------------------------
 //
+//  Slots that handle input from dialog fields
+//
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//
+//  Retrieve time set by user
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_teStartTime_userTimeChanged(const QTime &time)
+{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Only retrieve time when cost type is electricity otherwise ignore or discard
+    //
+    //-----------------------------------------------------------------------------------
+    if (iCostType == 2)
+    {
+        tiStartTime = ui->teStartTime->time();
+        strStartTime = tiStartTime.toString("hh:mm");
+        ui->lblKWhTime1->setText(strStartTime);
+    }
+
+
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  Other methods
 //
 //---------------------------------------------------------------------------------------
@@ -298,6 +328,7 @@ void DataInputDialog::clearElectricityInput()
     ui->lnPriceKWh8->clear();
     ui->lnPriceKWh9->clear();
     ui->lnTotalKWh->clear();
+    ui->lblKWhTime1->setText("");
 
 }
 

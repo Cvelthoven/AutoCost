@@ -13,6 +13,7 @@
 //---------------------------------------------------------------------------------------
 #include <QDialog>
 #include <QString>
+#include <QTime>
 
 //---------------------------------------------------------------------------------------
 //
@@ -51,6 +52,9 @@ private slots:
     void on_rbOther_toggled(bool checked);
     void on_rbAccessoires_toggled(bool checked);
 
+
+    void on_teStartTime_userTimeChanged(const QTime &time);
+
 private:
     Ui::DataInputDialog *ui;
 
@@ -84,6 +88,9 @@ private:
         strDescription = "",
         strStartTime = "",
         strStartTimeFormat = "HH:mm";
+
+    QTime
+        tiStartTime;
 
 };
 
