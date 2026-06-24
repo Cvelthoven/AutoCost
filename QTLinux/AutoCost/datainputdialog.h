@@ -11,6 +11,8 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "AutoCost.h"
+
 #include <QDialog>
 #include <QString>
 #include <QTime>
@@ -45,15 +47,36 @@ private slots:
 
     //-----------------------------------------------------------------------------------
     //
-    //  Cost type selection radiobutton slots
+    //  Slots of dialog
     //
     void on_rbPeriodic_toggled(bool checked);
     void on_rbElectricity_toggled(bool checked);
     void on_rbOther_toggled(bool checked);
     void on_rbAccessoires_toggled(bool checked);
 
-
     void on_teStartTime_userTimeChanged(const QTime &time);
+
+    void on_lnTotalKWh_editingFinished();
+
+    void on_lnKWh1_editingFinished();
+    void on_lnKWh2_editingFinished();
+    void on_lnKWh3_editingFinished();
+    void on_lnKWh4_editingFinished();
+    void on_lnKWh5_editingFinished();
+    void on_lnKWh6_editingFinished();
+    void on_lnKWh7_editingFinished();
+    void on_lnKWh8_editingFinished();
+    void on_lnKWh9_editingFinished();
+
+    void on_lnPriceKWh1_editingFinished();
+    void on_lnPriceKWh2_editingFinished();
+    void on_lnPriceKWh3_editingFinished();
+    void on_lnPriceKWh4_editingFinished();
+    void on_lnPriceKWh5_editingFinished();
+    void on_lnPriceKWh6_editingFinished();
+    void on_lnPriceKWh7_editingFinished();
+    void on_lnPriceKWh8_editingFinished();
+    void on_lnPriceKWh9_editingFinished();
 
 private:
     Ui::DataInputDialog *ui;
@@ -72,6 +95,7 @@ private:
     //  Other methods
     //
     void clearElectricityInput();
+    void getStartTime();
     void resetDialog();
     void retrieveData();
 
@@ -80,7 +104,13 @@ private:
     //  Private class wide variables
     //
     int
-        iCostType = 0;
+        iCostType = 0,
+        iStartHour = -1,
+        iStartMinute = -1;
+
+    float
+        fKWhPeriod[iMaxNbElectricityPeriods],
+        fKWhPrice[iMaxNbElectricityPeriods];
 
     QString
         strDate = "",

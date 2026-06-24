@@ -276,6 +276,119 @@ void DataInputDialog::on_rbAccessoires_toggled(bool checked)
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //
+//  Slots to retrieve the KWH amount per hour
+//  And set, if needed, the next hour ready
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_lnKWh1_editingFinished()
+{
+
+}
+
+void DataInputDialog::on_lnKWh2_editingFinished()
+{
+
+}
+
+void DataInputDialog::on_lnKWh3_editingFinished()
+{
+
+}
+
+void DataInputDialog::on_lnKWh4_editingFinished()
+{
+
+}
+
+void DataInputDialog::on_lnKWh5_editingFinished()
+{
+
+}
+
+void DataInputDialog::on_lnKWh6_editingFinished()
+{
+
+}
+
+void DataInputDialog::on_lnKWh7_editingFinished()
+{
+
+}
+
+void DataInputDialog::on_lnKWh8_editingFinished()
+{
+
+}
+
+void DataInputDialog::on_lnKWh9_editingFinished()
+{
+
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Slots to retrieve the price KWh
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_lnPriceKWh1_editingFinished()
+{
+
+}
+
+void DataInputDialog::on_lnPriceKWh2_editingFinished()
+{
+
+}
+
+void DataInputDialog::on_lnPriceKWh3_editingFinished()
+{
+
+}
+
+void DataInputDialog::on_lnPriceKWh4_editingFinished()
+{
+
+}
+
+void DataInputDialog::on_lnPriceKWh5_editingFinished()
+{
+
+}
+
+void DataInputDialog::on_lnPriceKWh6_editingFinished()
+{
+
+}
+
+void DataInputDialog::on_lnPriceKWh7_editingFinished()
+{
+
+}
+
+void DataInputDialog::on_lnPriceKWh8_editingFinished()
+{
+
+}
+
+void DataInputDialog::on_lnPriceKWh9_editingFinished()
+{
+
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Loads total amount loaded and the start time set at that moment to ensure that also
+//  the default time is loaded in case this is the correct time.
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_lnTotalKWh_editingFinished()
+{
+    getStartTime();
+
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  Retrieve time set by user
 //
 //---------------------------------------------------------------------------------------
@@ -288,9 +401,7 @@ void DataInputDialog::on_teStartTime_userTimeChanged(const QTime &time)
     //-----------------------------------------------------------------------------------
     if (iCostType == 2)
     {
-        tiStartTime = ui->teStartTime->time();
-        strStartTime = tiStartTime.toString("hh:mm");
-        ui->lblKWhTime1->setText(strStartTime);
+        getStartTime();
     }
 
 
@@ -334,11 +445,27 @@ void DataInputDialog::clearElectricityInput()
 
 //---------------------------------------------------------------------------------------
 //
+//  Load start time from the dialog box and set the first hour label
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::getStartTime()
+{
+    tiStartTime = ui->teStartTime->time();
+    iStartHour = tiStartTime.hour();
+    iStartMinute = tiStartTime.minute();
+    strStartTime = tiStartTime.toString("hh:mm");
+    ui->lblKWhTime1->setText(strStartTime);
+
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  Reset the dialog to the default again
 //
 //---------------------------------------------------------------------------------------
 void DataInputDialog::resetDialog()
 {
+
     ui->deRecordDate->setDate(QDate::currentDate());
     ui->lnDescription->clear();
     ui->lnAmount->clear();
@@ -346,3 +473,7 @@ void DataInputDialog::resetDialog()
     clearElectricityInput();
 
 }
+
+
+
+

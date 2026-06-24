@@ -19,6 +19,8 @@
 //  Application configuration definitions
 //
 //---------------------------------------------------------------------------------------
+const int iMaxNbElectricityPeriods = 9;
+
 const QString
     strApplicationName = "AutoCost",
     strApplicationDomain = "CVelthoven.com",
