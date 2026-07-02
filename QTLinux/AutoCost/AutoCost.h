@@ -19,7 +19,7 @@
 //  Application configuration definitions
 //
 //---------------------------------------------------------------------------------------
-const int iMaxNbElectricityPeriods = 9;
+const int iMaxNbElectricityPeriods = 10;
 
 const QString
     strApplicationName = "AutoCost",

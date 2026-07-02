@@ -45,7 +45,16 @@ DataInputDialog::DataInputDialog(QWidget *parent)
     //-----------------------------------------------------------------------------------
     ui->deRecordDate->setDisplayFormat(strDateFormat);
     ui->teStartTime->setDisplayFormat(strStartTimeFormat);
-    ui->lblKWhTime1->setText("");
+    ui->lblKWhTime2->setText("");
+    ui->lblKWhTime3->setText("");
+    ui->lblKWhTime4->setText("");
+    ui->lblKWhTime5->setText("");
+    ui->lblKWhTime6->setText("");
+    ui->lblKWhTime7->setText("");
+    ui->lblKWhTime8->setText("");
+    ui->lblKWhTime9->setText("");
+    ui->lblKWhTime10->setText("");
+
 
     //-----------------------------------------------------------------------------------
     //
@@ -190,7 +199,6 @@ void DataInputDialog::onDiscardPressed()
 //---------------------------------------------------------------------------------------
 void DataInputDialog::retrieveData()
 {
-    QString strAmount = "";
 
     //-----------------------------------------------------------------------------------
     //
@@ -199,18 +207,37 @@ void DataInputDialog::retrieveData()
     //-----------------------------------------------------------------------------------
     strDate = ui->deRecordDate->date().toString(strDateFormat);
     strDescription = ui->lnDescription->text();
-    strAmount = ui->lnAmount->text();
-    strStartTime = ui->teStartTime->time().toString(strStartTimeFormat);
-    // int iCostTypeID = ui->CostButtonGroup->checkedId();
-    // if (iCostTypeID != -1)
-    // {
+    fAmount = ui->lnAmount->text().toFloat();
 
-    // }
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Retrieve non-public load session data
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::retrieveNonPublicLoadSessionData()
+{
+
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Retrieve public load session data
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::retrievePublicLoadSessionData()
+{
+
 }
 
 //---------------------------------------------------------------------------------------
 //
 //  Handle radiobuttons cost type
+//
+//---------------------------------------------------------------------------------------
+//
+//  Handle periodic type
 //
 //---------------------------------------------------------------------------------------
 void DataInputDialog::on_rbPeriodic_toggled(bool checked)
@@ -225,6 +252,11 @@ void DataInputDialog::on_rbPeriodic_toggled(bool checked)
     }
 }
 
+//---------------------------------------------------------------------------------------
+//
+//  Handle electricity type
+//
+//---------------------------------------------------------------------------------------
 void DataInputDialog::on_rbElectricity_toggled(bool checked)
 {
     if (checked)
@@ -243,7 +275,11 @@ void DataInputDialog::on_rbElectricity_toggled(bool checked)
     }
 }
 
-
+//---------------------------------------------------------------------------------------
+//
+//  Handle other type
+//
+//---------------------------------------------------------------------------------------
 void DataInputDialog::on_rbOther_toggled(bool checked)
 {
     if (checked)
@@ -256,7 +292,11 @@ void DataInputDialog::on_rbOther_toggled(bool checked)
     }
 }
 
-
+//---------------------------------------------------------------------------------------
+//
+//  Handle accessoires type
+//
+//---------------------------------------------------------------------------------------
 void DataInputDialog::on_rbAccessoires_toggled(bool checked)
 {
     if (checked)
@@ -276,53 +316,116 @@ void DataInputDialog::on_rbAccessoires_toggled(bool checked)
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //
+//  Handle the switch between a non-public and public load session
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_rbPublicLoadSession_toggled(bool checked)
+{
+    if (checked)
+    {
+        bPublicLoadSession = true;
+    }
+    else
+    {
+        bPublicLoadSession = false;
+    }
+
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  Slots to retrieve the KWH amount per hour
 //  And set, if needed, the next hour ready
 //
 //---------------------------------------------------------------------------------------
 void DataInputDialog::on_lnKWh1_editingFinished()
 {
-
+    fKWhPeriod[0] = ui->lnKWh1->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 void DataInputDialog::on_lnKWh2_editingFinished()
 {
-
+    fKWhPeriod[1] = ui->lnKWh2->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 void DataInputDialog::on_lnKWh3_editingFinished()
 {
-
+    fKWhPeriod[2] = ui->lnKWh3->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 void DataInputDialog::on_lnKWh4_editingFinished()
 {
-
+    fKWhPeriod[3] = ui->lnKWh4->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 void DataInputDialog::on_lnKWh5_editingFinished()
 {
-
+    fKWhPeriod[4] = ui->lnKWh5->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 void DataInputDialog::on_lnKWh6_editingFinished()
 {
-
+    fKWhPeriod[5] = ui->lnKWh6->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 void DataInputDialog::on_lnKWh7_editingFinished()
 {
-
+    fKWhPeriod[6] = ui->lnKWh7->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 void DataInputDialog::on_lnKWh8_editingFinished()
 {
-
+    fKWhPeriod[7] = ui->lnKWh8->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 void DataInputDialog::on_lnKWh9_editingFinished()
 {
+    fKWhPeriod[8] = ui->lnKWh9->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
+}
 
+void DataInputDialog::on_lnKWh10_editingFinished()
+{
+    fKWhPeriod[9] = ui->lnKWh10->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 //---------------------------------------------------------------------------------------
@@ -332,47 +435,92 @@ void DataInputDialog::on_lnKWh9_editingFinished()
 //---------------------------------------------------------------------------------------
 void DataInputDialog::on_lnPriceKWh1_editingFinished()
 {
-
+    fKWhPrice[0] = ui->lnPriceKWh1->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 void DataInputDialog::on_lnPriceKWh2_editingFinished()
 {
-
+    fKWhPrice[1] = ui->lnPriceKWh2->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 void DataInputDialog::on_lnPriceKWh3_editingFinished()
 {
-
+    fKWhPrice[2] = ui->lnPriceKWh3->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 void DataInputDialog::on_lnPriceKWh4_editingFinished()
 {
-
+    fKWhPrice[3] = ui->lnPriceKWh4->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 void DataInputDialog::on_lnPriceKWh5_editingFinished()
 {
-
+    fKWhPrice[4] = ui->lnPriceKWh5->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 void DataInputDialog::on_lnPriceKWh6_editingFinished()
 {
-
+    fKWhPrice[5] = ui->lnPriceKWh6->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 void DataInputDialog::on_lnPriceKWh7_editingFinished()
 {
-
+    fKWhPrice[6] = ui->lnPriceKWh7->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 void DataInputDialog::on_lnPriceKWh8_editingFinished()
 {
-
+    fKWhPrice[7] = ui->lnPriceKWh8->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 void DataInputDialog::on_lnPriceKWh9_editingFinished()
 {
+    fKWhPrice[8] = ui->lnPriceKWh9->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
+}
 
+void DataInputDialog::on_lnPriceKWh10_editingFinished()
+{
+    fKWhPrice[9] = ui->lnPriceKWh10->text().toFloat();
+    if (!bPublicLoadSession)
+    {
+        calcCostNonPublicElectricity();
+    }
 }
 
 //---------------------------------------------------------------------------------------
@@ -384,6 +532,7 @@ void DataInputDialog::on_lnPriceKWh9_editingFinished()
 void DataInputDialog::on_lnTotalKWh_editingFinished()
 {
     getStartTime();
+    fTotalKWh = ui->lnTotalKWh->text().toFloat();
 
 }
 
@@ -414,6 +563,21 @@ void DataInputDialog::on_teStartTime_userTimeChanged(const QTime &time)
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //
+//  Calculate non-pulbic electricity load session cost and show it in dialog
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::calcCostNonPublicElectricity()
+{
+    for (int iCnt1 = 0; iCnt1 < iMaxNbElectricityPeriods; iCnt1++)
+    {
+        fAmount =+ fKWhPeriod[iCnt1] * fKWhPrice[iCnt1];
+    }
+    ui->lnAmount->setText(QString::number(fAmount,'f', 2));
+
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  Clear electricity input when switching cost type
 //
 //---------------------------------------------------------------------------------------
@@ -439,7 +603,20 @@ void DataInputDialog::clearElectricityInput()
     ui->lnPriceKWh8->clear();
     ui->lnPriceKWh9->clear();
     ui->lnTotalKWh->clear();
-    ui->lblKWhTime1->setText("");
+    ui->lblKWhTime2->setText("");
+    ui->lblKWhTime3->setText("");
+    ui->lblKWhTime4->setText("");
+    ui->lblKWhTime5->setText("");
+    ui->lblKWhTime6->setText("");
+    ui->lblKWhTime7->setText("");
+    ui->lblKWhTime8->setText("");
+    ui->lblKWhTime9->setText("");
+    ui->lblKWhTime10->setText("");
+    for (int iCnt1 = 0; iCnt1 < iMaxNbElectricityPeriods; iCnt1++)
+    {
+        fKWhPeriod[iCnt1] = 0;
+        fKWhPrice[iCnt1] = 0;
+    }
 
 }
 
@@ -454,7 +631,7 @@ void DataInputDialog::getStartTime()
     iStartHour = tiStartTime.hour();
     iStartMinute = tiStartTime.minute();
     strStartTime = tiStartTime.toString("hh:mm");
-    ui->lblKWhTime1->setText(strStartTime);
+//    ui->lblKWhTime1->setText(strStartTime);
 
 }
 
@@ -473,7 +650,3 @@ void DataInputDialog::resetDialog()
     clearElectricityInput();
 
 }
-
-
-
-

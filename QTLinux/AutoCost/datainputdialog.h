@@ -54,8 +54,8 @@ private slots:
     void on_rbOther_toggled(bool checked);
     void on_rbAccessoires_toggled(bool checked);
 
+    void on_rbPublicLoadSession_toggled(bool checked);
     void on_teStartTime_userTimeChanged(const QTime &time);
-
     void on_lnTotalKWh_editingFinished();
 
     void on_lnKWh1_editingFinished();
@@ -67,6 +67,7 @@ private slots:
     void on_lnKWh7_editingFinished();
     void on_lnKWh8_editingFinished();
     void on_lnKWh9_editingFinished();
+    void on_lnKWh10_editingFinished();
 
     void on_lnPriceKWh1_editingFinished();
     void on_lnPriceKWh2_editingFinished();
@@ -76,7 +77,8 @@ private slots:
     void on_lnPriceKWh6_editingFinished();
     void on_lnPriceKWh7_editingFinished();
     void on_lnPriceKWh8_editingFinished();
-    void on_lnPriceKWh9_editingFinished();
+    void on_lnPriceKWh9_editingFinished();    
+    void on_lnPriceKWh10_editingFinished();
 
 private:
     Ui::DataInputDialog *ui;
@@ -94,23 +96,31 @@ private:
     //
     //  Other methods
     //
+    void calcCostNonPublicElectricity();
     void clearElectricityInput();
     void getStartTime();
     void resetDialog();
     void retrieveData();
+    void retrieveNonPublicLoadSessionData();
+    void retrievePublicLoadSessionData();
 
     //-----------------------------------------------------------------------------------
     //
     //  Private class wide variables
     //
+    bool
+        bPublicLoadSession = false;
+
     int
         iCostType = 0,
         iStartHour = -1,
         iStartMinute = -1;
 
     float
-        fKWhPeriod[iMaxNbElectricityPeriods],
-        fKWhPrice[iMaxNbElectricityPeriods];
+        fAmount = 0.0,  // Amount of the record
+        fKWhPeriod[iMaxNbElectricityPeriods],   // KWh loaded during a given period
+        fKWhPrice[iMaxNbElectricityPeriods],    // Price of KWh during given period
+        fTotalKWh = 0.0;    // total amount of KWh loaded during load session
 
     QString
         strDate = "",
