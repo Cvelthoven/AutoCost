@@ -525,6 +525,28 @@ void DataInputDialog::on_lnPriceKWh10_editingFinished()
 
 //---------------------------------------------------------------------------------------
 //
+//  Default/Max KWh load session changed
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_lnKWhMax_editingFinished()
+{
+    fDefaultKWh = ui->lnKWhMax->text().toFloat();
+    int iCnt1 = 0;
+    float fRestKWh = fTotalKWh;
+    while ((fRestKWh >= fDefaultKWh) && (iCnt1 < iMaxNbElectricityPeriods))
+    {
+        fKWhPeriod[iCnt1] = fDefaultKWh;
+        fRestKWh -= fDefaultKWh;
+    }
+    if (fRestKWh > 0)
+    {
+        fKWhPeriod[iCnt1 + 1] = fRestKWh;
+    }
+
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  Loads total amount loaded and the start time set at that moment to ensure that also
 //  the default time is loaded in case this is the correct time.
 //
@@ -533,7 +555,25 @@ void DataInputDialog::on_lnTotalKWh_editingFinished()
 {
     getStartTime();
     fTotalKWh = ui->lnTotalKWh->text().toFloat();
+    //-----------------------------------------------------------------------------------
+    //
+    //  Load the defaults for a non-public load session
+    //
+    //-----------------------------------------------------------------------------------
+    if (!bPublicLoadSession)
+    {
 
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Load the defaults for a public load session
+    //
+    //-----------------------------------------------------------------------------------
+    else
+    {
+
+    }
 }
 
 //---------------------------------------------------------------------------------------
@@ -568,9 +608,10 @@ void DataInputDialog::on_teStartTime_userTimeChanged(const QTime &time)
 //---------------------------------------------------------------------------------------
 void DataInputDialog::calcCostNonPublicElectricity()
 {
+    fAmount = 0.0;
     for (int iCnt1 = 0; iCnt1 < iMaxNbElectricityPeriods; iCnt1++)
     {
-        fAmount =+ fKWhPeriod[iCnt1] * fKWhPrice[iCnt1];
+        fAmount = fAmount + (fKWhPeriod[iCnt1] * fKWhPrice[iCnt1]);
     }
     ui->lnAmount->setText(QString::number(fAmount,'f', 2));
 

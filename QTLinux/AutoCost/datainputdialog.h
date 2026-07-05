@@ -56,7 +56,8 @@ private slots:
 
     void on_rbPublicLoadSession_toggled(bool checked);
     void on_teStartTime_userTimeChanged(const QTime &time);
-    void on_lnTotalKWh_editingFinished();
+    void on_lnKWhMax_editingFinished();     //  Default/Max KWh changed
+    void on_lnTotalKWh_editingFinished();   // Total KWh changed
 
     void on_lnKWh1_editingFinished();
     void on_lnKWh2_editingFinished();
@@ -79,6 +80,7 @@ private slots:
     void on_lnPriceKWh8_editingFinished();
     void on_lnPriceKWh9_editingFinished();    
     void on_lnPriceKWh10_editingFinished();
+
 
 private:
     Ui::DataInputDialog *ui;
@@ -117,7 +119,8 @@ private:
         iStartMinute = -1;
 
     float
-        fAmount = 0.0,  // Amount of the record
+        fAmount = 0.0,      // Amount of the record
+        fDefaultKWh = 7.7,  // default amount load during 1 hour
         fKWhPeriod[iMaxNbElectricityPeriods],   // KWh loaded during a given period
         fKWhPrice[iMaxNbElectricityPeriods],    // Price of KWh during given period
         fTotalKWh = 0.0;    // total amount of KWh loaded during load session
