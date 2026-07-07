@@ -99,12 +99,15 @@ private:
     //  Other methods
     //
     void calcCostNonPublicElectricity();
+    void calcNonPublicLoadPerSession();
     void clearElectricityInput();
     void getStartTime();
     void resetDialog();
     void retrieveData();
     void retrieveNonPublicLoadSessionData();
     void retrievePublicLoadSessionData();
+    void setElectricityDefaultNonPublic();
+    void showNonPublicLoadSession();
 
     //-----------------------------------------------------------------------------------
     //
@@ -115,12 +118,12 @@ private:
 
     int
         iCostType = 0,
-        iStartHour = -1,
-        iStartMinute = -1;
+        iStartHour = 0,
+        iStartMinute = 0;
 
     float
         fAmount = 0.0,      // Amount of the record
-        fDefaultKWh = 7.7,  // default amount load during 1 hour
+        fDefaultKWh = 7.7000,  // default amount load during 1 hour
         fKWhPeriod[iMaxNbElectricityPeriods],   // KWh loaded during a given period
         fKWhPrice[iMaxNbElectricityPeriods],    // Price of KWh during given period
         fTotalKWh = 0.0;    // total amount of KWh loaded during load session

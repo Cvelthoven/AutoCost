@@ -276,6 +276,9 @@
      <height>26</height>
     </rect>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lnPriceKWh1">
    <property name="geometry">
@@ -285,6 +288,9 @@
      <width>60</width>
      <height>26</height>
     </rect>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLineEdit" name="lnKWh2">
@@ -296,6 +302,9 @@
      <height>26</height>
     </rect>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lnPriceKWh2">
    <property name="geometry">
@@ -305,6 +314,9 @@
      <width>60</width>
      <height>26</height>
     </rect>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLineEdit" name="lnKWh3">
@@ -316,6 +328,9 @@
      <height>26</height>
     </rect>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lnPriceKWh3">
    <property name="geometry">
@@ -325,6 +340,9 @@
      <width>60</width>
      <height>26</height>
     </rect>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLineEdit" name="lnKWh4">
@@ -336,6 +354,9 @@
      <height>26</height>
     </rect>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lnPriceKWh4">
    <property name="geometry">
@@ -345,6 +366,9 @@
      <width>60</width>
      <height>26</height>
     </rect>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLineEdit" name="lnKWh5">
@@ -356,6 +380,9 @@
      <height>26</height>
     </rect>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lnPriceKWh5">
    <property name="geometry">
@@ -365,6 +392,9 @@
      <width>60</width>
      <height>26</height>
     </rect>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLineEdit" name="lnKWh6">
@@ -376,6 +406,9 @@
      <height>26</height>
     </rect>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lnPriceKWh6">
    <property name="geometry">
@@ -385,6 +418,9 @@
      <width>60</width>
      <height>26</height>
     </rect>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLineEdit" name="lnKWh7">
@@ -396,6 +432,9 @@
      <height>26</height>
     </rect>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lnPriceKWh7">
    <property name="geometry">
@@ -405,6 +444,9 @@
      <width>60</width>
      <height>26</height>
     </rect>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLineEdit" name="lnKWh8">
@@ -416,6 +458,9 @@
      <height>26</height>
     </rect>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lnPriceKWh8">
    <property name="geometry">
@@ -425,6 +470,9 @@
      <width>60</width>
      <height>26</height>
     </rect>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLineEdit" name="lnKWh9">
@@ -436,6 +484,9 @@
      <height>26</height>
     </rect>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lnPriceKWh9">
    <property name="geometry">
@@ -446,12 +497,15 @@
      <height>26</height>
     </rect>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLabel" name="lblKWhTime2">
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>300</y>
+     <y>303</y>
      <width>60</width>
      <height>18</height>
     </rect>
@@ -513,7 +567,7 @@
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>300</y>
+     <y>303</y>
      <width>60</width>
      <height>18</height>
     </rect>
@@ -529,7 +583,7 @@
    <property name="geometry">
     <rect>
      <x>270</x>
-     <y>300</y>
+     <y>303</y>
      <width>60</width>
      <height>18</height>
     </rect>
@@ -545,7 +599,7 @@
    <property name="geometry">
     <rect>
      <x>330</x>
-     <y>300</y>
+     <y>303</y>
      <width>60</width>
      <height>18</height>
     </rect>
@@ -561,7 +615,7 @@
    <property name="geometry">
     <rect>
      <x>390</x>
-     <y>300</y>
+     <y>303</y>
      <width>60</width>
      <height>18</height>
     </rect>
@@ -577,7 +631,7 @@
    <property name="geometry">
     <rect>
      <x>450</x>
-     <y>300</y>
+     <y>303</y>
      <width>60</width>
      <height>18</height>
     </rect>
@@ -593,7 +647,7 @@
    <property name="geometry">
     <rect>
      <x>510</x>
-     <y>300</y>
+     <y>303</y>
      <width>60</width>
      <height>18</height>
     </rect>
@@ -609,7 +663,7 @@
    <property name="geometry">
     <rect>
      <x>570</x>
-     <y>300</y>
+     <y>303</y>
      <width>60</width>
      <height>18</height>
     </rect>
@@ -646,6 +700,9 @@
      <height>26</height>
     </rect>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lnPriceKWh10">
    <property name="geometry">
@@ -656,12 +713,15 @@
      <height>26</height>
     </rect>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLabel" name="lblKWhTime10">
    <property name="geometry">
     <rect>
      <x>630</x>
-     <y>300</y>
+     <y>303</y>
      <width>60</width>
      <height>18</height>
     </rect>

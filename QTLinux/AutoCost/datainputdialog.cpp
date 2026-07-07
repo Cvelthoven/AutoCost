@@ -262,11 +262,7 @@ void DataInputDialog::on_rbElectricity_toggled(bool checked)
     if (checked)
     {
         iCostType = CostRecElectricity;
-        ui->lnDescription->setText("Laden");
-        ui->teStartTime->setDisplayFormat(strStartTimeFormat);
-        ui->teStartTime->setTime(QTime::fromString("00:00"));
-        ui->lnKWh1->setText("0.00");
-        ui->lnPriceKWh1->setText("0.00");
+        setElectricityDefaultNonPublic();
     }
     else
     {
@@ -324,6 +320,7 @@ void DataInputDialog::on_rbPublicLoadSession_toggled(bool checked)
     if (checked)
     {
         bPublicLoadSession = true;
+        setElectricityDefaultNonPublic();
     }
     else
     {
@@ -531,17 +528,9 @@ void DataInputDialog::on_lnPriceKWh10_editingFinished()
 void DataInputDialog::on_lnKWhMax_editingFinished()
 {
     fDefaultKWh = ui->lnKWhMax->text().toFloat();
-    int iCnt1 = 0;
-    float fRestKWh = fTotalKWh;
-    while ((fRestKWh >= fDefaultKWh) && (iCnt1 < iMaxNbElectricityPeriods))
-    {
-        fKWhPeriod[iCnt1] = fDefaultKWh;
-        fRestKWh -= fDefaultKWh;
-    }
-    if (fRestKWh > 0)
-    {
-        fKWhPeriod[iCnt1 + 1] = fRestKWh;
-    }
+    calcNonPublicLoadPerSession();
+    showNonPublicLoadSession();
+    calcCostNonPublicElectricity();
 
 }
 
@@ -562,7 +551,9 @@ void DataInputDialog::on_lnTotalKWh_editingFinished()
     //-----------------------------------------------------------------------------------
     if (!bPublicLoadSession)
     {
-
+        calcNonPublicLoadPerSession();
+        showNonPublicLoadSession();
+        calcCostNonPublicElectricity();
     }
 
     //-----------------------------------------------------------------------------------
@@ -591,6 +582,10 @@ void DataInputDialog::on_teStartTime_userTimeChanged(const QTime &time)
     if (iCostType == 2)
     {
         getStartTime();
+        calcNonPublicLoadPerSession();
+        showNonPublicLoadSession();
+        calcCostNonPublicElectricity();
+
     }
 
 
@@ -614,6 +609,35 @@ void DataInputDialog::calcCostNonPublicElectricity()
         fAmount = fAmount + (fKWhPeriod[iCnt1] * fKWhPrice[iCnt1]);
     }
     ui->lnAmount->setText(QString::number(fAmount,'f', 2));
+
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Colculate non-public electricity load session load per period
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::calcNonPublicLoadPerSession()
+{
+    int iCnt1 = 1;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Calculate the loadsession periods
+    //
+    //-----------------------------------------------------------------------------------
+    fKWhPeriod[0] = fDefaultKWh * (static_cast<float>(60 - iStartMinute)/60);
+    float fRestKWh = fTotalKWh - fKWhPeriod[0];
+    while ((fRestKWh >= fDefaultKWh) && (iCnt1 < iMaxNbElectricityPeriods))
+    {
+        fKWhPeriod[iCnt1] = fDefaultKWh;
+        fRestKWh -= fDefaultKWh;
+        iCnt1++;
+    }
+    if (fRestKWh > 0)
+    {
+        fKWhPeriod[iCnt1] = fRestKWh;
+    }
 
 }
 
@@ -672,7 +696,6 @@ void DataInputDialog::getStartTime()
     iStartHour = tiStartTime.hour();
     iStartMinute = tiStartTime.minute();
     strStartTime = tiStartTime.toString("hh:mm");
-//    ui->lblKWhTime1->setText(strStartTime);
 
 }
 
@@ -690,4 +713,97 @@ void DataInputDialog::resetDialog()
     ui->teStartTime->clear();
     clearElectricityInput();
 
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Set default electricity input in dialog for non-public load session
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::setElectricityDefaultNonPublic()
+{
+    ui->lnDescription->setText("Laden");
+    ui->teStartTime->setDisplayFormat(strStartTimeFormat);
+    ui->teStartTime->setTime(QTime::fromString("00:00"));
+    ui->lnKWh1->setText("0.00");
+    ui->lnPriceKWh1->setText("0.00");
+    ui->lnKWhMax->setText(QString::number(fDefaultKWh,'f', 1));
+
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Display loadsession period data of non public load session
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::showNonPublicLoadSession()
+{
+    int iCnt1 = 0;
+    QString strHour;
+    while ((fKWhPeriod[iCnt1] > 0)&&(iCnt1 < iMaxNbElectricityPeriods))
+    {
+        switch (iCnt1) {
+        case 0:
+            ui->lnKWh1->setText(QString::number(fKWhPeriod[iCnt1],'f', 2));
+            ui->lnPriceKWh1->setText(QString::number(fKWhPrice[iCnt1], 'f',2));
+            break;
+        case 1:
+            ui->lnKWh2->setText(QString::number(fKWhPeriod[iCnt1],'f', 2));
+            ui->lnPriceKWh2->setText(QString::number(fKWhPrice[iCnt1], 'f',2));
+            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+            ui->lblKWhTime2->setText(strHour);
+            break;
+        case 2:
+            ui->lnKWh3->setText(QString::number(fKWhPeriod[iCnt1],'f', 2));
+            ui->lnPriceKWh3->setText(QString::number(fKWhPrice[iCnt1], 'f',2));
+            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+            ui->lblKWhTime3->setText(strHour);
+            break;
+        case 3:
+            ui->lnKWh4->setText(QString::number(fKWhPeriod[iCnt1],'f', 2));
+            ui->lnPriceKWh4->setText(QString::number(fKWhPrice[iCnt1], 'f',2));
+            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+            ui->lblKWhTime4->setText(strHour);
+            break;
+        case 4:
+            ui->lnKWh5->setText(QString::number(fKWhPeriod[iCnt1],'f', 2));
+            ui->lnPriceKWh5->setText(QString::number(fKWhPrice[iCnt1], 'f',2));
+            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+            ui->lblKWhTime5->setText(strHour);
+            break;
+        case 5:
+            ui->lnKWh6->setText(QString::number(fKWhPeriod[iCnt1],'f', 2));
+            ui->lnPriceKWh6->setText(QString::number(fKWhPrice[iCnt1], 'f',2));
+            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+            ui->lblKWhTime6->setText(strHour);
+            break;
+        case 6:
+            ui->lnKWh7->setText(QString::number(fKWhPeriod[iCnt1],'f', 2));
+            ui->lnPriceKWh7->setText(QString::number(fKWhPrice[iCnt1], 'f',2));
+            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+            ui->lblKWhTime7->setText(strHour);
+            break;
+        case 7:
+            ui->lnKWh8->setText(QString::number(fKWhPeriod[iCnt1],'f', 2));
+            ui->lnPriceKWh8->setText(QString::number(fKWhPrice[iCnt1], 'f',2));
+            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+            ui->lblKWhTime8->setText(strHour);
+            break;
+        case 8:
+            ui->lnKWh9->setText(QString::number(fKWhPeriod[iCnt1],'f', 2));
+            ui->lnPriceKWh9->setText(QString::number(fKWhPrice[iCnt1], 'f',2));
+            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+            ui->lblKWhTime9->setText(strHour);
+            break;
+        case 9:
+            ui->lnKWh10->setText(QString::number(fKWhPeriod[iCnt1],'f', 2));
+            ui->lnPriceKWh10->setText(QString::number(fKWhPrice[iCnt1], 'f',2));
+            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+            ui->lblKWhTime10->setText(strHour);
+            break;
+        default:
+            break;
+        }
+        iCnt1++;
+    }
 }
