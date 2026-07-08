@@ -312,6 +312,39 @@ void DataInputDialog::on_rbAccessoires_toggled(bool checked)
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //
+//  on_lnAccuPercentageStart_editingFinished
+//  Slot to handle the start percentage af the accu of the loading session
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_lnAccuPercentageStart_editingFinished()
+{
+    iAccuStartPercentage = ui->lnAccuPercentageStart->text().toInt();
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  on_lnAccuPercentageEnd_editingFinished
+//  Slot to handle the end percentage af the accu of the loading session
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_lnAccuPercentageEnd_editingFinished()
+{
+    iAccuEndPercentage = ui->lnAccuPercentageEnd->text().toInt();
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  on_lnMillage_editingFinished
+//  Slot to handle the millage at the start of a load session
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_lnMillage_editingFinished()
+{
+    iMillage = ui->lnMillage->text().toInt();
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  Handle the switch between a non-public and public load session
 //
 //---------------------------------------------------------------------------------------
@@ -534,6 +567,8 @@ void DataInputDialog::on_lnKWhMax_editingFinished()
 
 }
 
+
+
 //---------------------------------------------------------------------------------------
 //
 //  Loads total amount loaded and the start time set at that moment to ensure that also
@@ -587,8 +622,6 @@ void DataInputDialog::on_teStartTime_userTimeChanged(const QTime &time)
         calcCostNonPublicElectricity();
 
     }
-
-
 }
 
 //---------------------------------------------------------------------------------------
@@ -701,6 +734,7 @@ void DataInputDialog::getStartTime()
 
 //---------------------------------------------------------------------------------------
 //
+//  resetDialog
 //  Reset the dialog to the default again
 //
 //---------------------------------------------------------------------------------------
@@ -717,6 +751,7 @@ void DataInputDialog::resetDialog()
 
 //---------------------------------------------------------------------------------------
 //
+//  setElectricityDefaultNonPublic
 //  Set default electricity input in dialog for non-public load session
 //
 //---------------------------------------------------------------------------------------
@@ -725,9 +760,8 @@ void DataInputDialog::setElectricityDefaultNonPublic()
     ui->lnDescription->setText("Laden");
     ui->teStartTime->setDisplayFormat(strStartTimeFormat);
     ui->teStartTime->setTime(QTime::fromString("00:00"));
-    ui->lnKWh1->setText("0.00");
-    ui->lnPriceKWh1->setText("0.00");
     ui->lnKWhMax->setText(QString::number(fDefaultKWh,'f', 1));
+    ui->lnAccuPercentageEnd->setText(QString::number(iAccuEndPercentage));
 
 }
 

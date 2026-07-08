@@ -49,6 +49,10 @@ private slots:
     //
     //  Slots of dialog
     //
+    void on_lnAccuPercentageStart_editingFinished();
+    void on_lnAccuPercentageEnd_editingFinished();
+    void on_lnMillage_editingFinished();
+
     void on_rbPeriodic_toggled(bool checked);
     void on_rbElectricity_toggled(bool checked);
     void on_rbOther_toggled(bool checked);
@@ -117,16 +121,19 @@ private:
         bPublicLoadSession = false;
 
     int
+        iAccuEndPercentage = 90,    // default value for a load session
+        iAccuStartPercentage = 0,
         iCostType = 0,
+        iMillage = 0,
         iStartHour = 0,
         iStartMinute = 0;
 
     float
-        fAmount = 0.0,      // Amount of the record
-        fDefaultKWh = 7.7000,  // default amount load during 1 hour
+        fAmount = 0.0,          // Amount of the record
+        fDefaultKWh = 7.7000,   // default amount load during 1 hour
         fKWhPeriod[iMaxNbElectricityPeriods],   // KWh loaded during a given period
         fKWhPrice[iMaxNbElectricityPeriods],    // Price of KWh during given period
-        fTotalKWh = 0.0;    // total amount of KWh loaded during load session
+        fTotalKWh = 0.0;        // total amount of KWh loaded during load session
 
     QString
         strDate = "",
