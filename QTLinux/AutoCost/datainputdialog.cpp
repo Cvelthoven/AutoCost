@@ -213,26 +213,6 @@ void DataInputDialog::retrieveData()
 
 //---------------------------------------------------------------------------------------
 //
-//  Retrieve non-public load session data
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::retrieveNonPublicLoadSessionData()
-{
-
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Retrieve public load session data
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::retrievePublicLoadSessionData()
-{
-
-}
-
-//---------------------------------------------------------------------------------------
-//
 //  Handle radiobuttons cost type
 //
 //---------------------------------------------------------------------------------------
@@ -373,7 +353,9 @@ void DataInputDialog::on_lnKWh1_editingFinished()
     fKWhPeriod[0] = ui->lnKWh1->text().toFloat();
     if (!bPublicLoadSession)
     {
+        calcNonPublicLoadPerSession(0);
         calcCostNonPublicElectricity();
+        showNonPublicLoadSession();
     }
 }
 
@@ -382,7 +364,9 @@ void DataInputDialog::on_lnKWh2_editingFinished()
     fKWhPeriod[1] = ui->lnKWh2->text().toFloat();
     if (!bPublicLoadSession)
     {
+        calcNonPublicLoadPerSession(1);
         calcCostNonPublicElectricity();
+        showNonPublicLoadSession();
     }
 }
 
@@ -391,7 +375,9 @@ void DataInputDialog::on_lnKWh3_editingFinished()
     fKWhPeriod[2] = ui->lnKWh3->text().toFloat();
     if (!bPublicLoadSession)
     {
+        calcNonPublicLoadPerSession(2);
         calcCostNonPublicElectricity();
+        showNonPublicLoadSession();
     }
 }
 
@@ -400,7 +386,9 @@ void DataInputDialog::on_lnKWh4_editingFinished()
     fKWhPeriod[3] = ui->lnKWh4->text().toFloat();
     if (!bPublicLoadSession)
     {
+        calcNonPublicLoadPerSession(3);
         calcCostNonPublicElectricity();
+        showNonPublicLoadSession();
     }
 }
 
@@ -409,7 +397,9 @@ void DataInputDialog::on_lnKWh5_editingFinished()
     fKWhPeriod[4] = ui->lnKWh5->text().toFloat();
     if (!bPublicLoadSession)
     {
+        calcNonPublicLoadPerSession(4);
         calcCostNonPublicElectricity();
+        showNonPublicLoadSession();
     }
 }
 
@@ -418,7 +408,9 @@ void DataInputDialog::on_lnKWh6_editingFinished()
     fKWhPeriod[5] = ui->lnKWh6->text().toFloat();
     if (!bPublicLoadSession)
     {
+        calcNonPublicLoadPerSession(5);
         calcCostNonPublicElectricity();
+        showNonPublicLoadSession();
     }
 }
 
@@ -427,7 +419,9 @@ void DataInputDialog::on_lnKWh7_editingFinished()
     fKWhPeriod[6] = ui->lnKWh7->text().toFloat();
     if (!bPublicLoadSession)
     {
+        calcNonPublicLoadPerSession(6);
         calcCostNonPublicElectricity();
+        showNonPublicLoadSession();
     }
 }
 
@@ -436,7 +430,9 @@ void DataInputDialog::on_lnKWh8_editingFinished()
     fKWhPeriod[7] = ui->lnKWh8->text().toFloat();
     if (!bPublicLoadSession)
     {
+        calcNonPublicLoadPerSession(7);
         calcCostNonPublicElectricity();
+        showNonPublicLoadSession();
     }
 }
 
@@ -445,7 +441,9 @@ void DataInputDialog::on_lnKWh9_editingFinished()
     fKWhPeriod[8] = ui->lnKWh9->text().toFloat();
     if (!bPublicLoadSession)
     {
+        calcNonPublicLoadPerSession(8);
         calcCostNonPublicElectricity();
+        showNonPublicLoadSession();
     }
 }
 
@@ -454,7 +452,9 @@ void DataInputDialog::on_lnKWh10_editingFinished()
     fKWhPeriod[9] = ui->lnKWh10->text().toFloat();
     if (!bPublicLoadSession)
     {
+        calcNonPublicLoadPerSession(9);
         calcCostNonPublicElectricity();
+        showNonPublicLoadSession();
     }
 }
 
@@ -561,7 +561,7 @@ void DataInputDialog::on_lnPriceKWh10_editingFinished()
 void DataInputDialog::on_lnKWhMax_editingFinished()
 {
     fDefaultKWh = ui->lnKWhMax->text().toFloat();
-    calcNonPublicLoadPerSession();
+    calcNonPublicLoadPerSession(0);
     showNonPublicLoadSession();
     calcCostNonPublicElectricity();
 
@@ -586,7 +586,7 @@ void DataInputDialog::on_lnTotalKWh_editingFinished()
     //-----------------------------------------------------------------------------------
     if (!bPublicLoadSession)
     {
-        calcNonPublicLoadPerSession();
+        calcNonPublicLoadPerSession(0);
         showNonPublicLoadSession();
         calcCostNonPublicElectricity();
     }
@@ -617,7 +617,7 @@ void DataInputDialog::on_teStartTime_userTimeChanged(const QTime &time)
     if (iCostType == 2)
     {
         getStartTime();
-        calcNonPublicLoadPerSession();
+        calcNonPublicLoadPerSession(0);
         showNonPublicLoadSession();
         calcCostNonPublicElectricity();
 
@@ -647,30 +647,66 @@ void DataInputDialog::calcCostNonPublicElectricity()
 
 //---------------------------------------------------------------------------------------
 //
-//  Colculate non-public electricity load session load per period
+//  (Re)colculate non-public electricity load session load per period
+//
+//  Input:
+//      - iColNbChanged: number of the period that is changed, next periods will
+//        be recalculated
 //
 //---------------------------------------------------------------------------------------
-void DataInputDialog::calcNonPublicLoadPerSession()
+void DataInputDialog::calcNonPublicLoadPerSession(int iColNbChanged)
 {
-    int iCnt1 = 1;
+    //-----------------------------------------------------------------------------------
+    //
+    //  local variables
+    //
+    //-----------------------------------------------------------------------------------
+    float fSubTotalKWh = 0.0;
+    int iCnt1 = 0;
 
     //-----------------------------------------------------------------------------------
     //
-    //  Calculate the loadsession periods
+    //  (Re)calc amount from start untill and including period that is changed
     //
     //-----------------------------------------------------------------------------------
-    fKWhPeriod[0] = fDefaultKWh * (static_cast<float>(60 - iStartMinute)/60);
-    float fRestKWh = fTotalKWh - fKWhPeriod[0];
+    iCnt1 = 0;
+    while (iCnt1 <= iColNbChanged)
+    {
+        fSubTotalKWh += fKWhPeriod[iCnt1];
+        iCnt1++;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Calc the amount of the first period
+    //
+    //-----------------------------------------------------------------------------------
+    if (iColNbChanged == 0)
+    {
+        fKWhPeriod[0] = fDefaultKWh * (static_cast<float>(60 - iStartMinute)/60);
+        fSubTotalKWh = fKWhPeriod[0];
+        iCnt1 = 1;
+    }
+    float fRestKWh = fTotalKWh - fSubTotalKWh;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  (Re)calc the remaining periods, overwrite value with default
+    //
+    //-----------------------------------------------------------------------------------
     while ((fRestKWh >= fDefaultKWh) && (iCnt1 < iMaxNbElectricityPeriods))
     {
         fKWhPeriod[iCnt1] = fDefaultKWh;
-        fRestKWh -= fDefaultKWh;
+        fRestKWh -= fKWhPeriod[iCnt1];
         iCnt1++;
     }
-    if (fRestKWh > 0)
-    {
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  (Re)calc the last period, and if needed add an extra period
+    //
+    //-----------------------------------------------------------------------------------
         fKWhPeriod[iCnt1] = fRestKWh;
-    }
 
 }
 

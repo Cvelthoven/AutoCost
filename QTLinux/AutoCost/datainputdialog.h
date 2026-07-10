@@ -103,13 +103,11 @@ private:
     //  Other methods
     //
     void calcCostNonPublicElectricity();
-    void calcNonPublicLoadPerSession();
+    void calcNonPublicLoadPerSession(int iColNbChanged);
     void clearElectricityInput();
     void getStartTime();
     void resetDialog();
     void retrieveData();
-    void retrieveNonPublicLoadSessionData();
-    void retrievePublicLoadSessionData();
     void setElectricityDefaultNonPublic();
     void showNonPublicLoadSession();
 

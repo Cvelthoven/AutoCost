@@ -835,24 +835,24 @@
   <tabstop>lnAccuPercentageEnd</tabstop>
   <tabstop>teStartTime</tabstop>
   <tabstop>lnKWh1</tabstop>
-  <tabstop>lnPriceKWh1</tabstop>
   <tabstop>lnKWh2</tabstop>
-  <tabstop>lnPriceKWh2</tabstop>
   <tabstop>lnKWh3</tabstop>
-  <tabstop>lnPriceKWh3</tabstop>
   <tabstop>lnKWh4</tabstop>
-  <tabstop>lnPriceKWh4</tabstop>
   <tabstop>lnKWh5</tabstop>
-  <tabstop>lnPriceKWh5</tabstop>
   <tabstop>lnKWh6</tabstop>
-  <tabstop>lnPriceKWh6</tabstop>
   <tabstop>lnKWh7</tabstop>
-  <tabstop>lnPriceKWh7</tabstop>
   <tabstop>lnKWh8</tabstop>
-  <tabstop>lnPriceKWh8</tabstop>
   <tabstop>lnKWh9</tabstop>
-  <tabstop>lnPriceKWh9</tabstop>
   <tabstop>lnKWh10</tabstop>
+  <tabstop>lnPriceKWh1</tabstop>
+  <tabstop>lnPriceKWh2</tabstop>
+  <tabstop>lnPriceKWh3</tabstop>
+  <tabstop>lnPriceKWh4</tabstop>
+  <tabstop>lnPriceKWh5</tabstop>
+  <tabstop>lnPriceKWh6</tabstop>
+  <tabstop>lnPriceKWh7</tabstop>
+  <tabstop>lnPriceKWh8</tabstop>
+  <tabstop>lnPriceKWh9</tabstop>
   <tabstop>lnPriceKWh10</tabstop>
  </tabstops>
  <resources/>
