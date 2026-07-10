@@ -118,6 +118,13 @@ private:
     bool
         bPublicLoadSession = false;
 
+    double
+        dAmount = 0.0,          // Amount of the record
+        dDefaultKWh = 7.7000,   // default amount load during 1 hour
+        dKWhPeriod[iMaxNbElectricityPeriods],   // KWh loaded during a given period
+        dKWhPrice[iMaxNbElectricityPeriods],    // Price of KWh during given period
+        dTotalKWh = 0.0;        // total amount of KWh loaded during load session
+
     int
         iAccuEndPercentage = 90,    // default value for a load session
         iAccuStartPercentage = 0,
@@ -126,14 +133,7 @@ private:
         iStartHour = 0,
         iStartMinute = 0;
 
-    float
-        fAmount = 0.0,          // Amount of the record
-        fDefaultKWh = 7.7000,   // default amount load during 1 hour
-        fKWhPeriod[iMaxNbElectricityPeriods],   // KWh loaded during a given period
-        fKWhPrice[iMaxNbElectricityPeriods],    // Price of KWh during given period
-        fTotalKWh = 0.0;        // total amount of KWh loaded during load session
-
-    QString
+     QString
         strDate = "",
         strDateFormat = "dd-MM-yyyy",
         strDescription = "",
