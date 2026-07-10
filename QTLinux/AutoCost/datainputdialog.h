@@ -116,7 +116,9 @@ private:
     //  Private class wide variables
     //
     bool
-        bPublicLoadSession = false;
+        bFirstLoadPeriodChanged = false,
+        bPublicLoadSession = false,
+        bStartLoadTimeChanged = false;
 
     double
         dAmount = 0.0,          // Amount of the record
