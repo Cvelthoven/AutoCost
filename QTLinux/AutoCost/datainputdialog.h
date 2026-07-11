@@ -42,6 +42,31 @@ public:
     explicit DataInputDialog(QWidget *parent = nullptr);
     ~DataInputDialog();
 
+    //---------------------------------------------------------------------------------------
+    //
+    //  Getter and Setter Methods
+    //
+    //---------------------------------------------------------------------------------------
+    double getDAmount() const;
+
+    int getIMillage() const;
+
+    QDate getDaRecordDate() const;
+
+    QString getStrDescription() const;
+
+    int getICostType() const;
+
+    double getDTotalKWh() const;
+
+    int getIAccuStartPercentage() const;
+
+    int getIAccuEndPercentage() const;
+
+    QTime getTiStartTime() const;
+
+    bool getBPublicLoadSession() const;
+
 private slots:
     void on_buttonBox_clicked(QAbstractButton *button);
 
@@ -134,6 +159,9 @@ private:
         iMillage = 0,
         iStartHour = 0,
         iStartMinute = 0;
+
+    QDate
+        daRecordDate;
 
      QString
         strDate = "",

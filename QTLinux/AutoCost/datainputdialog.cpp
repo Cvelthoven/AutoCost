@@ -205,7 +205,8 @@ void DataInputDialog::retrieveData()
     //  Retrieve data
     //
     //-----------------------------------------------------------------------------------
-    strDate = ui->deRecordDate->date().toString(strDateFormat);
+    daRecordDate = ui->deRecordDate->date();
+//    strDate = ui->deRecordDate->date().toString(strDateFormat);
     strDescription = ui->lnDescription->text();
     dAmount = ui->lnAmount->text().toFloat();
 
@@ -283,6 +284,70 @@ void DataInputDialog::on_rbAccessoires_toggled(bool checked)
     {
         iCostType = 0;
     }
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Getter and Setter Methods
+//
+//---------------------------------------------------------------------------------------
+//
+//  Table: acAutoCost
+//
+//---------------------------------------------------------------------------------------
+int DataInputDialog::getICostType() const
+{
+    return iCostType;
+}
+
+QDate DataInputDialog::getDaRecordDate() const
+{
+    return daRecordDate;
+}
+
+QString DataInputDialog::getStrDescription() const
+{
+    return strDescription;
+}
+
+double DataInputDialog::getDAmount() const
+{
+    return dAmount;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Table: acElectricity
+//
+//---------------------------------------------------------------------------------------
+bool DataInputDialog::getBPublicLoadSession() const
+{
+    return bPublicLoadSession;
+}
+
+int DataInputDialog::getIMillage() const
+{
+    return iMillage;
+}
+
+double DataInputDialog::getDTotalKWh() const
+{
+    return dTotalKWh;
+}
+
+int DataInputDialog::getIAccuEndPercentage() const
+{
+    return iAccuEndPercentage;
+}
+
+int DataInputDialog::getIAccuStartPercentage() const
+{
+    return iAccuStartPercentage;
+}
+
+QTime DataInputDialog::getTiStartTime() const
+{
+    return tiStartTime;
 }
 
 //---------------------------------------------------------------------------------------
@@ -886,3 +951,8 @@ void DataInputDialog::showNonPublicLoadSession()
         iCnt1++;
     }
 }
+
+
+
+
+
