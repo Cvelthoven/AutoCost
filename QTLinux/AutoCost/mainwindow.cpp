@@ -163,6 +163,18 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_actionManual_Data_input_triggered()
 {
     ManualDataInput = new DataInputDialog;
-    ManualDataInput->exec();
+    //-----------------------------------------------------------------------------------
+    //
+    //  Loop to handle multiple record input
+    //
+    //-----------------------------------------------------------------------------------
+    while (true)
+    {
+        int rc = ManualDataInput->exec();
+        if (rc != QDialog::Accepted)
+            break;
+    }
+
+
 }
 

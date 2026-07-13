@@ -106,7 +106,9 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
     //
     //-----------------------------------------------------------------------------------
     case QDialogButtonBox::Apply:
-        onApplyPressed();
+        retrieveData();
+        resetDialog();
+//        onApplyPressed();
         accept();
         break;
 
@@ -116,7 +118,7 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
     //
     //-----------------------------------------------------------------------------------
     case QDialogButtonBox::Cancel:
-        onCancelPressed();
+//        onCancelPressed();
         reject();
         break;
 
@@ -127,7 +129,9 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
     //
     //-----------------------------------------------------------------------------------
     case QDialogButtonBox::Close:
-        onClosePressed();
+        retrieveData();
+//        onClosePressed();
+        accept();
         break;
 
     //-----------------------------------------------------------------------------------
@@ -951,8 +955,3 @@ void DataInputDialog::showNonPublicLoadSession()
         iCnt1++;
     }
 }
-
-
-
-
-

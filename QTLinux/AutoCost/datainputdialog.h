@@ -47,25 +47,17 @@ public:
     //  Getter and Setter Methods
     //
     //---------------------------------------------------------------------------------------
+    int getICostType() const;
+    QDate getDaRecordDate() const;
+    QString getStrDescription() const;
     double getDAmount() const;
 
-    int getIMillage() const;
-
-    QDate getDaRecordDate() const;
-
-    QString getStrDescription() const;
-
-    int getICostType() const;
-
-    double getDTotalKWh() const;
-
-    int getIAccuStartPercentage() const;
-
-    int getIAccuEndPercentage() const;
-
-    QTime getTiStartTime() const;
-
     bool getBPublicLoadSession() const;
+    int getIMillage() const;
+    double getDTotalKWh() const;
+    int getIAccuStartPercentage() const;
+    int getIAccuEndPercentage() const;
+    QTime getTiStartTime() const;
 
 private slots:
     void on_buttonBox_clicked(QAbstractButton *button);
