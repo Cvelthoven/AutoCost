@@ -173,6 +173,7 @@ void MainWindow::on_actionManual_Data_input_triggered()
         int rc = ManualDataInput->exec();
         if (rc != QDialog::Accepted)
             break;
+        ManualDataInput->resetDialog();
     }
 
 

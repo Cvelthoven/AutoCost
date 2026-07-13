@@ -59,6 +59,13 @@ public:
     int getIAccuEndPercentage() const;
     QTime getTiStartTime() const;
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Public methods
+    //
+    //-----------------------------------------------------------------------------------
+    void resetDialog();
+
 private slots:
     void on_buttonBox_clicked(QAbstractButton *button);
 
@@ -110,10 +117,9 @@ private:
     //
     //  Dialog input handle button methods
     //
-    void onApplyPressed();
-    void onCancelPressed();
-    void onClosePressed();
-    void onDiscardPressed();
+//    void onCancelPressed();
+//    void onClosePressed();
+//    void onDiscardPressed();
 
     //-----------------------------------------------------------------------------------
     //
@@ -123,7 +129,6 @@ private:
     void calcNonPublicLoadPerSession(int iColNbChanged);
     void clearElectricityInput();
     void getStartTime();
-    void resetDialog();
     void retrieveData();
     void setElectricityDefaultNonPublic();
     void showNonPublicLoadSession();

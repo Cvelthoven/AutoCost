@@ -107,8 +107,6 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
     //-----------------------------------------------------------------------------------
     case QDialogButtonBox::Apply:
         retrieveData();
-        resetDialog();
-//        onApplyPressed();
         accept();
         break;
 
@@ -118,7 +116,6 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
     //
     //-----------------------------------------------------------------------------------
     case QDialogButtonBox::Cancel:
-//        onCancelPressed();
         reject();
         break;
 
@@ -130,7 +127,6 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
     //-----------------------------------------------------------------------------------
     case QDialogButtonBox::Close:
         retrieveData();
-//        onClosePressed();
         accept();
         break;
 
@@ -141,7 +137,7 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
     //
     //-----------------------------------------------------------------------------------
     case QDialogButtonBox::Discard:
-        onDiscardPressed();
+        resetDialog();
         break;
 
     default:
@@ -149,51 +145,6 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
     }
 
 }
-
-//---------------------------------------------------------------------------------------
-//
-//  Retrieve the input data and store it in the database
-//  And reset the dialog to the default again
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::onApplyPressed()
-{
-    retrieveData();
-    resetDialog();
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Close the dialog without saving possible input
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::onCancelPressed()
-{
-
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Retrieve the input data and store it in the database
-//  And close the dialog
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::onClosePressed()
-{
-    retrieveData();
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Discard possible input data
-//  And reset the dialog to the default again
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::onDiscardPressed()
-{
-    resetDialog();
-}
-
 
 //---------------------------------------------------------------------------------------
 //
