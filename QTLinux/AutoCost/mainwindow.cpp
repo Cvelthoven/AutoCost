@@ -160,6 +160,11 @@ void MainWindow::on_actionExit_triggered()
     exit(0);
 }
 
+//---------------------------------------------------------------------------------------
+//
+//  Menu -> Data input -> Manual input
+//
+//---------------------------------------------------------------------------------------
 void MainWindow::on_actionManual_Data_input_triggered()
 {
     ManualDataInput = new DataInputDialog;
@@ -171,7 +176,7 @@ void MainWindow::on_actionManual_Data_input_triggered()
     while (true)
     {
         int rc = ManualDataInput->exec();
-        if (rc != QDialog::Accepted)
+        if ((rc != QDialog::Accepted)||(ManualDataInput->getBClosePressed()))
             break;
         ManualDataInput->resetDialog();
     }

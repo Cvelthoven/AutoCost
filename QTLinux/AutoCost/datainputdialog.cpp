@@ -107,6 +107,7 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
     //-----------------------------------------------------------------------------------
     case QDialogButtonBox::Apply:
         retrieveData();
+        storeData();
         accept();
         break;
 
@@ -126,7 +127,9 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
     //
     //-----------------------------------------------------------------------------------
     case QDialogButtonBox::Close:
+        bClosePressed = true;
         retrieveData();
+        storeData();
         accept();
         break;
 
@@ -143,7 +146,6 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
     default:
         break;
     }
-
 }
 
 //---------------------------------------------------------------------------------------
@@ -161,10 +163,30 @@ void DataInputDialog::retrieveData()
     //
     //-----------------------------------------------------------------------------------
     daRecordDate = ui->deRecordDate->date();
-//    strDate = ui->deRecordDate->date().toString(strDateFormat);
     strDescription = ui->lnDescription->text();
     dAmount = ui->lnAmount->text().toFloat();
+}
 
+//---------------------------------------------------------------------------------------
+//
+//  Store the data to the database
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::storeData()
+{
+    dbData = new DataInput();
+    dbData->setDaDate(daRecordDate);
+    dbData->setStrDescription(strDescription);
+    dbData->setDTotalCost(dAmount);
+    if (iCostType == CostRecElectricity)
+    {
+        dbData->setBPublicLoadSession(bPublicLoadSession);
+        dbData->setIKmTotal(iMillage);
+        dbData->setDKWhLoaded(dTotalKWh);
+        dbData->setICapBatteryStart(iAccuStartPercentage);
+        dbData->setICapBatteryEnd(iAccuEndPercentage);
+        dbData->setTiStartTime(tiStartTime);
+    }
 }
 
 //---------------------------------------------------------------------------------------
@@ -247,62 +269,12 @@ void DataInputDialog::on_rbAccessoires_toggled(bool checked)
 //
 //---------------------------------------------------------------------------------------
 //
-//  Table: acAutoCost
+//  Getters for other properties
 //
 //---------------------------------------------------------------------------------------
-int DataInputDialog::getICostType() const
+bool DataInputDialog::getBClosePressed() const
 {
-    return iCostType;
-}
-
-QDate DataInputDialog::getDaRecordDate() const
-{
-    return daRecordDate;
-}
-
-QString DataInputDialog::getStrDescription() const
-{
-    return strDescription;
-}
-
-double DataInputDialog::getDAmount() const
-{
-    return dAmount;
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Table: acElectricity
-//
-//---------------------------------------------------------------------------------------
-bool DataInputDialog::getBPublicLoadSession() const
-{
-    return bPublicLoadSession;
-}
-
-int DataInputDialog::getIMillage() const
-{
-    return iMillage;
-}
-
-double DataInputDialog::getDTotalKWh() const
-{
-    return dTotalKWh;
-}
-
-int DataInputDialog::getIAccuEndPercentage() const
-{
-    return iAccuEndPercentage;
-}
-
-int DataInputDialog::getIAccuStartPercentage() const
-{
-    return iAccuStartPercentage;
-}
-
-QTime DataInputDialog::getTiStartTime() const
-{
-    return tiStartTime;
+    return bClosePressed;
 }
 
 //---------------------------------------------------------------------------------------
@@ -359,7 +331,6 @@ void DataInputDialog::on_rbPublicLoadSession_toggled(bool checked)
     {
         bPublicLoadSession = false;
     }
-
 }
 
 //---------------------------------------------------------------------------------------
@@ -585,7 +556,6 @@ void DataInputDialog::on_lnKWhMax_editingFinished()
     calcNonPublicLoadPerSession(0);
     showNonPublicLoadSession();
     calcCostNonPublicElectricity();
-
 }
 
 //---------------------------------------------------------------------------------------
@@ -640,7 +610,6 @@ void DataInputDialog::on_teStartTime_userTimeChanged(const QTime &time)
         calcNonPublicLoadPerSession(0);
         showNonPublicLoadSession();
         calcCostNonPublicElectricity();
-
     }
 }
 
@@ -662,7 +631,6 @@ void DataInputDialog::calcCostNonPublicElectricity()
         dAmount = dAmount + (dKWhPeriod[iCnt1] * dKWhPrice[iCnt1]);
     }
     ui->lnAmount->setText(QString::number(dAmount,'f', 2));
-
 }
 
 //---------------------------------------------------------------------------------------
@@ -736,7 +704,6 @@ void DataInputDialog::calcNonPublicLoadPerSession(int iColNbChanged)
     //
     //-----------------------------------------------------------------------------------
         dKWhPeriod[iCnt1] = dRestKWh;
-
 }
 
 //---------------------------------------------------------------------------------------
@@ -780,7 +747,6 @@ void DataInputDialog::clearElectricityInput()
         dKWhPeriod[iCnt1] = 0;
         dKWhPrice[iCnt1] = 0;
     }
-
 }
 
 //---------------------------------------------------------------------------------------
@@ -807,11 +773,32 @@ void DataInputDialog::resetDialog()
 {
 
     ui->deRecordDate->setDate(QDate::currentDate());
-    ui->lnDescription->clear();
-    ui->lnAmount->clear();
-    ui->teStartTime->clear();
-    clearElectricityInput();
 
+    ui->lnDescription->clear();
+    strDescription = "";
+
+    ui->lnAmount->clear();
+    dAmount = 0.0;          // Amount of the record
+
+    ui->teStartTime->clear();
+    iStartHour = 0;
+    iStartMinute = 0;
+
+    clearElectricityInput();
+    dDefaultKWh = 7.7000;   // default amount load during 1 hour
+    dTotalKWh = 0.0;        // total amount of KWh loaded during load session
+    iAccuEndPercentage = 90;    // default value for a load session
+    iAccuStartPercentage = 0;
+    iCostType = 0;
+    iMillage = 0;
+    strDate = "";
+    strStartTime = "";
+    bFirstLoadPeriodChanged = false;
+    bPublicLoadSession = false;
+    bStartLoadTimeChanged = false;
+
+    bClosePressed = false;
+    ui->lnDescription->setFocus();
 }
 
 //---------------------------------------------------------------------------------------
@@ -827,7 +814,6 @@ void DataInputDialog::setElectricityDefaultNonPublic()
     ui->teStartTime->setTime(QTime::fromString("00:00"));
     ui->lnKWhMax->setText(QString::number(dDefaultKWh,'f', 1));
     ui->lnAccuPercentageEnd->setText(QString::number(iAccuEndPercentage));
-
 }
 
 //---------------------------------------------------------------------------------------

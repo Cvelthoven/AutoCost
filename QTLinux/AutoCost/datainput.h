@@ -22,9 +22,50 @@
 class DataInput
 {
 public:
+    //-----------------------------------------------------------------------------------
+    //
+    //  Default constructor
+    //
+    //-----------------------------------------------------------------------------------
     DataInput();
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Getters and setters
+    //
+    //-----------------------------------------------------------------------------------
+    int getIRecordType() const;
+    void setIRecordType(int newIRecordType);
+
+    QDate getDaDate() const;
+    void setDaDate(const QDate &newDaDate);
+
+    QString getStrDescription() const;
+    void setStrDescription(const QString &newStrDescription);
+
+    double getDTotalCost() const;
+    void setDTotalCost(double newDTotalCost);
+
+    int getIKmTotal() const;
+    void setIKmTotal(int newIKmTotal);
+
+    int getICapBatteryStart() const;
+    void setICapBatteryStart(int newICapBatteryStart);
+
+    int getICapBatteryEnd() const;
+    void setICapBatteryEnd(int newICapBatteryEnd);
+
+    double getDKWhLoaded() const;
+    void setDKWhLoaded(double newDKWhLoaded);
+
+    QTime getTiStartTime() const;
+    void setTiStartTime(const QTime &newTiStartTime);
+
+    bool getBPublicLoadSession() const;
+    void setBPublicLoadSession(bool newBPublicLoadSession);
+
 private:
+
     //-----------------------------------------------------------------------------------
     //
     //  Variables for content of a acAutoCost record

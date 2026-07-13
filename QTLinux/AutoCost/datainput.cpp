@@ -84,3 +84,108 @@ DataInput::DataInput()
 {
 
 }
+
+//---------------------------------------------------------------------------------------
+//
+//  Getters and setters
+//
+//---------------------------------------------------------------------------------------
+bool DataInput::getBPublicLoadSession() const
+{
+    return bPublicLoadSession;
+}
+
+void DataInput::setBPublicLoadSession(bool newBPublicLoadSession)
+{
+    bPublicLoadSession = newBPublicLoadSession;
+}
+
+QTime DataInput::getTiStartTime() const
+{
+    return tiStartTime;
+}
+
+void DataInput::setTiStartTime(const QTime &newTiStartTime)
+{
+    tiStartTime = newTiStartTime;
+}
+
+double DataInput::getDKWhLoaded() const
+{
+    return dKWhLoaded;
+}
+
+void DataInput::setDKWhLoaded(double newDKWhLoaded)
+{
+    dKWhLoaded = newDKWhLoaded;
+}
+
+int DataInput::getICapBatteryEnd() const
+{
+    return iCapBatteryEnd;
+}
+
+void DataInput::setICapBatteryEnd(int newICapBatteryEnd)
+{
+    iCapBatteryEnd = newICapBatteryEnd;
+}
+
+int DataInput::getICapBatteryStart() const
+{
+    return iCapBatteryStart;
+}
+
+void DataInput::setICapBatteryStart(int newICapBatteryStart)
+{
+    iCapBatteryStart = newICapBatteryStart;
+}
+
+int DataInput::getIKmTotal() const
+{
+    return iKmTotal;
+}
+
+void DataInput::setIKmTotal(int newIKmTotal)
+{
+    iKmTotal = newIKmTotal;
+}
+
+double DataInput::getDTotalCost() const
+{
+    return dTotalCost;
+}
+
+void DataInput::setDTotalCost(double newDTotalCost)
+{
+    dTotalCost = newDTotalCost;
+}
+
+QString DataInput::getStrDescription() const
+{
+    return strDescription;
+}
+
+void DataInput::setStrDescription(const QString &newStrDescription)
+{
+    strDescription = newStrDescription;
+}
+
+QDate DataInput::getDaDate() const
+{
+    return daDate;
+}
+
+void DataInput::setDaDate(const QDate &newDaDate)
+{
+    daDate = newDaDate;
+}
+
+int DataInput::getIRecordType() const
+{
+    return iRecordType;
+}
+
+void DataInput::setIRecordType(int newIRecordType)
+{
+    iRecordType = newIRecordType;
+}

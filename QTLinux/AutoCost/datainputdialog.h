@@ -12,6 +12,7 @@
 //
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
+#include "datainput.h"
 
 #include <QDialog>
 #include <QString>
@@ -47,17 +48,7 @@ public:
     //  Getter and Setter Methods
     //
     //---------------------------------------------------------------------------------------
-    int getICostType() const;
-    QDate getDaRecordDate() const;
-    QString getStrDescription() const;
-    double getDAmount() const;
-
-    bool getBPublicLoadSession() const;
-    int getIMillage() const;
-    double getDTotalKWh() const;
-    int getIAccuStartPercentage() const;
-    int getIAccuEndPercentage() const;
-    QTime getTiStartTime() const;
+    bool getBClosePressed() const;
 
     //-----------------------------------------------------------------------------------
     //
@@ -65,6 +56,7 @@ public:
     //
     //-----------------------------------------------------------------------------------
     void resetDialog();
+
 
 private slots:
     void on_buttonBox_clicked(QAbstractButton *button);
@@ -113,13 +105,7 @@ private slots:
 private:
     Ui::DataInputDialog *ui;
 
-    //-----------------------------------------------------------------------------------
-    //
-    //  Dialog input handle button methods
-    //
-//    void onCancelPressed();
-//    void onClosePressed();
-//    void onDiscardPressed();
+    DataInput *dbData;
 
     //-----------------------------------------------------------------------------------
     //
@@ -132,12 +118,14 @@ private:
     void retrieveData();
     void setElectricityDefaultNonPublic();
     void showNonPublicLoadSession();
+    void storeData();
 
     //-----------------------------------------------------------------------------------
     //
     //  Private class wide variables
     //
     bool
+        bClosePressed = false,
         bFirstLoadPeriodChanged = false,
         bPublicLoadSession = false,
         bStartLoadTimeChanged = false;
