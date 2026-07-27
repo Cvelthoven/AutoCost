@@ -10,9 +10,12 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "appsettings.h"
 #include "detailcostsqlmodel.h"
 #include "postgresqldb.h"
 
+#include <QMessageBox>
+#include <QSqlDatabase>
 #include <QSqlRecord>
 #include <QSqlTableModel>
 #include <QString>
@@ -28,7 +31,15 @@ DetailCostSqlModel::DetailCostSqlModel(QObject *parent)
 {
     qDebug() << "DetailCostSqlModel constructor called";
     qDebug() << "db connection for autocost opened in DetailCostSqlModel constructor";
-    AutoCostData = new PostGreSQLDB(this);
+    acAutoCostTblData = new PostGreSQLDB(this);
+    if (SetDbConnectionConfig() != 0)
+    {
+        qDebug() << "error in database configuration definition in config file";
+    }
+    if (acAutoCostTblData->ConnectDatabase() != 0)
+    {
+        qDebug() << "Database connection to acAutoCost failed";
+    }
 
     //-----------------------------------------------------------------------------------
     //
@@ -57,11 +68,12 @@ DetailCostSqlModel::~DetailCostSqlModel()
     //  Close autocost db connection
     //
     //-----------------------------------------------------------------------------------
-    if (AutoCostData != nullptr)
+    if (acAutoCostTblData != nullptr)
     {
         qDebug() << "db connection for autocost closed in DetailCostSqlModel destructor";
-        delete AutoCostData;
+        delete acAutoCostTblData;
     }
+    QSqlDatabase::removeDatabase(strConnectionName);
 
     //-----------------------------------------------------------------------------------
     //
@@ -78,6 +90,177 @@ DetailCostSqlModel::~DetailCostSqlModel()
 //  Class methodes
 //
 //---------------------------------------------------------------------------------------
+int DetailCostSqlModel::SetDbConnectionConfig()
+{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Local variable
+    //
+    //-----------------------------------------------------------------------------------
+    int
+        iDBServerPort = 0,
+        iRC = 0;
+    QMessageBox errorMessage;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieve acAutoCost table database configuration
+    //
+    //-----------------------------------------------------------------------------------
+    AutoCostTblConnectionConfig = new AppSettings(strApplicationDomain,
+                                        strApplicationName,
+                                        strApplicationOrganization);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Database server IP
+    //
+    strKeyName = strAppDBServerIPKey;
+    if (AutoCostTblConnectionConfig->GetAppSettings(strSectionName,
+                                                    strKeyName,
+                                                    strDBServerIP,
+                                                    bEncrypted) == 0)
+    {
+        if (strDBServerIP.length() > 0)
+        {
+            acAutoCostTblData->setStrDBServerIP(strDBServerIP);
+        }
+        else
+        {
+            strDBServerIP = "";
+            iRC = 1;
+        }
+    }
+    else
+    {
+        strDBServerIP = "";
+        iRC = 1;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Database server port
+    //
+    strKeyName = strAppDBServerPortKey;
+    if (AutoCostTblConnectionConfig->GetAppSettings(strSectionName,
+                                                    strKeyName,
+                                                    strDBServerPort,
+                                                    bEncrypted) == 0)
+    {
+        if (strDBServerPort.length() > 0)
+        {
+            iDBServerPort = strDBServerPort.toInt();
+        }
+        else
+        {
+            iDBServerPort = 0;
+        }
+        if (iDBServerPort > 0)
+        {
+            acAutoCostTblData->setIDBServerPort(iDBServerPort);
+        }
+        else
+        {
+            strDBServerPort = "";
+            iRC = 1;
+        }
+    }
+    else
+    {
+        strDBServerPort = "";
+        iRC = 1;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Database Name
+    //
+    strKeyName = strAppDBNameKey;
+    if (AutoCostTblConnectionConfig->GetAppSettings(strSectionName,
+                                                    strKeyName,
+                                                    strDBName,
+                                                    bEncrypted) == 0)
+    {
+        if (strDBName.length() > 0)
+        {
+            acAutoCostTblData->setStrDBName(strDBName);
+        }
+        else
+        {
+            strDBName = "";
+            iRC = 1;
+        }
+    }
+    else
+    {
+        strDBName = "";
+        iRC = 1;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Application database userid
+    //
+    strKeyName = strAppDBUserIDKey;
+    if (AutoCostTblConnectionConfig->GetAppSettings(strSectionName,
+                                                    strKeyName,
+                                                    strDBUserID,
+                                                    bEncrypted) == 0)
+    {
+        if (strDBUserID.length() > 0)
+        {
+            acAutoCostTblData->setStrDBUserID(strDBUserID);
+        }
+        else
+        {
+            strDBUserID = "";
+            iRC = 1;
+        }
+    }
+    else
+    {
+        strDBUserID = "";
+        iRC = 1;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Application database password
+    //
+    strKeyName = strAppDBUserPasswordKey;
+    bEncrypted = true;
+    if (AutoCostTblConnectionConfig->GetAppSettings(strSectionName,
+                                                    strKeyName,
+                                                    strDBPassword,
+                                                    bEncrypted) == 0)
+    {
+        if (strDBPassword.length() > 0)
+        {
+            acAutoCostTblData->setStrDBPassword(strDBPassword);
+        }
+        else
+        {
+            strDBPassword = "";
+            iRC = 1;
+        }
+    }
+    else
+    {
+        strDBPassword = "";
+        iRC = 1;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  acAutoCost database connection name
+    //
+    acAutoCostTblData->setStrConnectionName(strConnectionName);
+
+    return iRC;
+
+}
+
+
 //---------------------------------------------------------------------------------------
 //
 //  GetRecordData

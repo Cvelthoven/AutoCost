@@ -7,8 +7,6 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "AutoCost.h"
-#include "appsettings.h"
 #include "postgresqldb.h"
 
 #include <QMessageBox>
@@ -27,87 +25,6 @@ PostGreSQLDB::PostGreSQLDB(QObject *parent)
     : QSqlQueryModel(parent)
 {
     qDebug() << "PostGreSQLDB constructor called";
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Local variable
-    //
-    //-----------------------------------------------------------------------------------
-    int iDBServerPort = 0;
-    QMessageBox errorMessage;
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Retrieve application database configuration
-    //
-    //-----------------------------------------------------------------------------------
-    ApplicationConfig = new AppSettings(strApplicationDomain,
-                                        strApplicationName,
-                                        strApplicationOrganization);
-    strKeyName = strAppDBServerIPKey;
-    if (ApplicationConfig->GetAppSettings(strSectionName,strKeyName,strDBServerIP, bEncrypted) != 0)
-    {
-        strDBServerIP = "";
-    }
-    strKeyName = strAppDBServerPortKey;
-    if (ApplicationConfig->GetAppSettings(strSectionName,strKeyName,strDBServerPort, bEncrypted) != 0)
-    {
-        strDBServerPort = "";
-    }
-    else
-    {
-        iDBServerPort = strDBServerPort.toInt();
-    }
-    strKeyName = strAppDBNameKey;
-    if (ApplicationConfig->GetAppSettings(strSectionName,strKeyName,strDBName, bEncrypted) != 0)
-    {
-        strDBName = "";
-    }
-    strKeyName = strAppDBUserIDKey;
-    if (ApplicationConfig->GetAppSettings(strSectionName,strKeyName,strDBUserID, bEncrypted) != 0)
-    {
-        strDBUserID = "";
-    }
-    strKeyName = strAppDBUserPasswordKey;
-    bEncrypted = true;
-    if (ApplicationConfig->GetAppSettings(strSectionName,strKeyName,strDBPassword, bEncrypted) != 0)
-    {
-        strDBPassword = "";
-    }
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Connect to application database
-    //
-    //-----------------------------------------------------------------------------------
-    if ((!strDBServerIP.isEmpty())&&
-        (!strDBServerPort.isEmpty())&&
-        (!strDBName.isEmpty())&&
-        (!strDBUserID.isEmpty())&&
-        (!strDBPassword.isEmpty()))
-    {
-        dbAppDatabase = QSqlDatabase::addDatabase("QPSQL");
-        dbAppDatabase.setHostName(strDBServerIP);
-        dbAppDatabase.setPort(iDBServerPort);
-        dbAppDatabase.setDatabaseName(strDBName);
-        dbAppDatabase.setUserName(strDBUserID);
-        dbAppDatabase.setPassword(strDBPassword);
-
-        if (dbAppDatabase.open())
-        {
-            qDebug() << "Database connected";
-        }
-        else
-        {
-            errorMessage.setText("Database connection failed.");
-            errorMessage.exec();
-        }
-    }
-    else
-    {
-        errorMessage.setText("Not all parameters for connection are set.");
-        errorMessage.exec();
-    }
 }
 
 //---------------------------------------------------------------------------------------
@@ -124,7 +41,6 @@ PostGreSQLDB::~PostGreSQLDB()
     qDebug() << "PostGreSQLDB destructor called";
     dbAppDatabase.close();
     qDebug() << "Database connection closed";
-    delete ApplicationConfig;
 }
 
 //---------------------------------------------------------------------------------------
@@ -204,3 +120,72 @@ int PostGreSQLDB::SelectQuery(QString *strQuery)
         return qQuery.size();
     }
 }
+
+//---------------------------------------------------------------------------------------
+//
+//  Setters
+//
+//---------------------------------------------------------------------------------------
+void PostGreSQLDB::close()
+{
+    dbAppDatabase.close();
+}
+
+void PostGreSQLDB::setStrConnectionName(const QString &newStrConnectionName)
+{
+    strConnectionName = newStrConnectionName;
+}
+
+void PostGreSQLDB::setStrDBServerIP(const QString &newStrDBServerIP)
+{
+    strDBServerIP = newStrDBServerIP;
+}
+
+void PostGreSQLDB::setIDBServerPort(int newIDBServerPort)
+{
+    iDBServerPort = newIDBServerPort;
+}
+
+void PostGreSQLDB::setStrDBName(const QString &newStrDBName)
+{
+    strDBName = newStrDBName;
+}
+
+void PostGreSQLDB::setStrDBUserID(const QString &newStrDBUserID)
+{
+    strDBUserID = newStrDBUserID;
+}
+
+void PostGreSQLDB::setStrDBPassword(const QString &newStrDBPassword)
+{
+    strDBPassword = newStrDBPassword;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Connect to database
+//
+//---------------------------------------------------------------------------------------
+int PostGreSQLDB::ConnectDatabase()
+{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Configer database connection
+    //
+    //-----------------------------------------------------------------------------------
+    dbAppDatabase = QSqlDatabase::addDatabase("QPSQL", strConnectionName);
+    dbAppDatabase.setHostName(strDBServerIP);
+    dbAppDatabase.setPort(iDBServerPort);
+    dbAppDatabase.setDatabaseName(strDBName);
+    dbAppDatabase.setUserName(strDBUserID);
+    dbAppDatabase.setPassword(strDBPassword);
+
+    if (dbAppDatabase.open())
+    {
+        qDebug() << "Database connected";
+    }
+
+
+    return 0;
+}
+

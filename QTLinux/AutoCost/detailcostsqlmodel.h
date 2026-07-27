@@ -56,10 +56,31 @@ public:
 private:
     //-----------------------------------------------------------------------------------
     //
+    //  Private class methods
+    //
+    //-----------------------------------------------------------------------------------
+    int SetDbConnectionConfig();
+
+    //-----------------------------------------------------------------------------------
+    //
     //  Private class variables
     //
     //-----------------------------------------------------------------------------------
-    PostGreSQLDB *AutoCostData;
+    AppSettings *AutoCostTblConnectionConfig;
+    PostGreSQLDB *acAutoCostTblData;
+
+    bool bEncrypted = false;
+
+    QString
+        strConnectionName = "acAutoCost",
+        strSectionName = strSectionNameAppDB,
+        strKeyName = "",
+        strDBServerIP = "",
+        strDBServerPort = "",
+        strDBName = "",
+        strDBUserID = "",
+        strDBPassword = "";
+
 
     enum acAutoCostFields
     {
