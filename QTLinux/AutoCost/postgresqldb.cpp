@@ -26,6 +26,8 @@
 PostGreSQLDB::PostGreSQLDB(QObject *parent)
     : QSqlQueryModel(parent)
 {
+    qDebug() << "PostGreSQLDB constructor called";
+
     //-----------------------------------------------------------------------------------
     //
     //  Local variable
@@ -119,7 +121,9 @@ PostGreSQLDB::PostGreSQLDB(QObject *parent)
 //---------------------------------------------------------------------------------------
 PostGreSQLDB::~PostGreSQLDB()
 {
+    qDebug() << "PostGreSQLDB destructor called";
     dbAppDatabase.close();
+    qDebug() << "Database connection closed";
     delete ApplicationConfig;
 }
 

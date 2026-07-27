@@ -10,6 +10,8 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "postgresqldb.h"
+
 #include <QDate>
 #include <QString>
 #include <QTime>
@@ -63,6 +65,14 @@ public:
 
     bool getBPublicLoadSession() const;
     void setBPublicLoadSession(bool newBPublicLoadSession);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Other public methods
+    //
+    //-----------------------------------------------------------------------------------
+    int addAcAutoCostRecord();
+    int addAcElectricityRecord();
 
 private:
 

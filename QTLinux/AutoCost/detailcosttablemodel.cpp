@@ -28,11 +28,14 @@
 DetailCostTableModel::DetailCostTableModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
+    qDebug() << "DetailCostTableModel constructor called";
+
     //-----------------------------------------------------------------------------------
     //
     //  Retrieven the detail cost records
     //
     //-----------------------------------------------------------------------------------
+    qDebug() << "DetailCostSqlModel constructor called in DetailCostTableModel constructor";
     DetailedCostSqlTable = new DetailCostSqlModel();
 
     //-----------------------------------------------------------------------------------
@@ -40,6 +43,7 @@ DetailCostTableModel::DetailCostTableModel(QObject *parent)
     //  Open the database to be able to retrieve the electricity records
     //
     //-----------------------------------------------------------------------------------
+    qDebug() << "db connection for Electricity opened in DetailCostTableModel constructor";
     dbElectricity = new PostGreSQLDB(this);
 
     //-----------------------------------------------------------------------------------
@@ -92,7 +96,9 @@ DetailCostTableModel::DetailCostTableModel(QObject *parent)
 //---------------------------------------------------------------------------------------
 DetailCostTableModel::~DetailCostTableModel()
 {
+    qDebug() << "DetailCostSqlModel destructor called in DetailCostTableModel destructor";
     delete DetailedCostSqlTable;
+    qDebug() << "db close electricity called in DetailCostTableModel destructor";
     delete dbElectricity;
 }
 

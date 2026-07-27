@@ -63,9 +63,9 @@ private:
     //
     //-----------------------------------------------------------------------------------
     AppSettings *ApplicationConfig;
-    DataInput *ManualData;
+    DataInput* ManualData = nullptr;
     DetailCostTableModel *AutoCostDetails;
-    PostGreSQLDB *AppDatabase;
+    PostGreSQLDB* AppDatabase = nullptr;
 
 
 };

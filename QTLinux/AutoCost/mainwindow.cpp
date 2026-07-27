@@ -62,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete ManualDataInput;
     delete AutoCostDetails;
     delete ApplicationConfig;
 }
@@ -106,6 +107,7 @@ int MainWindow::OpenAutoCostDetails()
     //  Create an instance of details autocost overview
     //
     //-----------------------------------------------------------------------------------
+    qDebug() << "DetailCostTableModel constructor called in MainWindow->OpenAutoCostDetails";
     AutoCostDetails = new DetailCostTableModel();
 
     //-----------------------------------------------------------------------------------
@@ -167,7 +169,9 @@ void MainWindow::on_actionExit_triggered()
 //---------------------------------------------------------------------------------------
 void MainWindow::on_actionManual_Data_input_triggered()
 {
+    qDebug() << "Constructor of DataInputDialog called from MainWindow on_actionManual_Data_input_triggered";
     ManualDataInput = new DataInputDialog;
+
     //-----------------------------------------------------------------------------------
     //
     //  Loop to handle multiple record input

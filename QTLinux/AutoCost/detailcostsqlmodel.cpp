@@ -26,6 +26,8 @@
 //---------------------------------------------------------------------------------------
 DetailCostSqlModel::DetailCostSqlModel(QObject *parent)
 {
+    qDebug() << "DetailCostSqlModel constructor called";
+    qDebug() << "db connection for autocost opened in DetailCostSqlModel constructor";
     AutoCostData = new PostGreSQLDB(this);
 
     //-----------------------------------------------------------------------------------
@@ -33,6 +35,7 @@ DetailCostSqlModel::DetailCostSqlModel(QObject *parent)
     //  Create a QSqlTableModel
     //
     //-----------------------------------------------------------------------------------
+    qDebug() << "QSqlTableModel constructor called from DetailCostSqlModel constructor";
     tmSqlDetailCostRecords = new QSqlTableModel;
     tmSqlDetailCostRecords->setTable("acAutoCost");
     tmSqlDetailCostRecords->setSort(Date, Qt::AscendingOrder);
@@ -40,6 +43,36 @@ DetailCostSqlModel::DetailCostSqlModel(QObject *parent)
     iNbRows = tmSqlDetailCostRecords->rowCount();
 
 }
+
+//---------------------------------------------------------------------------------------
+//
+//  DetailCostSqlModel destructor
+//
+//---------------------------------------------------------------------------------------
+DetailCostSqlModel::~DetailCostSqlModel()
+{
+    qDebug() << "DetailCostSqlModel destructor called";
+    //-----------------------------------------------------------------------------------
+    //
+    //  Close autocost db connection
+    //
+    //-----------------------------------------------------------------------------------
+    if (AutoCostData != nullptr)
+    {
+        qDebug() << "db connection for autocost closed in DetailCostSqlModel destructor";
+        delete AutoCostData;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Clean up
+    //
+    //-----------------------------------------------------------------------------------
+    qDebug() << "Destructor of QSqlTableModel called in DetailCostSqlModel destructor";
+    delete tmSqlDetailCostRecords;
+
+}
+
 //---------------------------------------------------------------------------------------
 //
 //  Class methodes

@@ -33,6 +33,8 @@ class DetailCostSqlModel
 public:
     DetailCostSqlModel(QObject *parent = nullptr);
 
+    ~DetailCostSqlModel();
+
     void GetRecordData(const int iRecordNb,
                       int* iRecID,
                       int* iRecordType,

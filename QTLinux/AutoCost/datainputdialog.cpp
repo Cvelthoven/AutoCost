@@ -16,6 +16,8 @@
 #include <QDate>
 #include <QTime>
 
+#include <QDebug>
+
 //---------------------------------------------------------------------------------------
 //
 //  DataInputDialog default constructor
@@ -26,6 +28,7 @@ DataInputDialog::DataInputDialog(QWidget *parent)
     , ui(new Ui::DataInputDialog)
 {
 
+    qDebug() << "DataInputDialog constructor called";
     //-----------------------------------------------------------------------------------
     //
     //  Local variables
@@ -82,6 +85,7 @@ DataInputDialog::DataInputDialog(QWidget *parent)
 DataInputDialog::~DataInputDialog()
 {
     delete ui;
+    qDebug() << "DataInputDialog destructor called";
 }
 
 //---------------------------------------------------------------------------------------
@@ -175,17 +179,26 @@ void DataInputDialog::retrieveData()
 void DataInputDialog::storeData()
 {
     dbData = new DataInput();
+    dbData->setIRecordType(iCostType);
     dbData->setDaDate(daRecordDate);
     dbData->setStrDescription(strDescription);
     dbData->setDTotalCost(dAmount);
-    if (iCostType == CostRecElectricity)
+    if (dbData->addAcAutoCostRecord() == 0)
     {
-        dbData->setBPublicLoadSession(bPublicLoadSession);
-        dbData->setIKmTotal(iMillage);
-        dbData->setDKWhLoaded(dTotalKWh);
-        dbData->setICapBatteryStart(iAccuStartPercentage);
-        dbData->setICapBatteryEnd(iAccuEndPercentage);
-        dbData->setTiStartTime(tiStartTime);
+        if (iCostType == CostRecElectricity)
+        {
+            dbData->setBPublicLoadSession(bPublicLoadSession);
+            dbData->setIKmTotal(iMillage);
+            dbData->setDKWhLoaded(dTotalKWh);
+            dbData->setICapBatteryStart(iAccuStartPercentage);
+            dbData->setICapBatteryEnd(iAccuEndPercentage);
+            dbData->setTiStartTime(tiStartTime);
+            if (dbData->addAcElectricityRecord() != 0)
+            {
+                // If insert of acElectricity record fails, a rollback or delete of the
+                // corresponding insert of acAutoCost is required
+            }
+        }
     }
 }
 
@@ -575,7 +588,7 @@ void DataInputDialog::on_lnTotalKWh_editingFinished()
     //-----------------------------------------------------------------------------------
     if (!bPublicLoadSession)
     {
-        calcNonPublicLoadPerSession(0);
+        calcNonPublicLoadPerSession(-1);    // no values set yet
         showNonPublicLoadSession();
         calcCostNonPublicElectricity();
     }
