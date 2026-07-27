@@ -16,6 +16,7 @@
 
 #include <QAbstractTableModel>
 #include <QDate>
+#include <QMessageBox>
 #include <QTableView>
 #include <QString>
 
@@ -35,7 +36,6 @@ DetailCostTableModel::DetailCostTableModel(QObject *parent)
     //  Retrieven the detail cost records
     //
     //-----------------------------------------------------------------------------------
-    qDebug() << "DetailCostSqlModel constructor called in DetailCostTableModel constructor";
     DetailedCostSqlTable = new DetailCostSqlModel();
 
     //-----------------------------------------------------------------------------------
@@ -43,8 +43,15 @@ DetailCostTableModel::DetailCostTableModel(QObject *parent)
     //  Open the database to be able to retrieve the electricity records
     //
     //-----------------------------------------------------------------------------------
-    qDebug() << "db connection for Electricity opened in DetailCostTableModel constructor";
-    dbElectricity = new PostGreSQLDB(this);
+    acElectricityTblData = new PostGreSQLDB(this);
+    if (SetDbConnectionConfig() != 0)
+    {
+        qDebug() << "error in database configuration definition in config file";
+    }
+    if (acElectricityTblData->ConnectDatabase() != 0)
+    {
+        qDebug() << "Database connection to acAutoCost failed";
+    }
 
     //-----------------------------------------------------------------------------------
     //
@@ -99,7 +106,7 @@ DetailCostTableModel::~DetailCostTableModel()
     qDebug() << "DetailCostSqlModel destructor called in DetailCostTableModel destructor";
     delete DetailedCostSqlTable;
     qDebug() << "db close electricity called in DetailCostTableModel destructor";
-    delete dbElectricity;
+    delete acElectricityTblData;
 }
 
 //---------------------------------------------------------------------------------------
@@ -207,7 +214,7 @@ int DetailCostTableModel:: GetElectricityRecord(int &iRecID)
     //  Retrieve corresponding electricity record and convert it
     //
     //-----------------------------------------------------------------------------------
-    if (dbElectricity->SelectQuery(&strElectricityQuery) == 1)
+    if (acElectricityTblData->SelectQuery(&strElectricityQuery) == 1)
     {
         for (int iCnt1 = ElecRecRecID; iCnt1 < ElecRecAutoCostRecID; iCnt1++)
         {
@@ -216,25 +223,25 @@ int DetailCostTableModel:: GetElectricityRecord(int &iRecID)
                 // Not used
                 break;
             case ElecRecDate:
-                strDate = dbElectricity->stlRecordContent.at(iCnt1);
+                strDate = acElectricityTblData->stlRecordContent.at(iCnt1);
                 break;
             case ElecRecKmTotal:
-                iMillage = dbElectricity->stlRecordContent.at(iCnt1).toInt();
+                iMillage = acElectricityTblData->stlRecordContent.at(iCnt1).toInt();
                 dMillageTrip = iMillage - iMillagePrevious;
                 iMillagePrevious = iMillage;
                 break;
             case ElekRecKWhLoaded:
-                dKWhLoaded = dbElectricity->stlRecordContent.at(iCnt1).toDouble();
+                dKWhLoaded = acElectricityTblData->stlRecordContent.at(iCnt1).toDouble();
                 break;
             case ElecRecCapBatStart:
-                iAccuStartPercentage = dbElectricity->stlRecordContent.at(iCnt1).toInt();
+                iAccuStartPercentage = acElectricityTblData->stlRecordContent.at(iCnt1).toInt();
                 break;
             case ElecRecCapBatEnd:
                 iAccuEndPercentagePrevious = iAccuEndPercentage;
-                iAccuEndPercentage = dbElectricity->stlRecordContent.at(iCnt1).toInt();
+                iAccuEndPercentage = acElectricityTblData->stlRecordContent.at(iCnt1).toInt();
                 break;
             case ElecRecStartTime:
-                strDate = dbElectricity->stlRecordContent.at(iCnt1);
+                strDate = acElectricityTblData->stlRecordContent.at(iCnt1);
                 break;
             case ElecRecAutoCostRecID:
                 // Not used, already defined in query
@@ -472,4 +479,179 @@ QVariant DetailCostTableModel::headerData(int section, Qt::Orientation orientati
 Qt::ItemFlags DetailCostTableModel::flags(const QModelIndex &index) const
 {
     return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  SetDbConnectionConfig
+//
+//---------------------------------------------------------------------------------------
+int DetailCostTableModel::SetDbConnectionConfig()
+{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Local variable
+    //
+    //-----------------------------------------------------------------------------------
+    int
+        iDBServerPort = 0,
+        iRC = 0;
+    QMessageBox errorMessage;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieve acAutoCost table database configuration
+    //
+    //-----------------------------------------------------------------------------------
+    ElectricityTblConnectionConfig = new AppSettings(strApplicationDomain,
+                                                  strApplicationName,
+                                                  strApplicationOrganization);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Database server IP
+    //
+    strKeyName = strAppDBServerIPKey;
+    if (ElectricityTblConnectionConfig->GetAppSettings(strSectionName,
+                                                    strKeyName,
+                                                    strDBServerIP,
+                                                    bEncrypted) == 0)
+    {
+        if (strDBServerIP.length() > 0)
+        {
+            acElectricityTblData->setStrDBServerIP(strDBServerIP);
+        }
+        else
+        {
+            strDBServerIP = "";
+            iRC = 1;
+        }
+    }
+    else
+    {
+        strDBServerIP = "";
+        iRC = 1;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Database server port
+    //
+    strKeyName = strAppDBServerPortKey;
+    if (ElectricityTblConnectionConfig->GetAppSettings(strSectionName,
+                                                    strKeyName,
+                                                    strDBServerPort,
+                                                    bEncrypted) == 0)
+    {
+        if (strDBServerPort.length() > 0)
+        {
+            iDBServerPort = strDBServerPort.toInt();
+        }
+        else
+        {
+            iDBServerPort = 0;
+        }
+        if (iDBServerPort > 0)
+        {
+            acElectricityTblData->setIDBServerPort(iDBServerPort);
+        }
+        else
+        {
+            strDBServerPort = "";
+            iRC = 1;
+        }
+    }
+    else
+    {
+        strDBServerPort = "";
+        iRC = 1;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Database Name
+    //
+    strKeyName = strAppDBNameKey;
+    if (ElectricityTblConnectionConfig->GetAppSettings(strSectionName,
+                                                    strKeyName,
+                                                    strDBName,
+                                                    bEncrypted) == 0)
+    {
+        if (strDBName.length() > 0)
+        {
+            acElectricityTblData->setStrDBName(strDBName);
+        }
+        else
+        {
+            strDBName = "";
+            iRC = 1;
+        }
+    }
+    else
+    {
+        strDBName = "";
+        iRC = 1;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Application database userid
+    //
+    strKeyName = strAppDBUserIDKey;
+    if (ElectricityTblConnectionConfig->GetAppSettings(strSectionName,
+                                                    strKeyName,
+                                                    strDBUserID,
+                                                    bEncrypted) == 0)
+    {
+        if (strDBUserID.length() > 0)
+        {
+            acElectricityTblData->setStrDBUserID(strDBUserID);
+        }
+        else
+        {
+            strDBUserID = "";
+            iRC = 1;
+        }
+    }
+    else
+    {
+        strDBUserID = "";
+        iRC = 1;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Application database password
+    //
+    strKeyName = strAppDBUserPasswordKey;
+    bEncrypted = true;
+    if (ElectricityTblConnectionConfig->GetAppSettings(strSectionName,
+                                                    strKeyName,
+                                                    strDBPassword,
+                                                    bEncrypted) == 0)
+    {
+        if (strDBPassword.length() > 0)
+        {
+            acElectricityTblData->setStrDBPassword(strDBPassword);
+        }
+        else
+        {
+            strDBPassword = "";
+            iRC = 1;
+        }
+    }
+    else
+    {
+        strDBPassword = "";
+        iRC = 1;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  acAutoCost database connection name
+    //
+    acElectricityTblData->setStrConnectionName(strConnectionName);
+
+    return iRC;
+
 }

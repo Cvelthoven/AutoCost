@@ -29,8 +29,6 @@
 //---------------------------------------------------------------------------------------
 DetailCostSqlModel::DetailCostSqlModel(QObject *parent)
 {
-    qDebug() << "DetailCostSqlModel constructor called";
-    qDebug() << "db connection for autocost opened in DetailCostSqlModel constructor";
     acAutoCostTblData = new PostGreSQLDB(this);
     if (SetDbConnectionConfig() != 0)
     {
@@ -88,6 +86,11 @@ DetailCostSqlModel::~DetailCostSqlModel()
 //---------------------------------------------------------------------------------------
 //
 //  Class methodes
+//
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//
+//  SetDbConnectionConfig
 //
 //---------------------------------------------------------------------------------------
 int DetailCostSqlModel::SetDbConnectionConfig()

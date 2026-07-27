@@ -55,14 +55,18 @@ private:
     //-----------------------------------------------------------------------------------
     void ConvertSqlrecordToTableViewRow(int iRowNumber);
     int GetElectricityRecord(int &iRecID);
+    int SetDbConnectionConfig();
 
     //-----------------------------------------------------------------------------------
     //
     //  Private variables
     //
     //-----------------------------------------------------------------------------------
+    AppSettings *ElectricityTblConnectionConfig;
     DetailCostSqlModel *DetailedCostSqlTable;
-    PostGreSQLDB *dbElectricity;
+    PostGreSQLDB *acElectricityTblData;
+
+    bool bEncrypted = false;
 
     double
         dAccuLoadDeltaPercentage,
@@ -89,7 +93,16 @@ private:
     QString
         strDate,
         strDescription,
-        strStartTime;
+        strStartTime,
+        strConnectionName = "acElectricity",
+        strSectionName = strSectionNameAppDB,
+        strKeyName = "",
+        strDBServerIP = "",
+        strDBServerPort = "",
+        strDBName = "",
+        strDBUserID = "",
+        strDBPassword = "";
+
 
     // //--- Row value needs to become dynamic !!!!!!!!!!!!!!!!   --------------------
     QString tblDetailCostValues[109][CostOverViewPeriod+1];
