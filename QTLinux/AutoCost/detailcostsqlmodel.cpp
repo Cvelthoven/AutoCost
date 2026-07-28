@@ -44,13 +44,11 @@ DetailCostSqlModel::DetailCostSqlModel(QObject *parent)
     //  Create a QSqlTableModel
     //
     //-----------------------------------------------------------------------------------
-    qDebug() << "QSqlTableModel constructor called from DetailCostSqlModel constructor";
-    tmSqlDetailCostRecords = new QSqlTableModel;
+    tmSqlDetailCostRecords = new QSqlTableModel(this, acAutoCostTblData->dbAppDatabase);
     tmSqlDetailCostRecords->setTable("acAutoCost");
     tmSqlDetailCostRecords->setSort(Date, Qt::AscendingOrder);
     tmSqlDetailCostRecords->select();
     iNbRows = tmSqlDetailCostRecords->rowCount();
-
 }
 
 //---------------------------------------------------------------------------------------

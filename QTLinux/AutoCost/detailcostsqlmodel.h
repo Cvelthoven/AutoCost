@@ -16,10 +16,13 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "AutoCost.h"
+#include "appsettings.h"
 #include "postgresqldb.h"
 
 #include <QObject>
 #include <QSqlTableModel>
+#include <QString>
 
 //---------------------------------------------------------------------------------------
 //
@@ -67,7 +70,7 @@ private:
     //
     //-----------------------------------------------------------------------------------
     AppSettings *AutoCostTblConnectionConfig;
-    PostGreSQLDB *acAutoCostTblData;
+    PostGreSQLDB* acAutoCostTblData;
 
     bool bEncrypted = false;
 

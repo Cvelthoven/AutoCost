@@ -11,11 +11,8 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "appsettings.h"
-#include "AutoCost.h"
+//#include "appsettings.h"
 
-//#include <QObject>
-//#include <QAbstractTableModel>
 #include <QSqlDatabase>
 #include <QtSql>
 #include <QSqlQueryModel>

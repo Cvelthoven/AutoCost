@@ -173,7 +173,14 @@ int PostGreSQLDB::ConnectDatabase()
     //  Configer database connection
     //
     //-----------------------------------------------------------------------------------
-    dbAppDatabase = QSqlDatabase::addDatabase("QPSQL", strConnectionName);
+    if (strConnectionName.length() >= 0)
+    {
+        dbAppDatabase = QSqlDatabase::addDatabase("QPSQL", strConnectionName);
+    }
+    else
+    {
+        dbAppDatabase = QSqlDatabase::addDatabase("QPSQL");
+    }
     dbAppDatabase.setHostName(strDBServerIP);
     dbAppDatabase.setPort(iDBServerPort);
     dbAppDatabase.setDatabaseName(strDBName);
