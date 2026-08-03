@@ -136,7 +136,7 @@ int AppSettings::GetAppSettings(const QString &strKeySection,
     //-----------------------------------------------------------------------------------
     QSettings programConfig;
     QVariant temp = programConfig.value(strFullKeyPath);
-     if (temp.isValid())
+    if (temp.isValid())
     {
         //-------------------------------------------------------------------------------
         //
