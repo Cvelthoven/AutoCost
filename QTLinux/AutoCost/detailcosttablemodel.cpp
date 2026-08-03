@@ -206,9 +206,8 @@ int DetailCostTableModel:: GetElectricityRecord(int &iRecID)
     //  Built query
     //
     //-----------------------------------------------------------------------------------
-//    QString strElectricityQuery = "SELECT * FROM public.\"acElectricity\" WHERE \"acAutoCostRecId\" = \'"
-//        + QString::number(iRecID) + "\'";
-    QString strElectricityQuery = "SELECT * FROM public.\"acElectricity\" WHERE \"AutoCostRecId\" = \'"
+    QString strElectricityQuery =
+        "SELECT * FROM public.\"acElectricity\" WHERE \"AutoCostRecId\" = \'"
                                   + QString::number(iRecID) + "\';";
 
     //-----------------------------------------------------------------------------------

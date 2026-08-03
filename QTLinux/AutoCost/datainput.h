@@ -10,6 +10,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "appsettings.h"
 #include "postgresqldb.h"
 
 #include <QDate>
@@ -75,6 +76,20 @@ public:
     int addAcElectricityRecord();
 
 private:
+    //-----------------------------------------------------------------------------------
+    //
+    //  Private methods
+    //
+    //-----------------------------------------------------------------------------------
+    int connectDatabase();
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Private variables
+    //
+    //-----------------------------------------------------------------------------------
+    AppSettings* dbConnectionConfig;
+    PostGreSQLDB* dbAcAutocost;
 
     //-----------------------------------------------------------------------------------
     //
@@ -89,6 +104,8 @@ private:
         daDate;
 
     QString
+        strDbConnectionNameAcAutoCost = "addAutoCostRecord",
+        strDbConnectionNameAcElectricity = "addElectricityRecord",
         strDescription = "";
 
     double

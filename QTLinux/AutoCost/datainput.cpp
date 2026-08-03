@@ -76,6 +76,9 @@
 #include "datainput.h"
 #include "postgresqldb.h"
 
+#include <QSqlQuery>
+#include <QString>
+
 #include <QDebug>
 
 //---------------------------------------------------------------------------------------
@@ -201,14 +204,87 @@ void DataInput::setIRecordType(int newIRecordType)
 //---------------------------------------------------------------------------------------
 int DataInput::addAcAutoCostRecord()
 {
+    //-----------------------------------------------------------------------------------
+    //
+    //  lacal variables
+    //
+    //-----------------------------------------------------------------------------------
+    int
+        iRC = 0;
 
+    QString
+        strAutoCostPrepare = "INSERT INTO acAutoCost ("
+        "RecordType, Date, Description, TotalCost, Frequency"
+        ") VALUES("
+        ":RecordType, :Date, :Description, :TotalCost, :Frequency"
+                             ")";
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Connect to database
+    //
+    //-----------------------------------------------------------------------------------
+    dbAcAutocost = new PostGreSQLDB();
+    if (connectDatabase() == 0)
+    {
+        iRC = 0;
+
+    }
+    else
+    {
+        iRC = 1;
+    }
+
+    if (iRC == 0)
+    {
+        //-------------------------------------------------------------------------------
+        //
+        //  Built query
+        //
+        //-------------------------------------------------------------------------------
+        QSqlQuery quAutoCostInsert(dbAcAutocost->dbAppDatabase);
+        quAutoCostInsert.prepare(strAutoCostPrepare);
+        quAutoCostInsert.bindValue(":RecordType",iRecordType);
+        quAutoCostInsert.bindValue(":Date", daDate);
+        quAutoCostInsert.bindValue(":Description",strDescription);
+        quAutoCostInsert.bindValue(":TotalCost", dTotalCost);
+        quAutoCostInsert.bindValue(":Frequency", 0);
+
+        //-------------------------------------------------------------------------------
+        //
+        //  Execute query
+        //
+        //-------------------------------------------------------------------------------
+        if (quAutoCostInsert.exec())
+        {
+            iRC = 0;
+            qDebug() << "insert acAutoCost OK: " << quAutoCostInsert.lastError().text();
+        }
+        else
+        {
+            iRC = 1;
+            qDebug() << "insert acAutoCost failed: " << quAutoCostInsert.lastError().text();
+        }
+
+
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Return error
+    //
+    //-----------------------------------------------------------------------------------
+    else
+    {
+        iRC = 1;
+    }
     //-----------------------------------------------------------------------------------
     //
     //  Build query
     //
     //-----------------------------------------------------------------------------------
 
-    return 0;
+    return iRC;
 }
 
 //---------------------------------------------------------------------------------------
@@ -218,5 +294,33 @@ int DataInput::addAcAutoCostRecord()
 //---------------------------------------------------------------------------------------
 int DataInput::addAcElectricityRecord()
 {
-    return 0;
+    int
+        iRC = 0;
+
+    QSqlQuery
+        quElectricity;
+
+
+    return iRC;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  connectDatabase
+//
+//---------------------------------------------------------------------------------------
+int DataInput::connectDatabase()
+{
+    int
+        iRC = 0;
+    if (dbAcAutocost->ConnectDatabase() == 0)
+    {
+        iRC = 0;
+    }
+    else
+    {
+        iRC = 1;
+    }
+
+    return iRC;
 }
