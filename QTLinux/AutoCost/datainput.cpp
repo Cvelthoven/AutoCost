@@ -224,16 +224,16 @@ int DataInput::addAcAutoCostRecord()
     //  Connect to database
     //
     //-----------------------------------------------------------------------------------
-    dbAcAutocost = new PostGreSQLDB();
-    if (connectDatabase() == 0)
-    {
-        iRC = 0;
+//    dbAcAutocost = new PostGreSQLDB(nullptr);
+    // if (connectDatabase() == 0)
+    // {
+    //     iRC = 0;
 
-    }
-    else
-    {
-        iRC = 1;
-    }
+    // }
+    // else
+    // {
+    //     iRC = 1;
+    // }
 
     if (iRC == 0)
     {

@@ -34,7 +34,8 @@ class DetailCostSqlModel
 {
     Q_OBJECT
 public:
-    DetailCostSqlModel(QObject *parent = nullptr);
+//    DetailCostSqlModel(QObject *parent = nullptr);
+    explicit DetailCostSqlModel(AppSettings *appSettings, QObject *parent = nullptr);
 
     ~DetailCostSqlModel();
 
@@ -69,6 +70,7 @@ private:
     //  Private class variables
     //
     //-----------------------------------------------------------------------------------
+    AppSettings *ApplicationConfig = nullptr;
     AppSettings *AutoCostTblConnectionConfig;
     PostGreSQLDB* acAutoCostTblData;
 

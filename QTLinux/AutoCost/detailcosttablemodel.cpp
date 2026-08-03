@@ -26,8 +26,10 @@
 //  DetailCostTableModel default constructor
 //
 //---------------------------------------------------------------------------------------
-DetailCostTableModel::DetailCostTableModel(QObject *parent)
-    : QAbstractTableModel(parent)
+//DetailCostTableModel::DetailCostTableModel(QObject *parent)
+DetailCostTableModel::DetailCostTableModel(AppSettings *appSettings, QObject *parent)
+    : QAbstractTableModel(parent),
+    ApplicationConfig(appSettings)
 {
     qDebug() << "DetailCostTableModel constructor called";
 
@@ -36,14 +38,14 @@ DetailCostTableModel::DetailCostTableModel(QObject *parent)
     //  Retrieven the detail cost records
     //
     //-----------------------------------------------------------------------------------
-    DetailedCostSqlTable = new DetailCostSqlModel();
+    DetailedCostSqlTable = new DetailCostSqlModel(ApplicationConfig);
 
     //-----------------------------------------------------------------------------------
     //
     //  Open the database to be able to retrieve the electricity records
     //
     //-----------------------------------------------------------------------------------
-    acElectricityTblData = new PostGreSQLDB(this);
+    acElectricityTblData = new PostGreSQLDB(ApplicationConfig);
     if (SetDbConnectionConfig() != 0)
     {
         qDebug() << "error in database configuration definition in config file";

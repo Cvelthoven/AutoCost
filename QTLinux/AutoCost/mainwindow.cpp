@@ -104,11 +104,19 @@ int MainWindow::OpenAutoCostDetails()
 {
     //-----------------------------------------------------------------------------------
     //
+    //  Create database access with global application settings
+    //
+    //-----------------------------------------------------------------------------------
+    AppDatabase = new PostGreSQLDB(ApplicationConfig);
+
+    //-----------------------------------------------------------------------------------
+    //
     //  Create an instance of details autocost overview
     //
     //-----------------------------------------------------------------------------------
     qDebug() << "DetailCostTableModel constructor called in MainWindow->OpenAutoCostDetails";
-    AutoCostDetails = new DetailCostTableModel();
+//    AutoCostDetails = new DetailCostTableModel();
+    AutoCostDetails = new DetailCostTableModel(ApplicationConfig);
 
     //-----------------------------------------------------------------------------------
     //
@@ -170,7 +178,8 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_actionManual_Data_input_triggered()
 {
     qDebug() << "Constructor of DataInputDialog called from MainWindow on_actionManual_Data_input_triggered";
-    ManualDataInput = new DataInputDialog;
+//    ManualDataInput = new DataInputDialog;
+    ManualDataInput = new DataInputDialog(ApplicationConfig);
 
     //-----------------------------------------------------------------------------------
     //

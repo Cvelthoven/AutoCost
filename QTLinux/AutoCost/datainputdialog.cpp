@@ -23,9 +23,13 @@
 //  DataInputDialog default constructor
 //
 //---------------------------------------------------------------------------------------
-DataInputDialog::DataInputDialog(QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::DataInputDialog)
+//DataInputDialog::DataInputDialog(QWidget *parent)
+    // : QDialog(parent),
+    // ui(new Ui::DataInputDialog)
+DataInputDialog::DataInputDialog(AppSettings *appSettings, QWidget *parent)
+    : QDialog(parent),
+    ApplicationConfig(appSettings),
+    ui(new Ui::DataInputDialog)
 {
 
     qDebug() << "DataInputDialog constructor called";

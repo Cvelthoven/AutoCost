@@ -15,6 +15,7 @@
 //
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
+#include "appsettings.h"
 #include "detailcostsqlmodel.h"
 #include "postgresqldb.h"
 
@@ -32,7 +33,8 @@ class DetailCostTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    DetailCostTableModel(QObject *parent = nullptr);
+//    DetailCostTableModel(QObject *parent = nullptr);
+    explicit DetailCostTableModel(AppSettings *appSettings, QObject *parent = nullptr);
     ~DetailCostTableModel();
 
     //-----------------------------------------------------------------------------------
@@ -62,6 +64,7 @@ private:
     //  Private variables
     //
     //-----------------------------------------------------------------------------------
+    AppSettings *ApplicationConfig = nullptr;
     AppSettings *ElectricityTblConnectionConfig;
     DetailCostSqlModel *DetailedCostSqlTable;
     PostGreSQLDB *acElectricityTblData;

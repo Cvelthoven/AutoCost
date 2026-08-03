@@ -11,7 +11,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-//#include "appsettings.h"
+#include "appsettings.h"
 
 #include <QSqlDatabase>
 #include <QtSql>
@@ -28,7 +28,8 @@ class PostGreSQLDB : public QSqlQueryModel
 {
     Q_OBJECT
 public:
-    PostGreSQLDB(QObject *parent = nullptr);
+//    PostGreSQLDB(QObject *parent = nullptr);
+    explicit PostGreSQLDB(AppSettings *appSettings);
     ~PostGreSQLDB();
 
     int ExecQuery(QString *strQuery);
@@ -59,6 +60,9 @@ public:
     int ConnectDatabase();
 
 private:
+    int LoadDatabaseSettings();
+
+    AppSettings *ApplicationConfig = nullptr;
 
     int iDBServerPort = 0;
 

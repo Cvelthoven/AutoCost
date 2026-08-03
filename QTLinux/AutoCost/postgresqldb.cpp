@@ -21,10 +21,13 @@
 //  AppSettings default constructor
 //
 //---------------------------------------------------------------------------------------
-PostGreSQLDB::PostGreSQLDB(QObject *parent)
-    : QSqlQueryModel(parent)
+// PostGreSQLDB::PostGreSQLDB(QObject *parent)
+//     : QSqlQueryModel(parent)
+PostGreSQLDB::PostGreSQLDB(AppSettings *appSettings)
+    : ApplicationConfig(appSettings)
 {
     qDebug() << "PostGreSQLDB constructor called";
+    LoadDatabaseSettings();
 }
 
 //---------------------------------------------------------------------------------------
@@ -196,3 +199,24 @@ int PostGreSQLDB::ConnectDatabase()
     return 0;
 }
 
+//---------------------------------------------------------------------------------------
+//
+//  LoadDatabaseSettings
+//
+//---------------------------------------------------------------------------------------
+int PostGreSQLDB::LoadDatabaseSettings()
+{
+    if (ApplicationConfig == nullptr)
+        return 1;
+
+    QString host, dbName, user, password, port;
+
+    ApplicationConfig->GetAppSettings("Database", "Host", host, false);
+    ApplicationConfig->GetAppSettings("Database", "Name", dbName, false);
+    ApplicationConfig->GetAppSettings("Database", "User", user, false);
+    ApplicationConfig->GetAppSettings("Database", "Password", password, true);
+    ApplicationConfig->GetAppSettings("Database", "Port", port, false);
+
+    // assign these to your existing connection members/logic
+    return 0;
+}
