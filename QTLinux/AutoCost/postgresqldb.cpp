@@ -7,6 +7,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "appconfiguration.h"
 #include "postgresqldb.h"
 
 #include <QMessageBox>
@@ -23,12 +24,22 @@
 //---------------------------------------------------------------------------------------
 // PostGreSQLDB::PostGreSQLDB(QObject *parent)
 //     : QSqlQueryModel(parent)
-PostGreSQLDB::PostGreSQLDB(AppSettings *appSettings)
+PostGreSQLDB::PostGreSQLDB(AppConfiguration *appSettings)
     : ApplicationConfig(appSettings)
+{
+    qDebug() << "PostGreSQLDB constructor called";
+//    LoadDatabaseSettings();
+}
+
+//----- Overload to make compile working
+//----- Needs to be removed
+PostGreSQLDB::PostGreSQLDB(AppSettings *Application)
+    : Application(Application)
 {
     qDebug() << "PostGreSQLDB constructor called";
     LoadDatabaseSettings();
 }
+
 
 //---------------------------------------------------------------------------------------
 //
@@ -184,15 +195,20 @@ int PostGreSQLDB::ConnectDatabase()
     {
         dbAppDatabase = QSqlDatabase::addDatabase("QPSQL");
     }
-    dbAppDatabase.setHostName(strDBServerIP);
-    dbAppDatabase.setPort(iDBServerPort);
-    dbAppDatabase.setDatabaseName(strDBName);
-    dbAppDatabase.setUserName(strDBUserID);
-    dbAppDatabase.setPassword(strDBPassword);
+    dbAppDatabase.setHostName(ApplicationConfig->ApplicationDBConfig[DBServerIP]);
+    dbAppDatabase.setPort(ApplicationConfig->ApplicationDBConfig[DBServerPort].toInt());
+    dbAppDatabase.setDatabaseName(ApplicationConfig->ApplicationDBConfig[DBName]);
+    dbAppDatabase.setUserName(ApplicationConfig->ApplicationDBConfig[DBAppUserId]);
+    dbAppDatabase.setPassword(ApplicationConfig->ApplicationDBConfig[DBAppPassword]);
 
     if (dbAppDatabase.open())
     {
-        qDebug() << "Database connected";
+        qDebug() << "Database connection with connectionname: " << strConnectionName << "successfull";
+    }
+    else
+    {
+        qDebug() << "Database connection with connectionname: " << strConnectionName << "failed";
+
     }
 
 
@@ -211,11 +227,11 @@ int PostGreSQLDB::LoadDatabaseSettings()
 
     QString host, dbName, user, password, port;
 
-    ApplicationConfig->GetAppSettings("Database", "Host", host, false);
-    ApplicationConfig->GetAppSettings("Database", "Name", dbName, false);
-    ApplicationConfig->GetAppSettings("Database", "User", user, false);
-    ApplicationConfig->GetAppSettings("Database", "Password", password, true);
-    ApplicationConfig->GetAppSettings("Database", "Port", port, false);
+    // ApplicationConfig->GetAppSettings("Database", "Host", host, false);
+    // ApplicationConfig->GetAppSettings("Database", "Name", dbName, false);
+    // ApplicationConfig->GetAppSettings("Database", "User", user, false);
+    // ApplicationConfig->GetAppSettings("Database", "Password", password, true);
+    // ApplicationConfig->GetAppSettings("Database", "Port", port, false);
 
     // assign these to your existing connection members/logic
     return 0;

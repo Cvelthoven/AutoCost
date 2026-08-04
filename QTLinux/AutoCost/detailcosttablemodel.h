@@ -15,6 +15,7 @@
 //
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
+#include "appconfiguration.h"
 #include "appsettings.h"
 #include "detailcostsqlmodel.h"
 #include "postgresqldb.h"
@@ -23,6 +24,7 @@
 #include <QTableView>
 #include <QObject>
 #include <QString>
+#include <QVector>
 
 //---------------------------------------------------------------------------------------
 //
@@ -33,8 +35,10 @@ class DetailCostTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-//    DetailCostTableModel(QObject *parent = nullptr);
-    explicit DetailCostTableModel(AppSettings *appSettings, QObject *parent = nullptr);
+    DetailCostTableModel(QObject *parent = nullptr);// needs to removed
+    explicit DetailCostTableModel(
+        PostGreSQLDB *psAppDatabase,
+        QObject *parent = nullptr);
     ~DetailCostTableModel();
 
     //-----------------------------------------------------------------------------------
@@ -64,6 +68,12 @@ private:
     //  Private variables
     //
     //-----------------------------------------------------------------------------------
+    // Added variables proposed by Copilot
+    int iRecordCount;
+//    QVector<CostDetailRecord> CostDetailData;
+    PostGreSQLDB *dbAppDatabase = nullptr;
+//    AppConfiguration *ApplicationConfig = nullptr;
+    AppConfiguration *acAppConfig = nullptr;
     AppSettings *ApplicationConfig = nullptr;
     AppSettings *ElectricityTblConnectionConfig;
     DetailCostSqlModel *DetailedCostSqlTable;

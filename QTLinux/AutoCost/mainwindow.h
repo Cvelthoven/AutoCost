@@ -11,6 +11,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "appconfiguration.h"
 #include "appsettings.h"
 #include "appsettingsdialog.h"
 #include "datainput.h"
@@ -62,9 +63,10 @@ private:
     //  Private variables
     //
     //-----------------------------------------------------------------------------------
+    AppConfiguration* ApplicationConfiguration = nullptr;
     AppSettings *ApplicationConfig;
     DataInput* ManualData = nullptr;
-    DetailCostTableModel *AutoCostDetails;
+    DetailCostTableModel *AutoCostDetails = nullptr;
     PostGreSQLDB* AppDatabase = nullptr;
 
 

@@ -21,15 +21,14 @@
 #include <QString>
 
 #include <QDebug>
+
 //---------------------------------------------------------------------------------------
 //
 //  DetailCostTableModel default constructor
 //
+//AppConfiguration *acAppConfig = nullptr;
 //---------------------------------------------------------------------------------------
-//DetailCostTableModel::DetailCostTableModel(QObject *parent)
-DetailCostTableModel::DetailCostTableModel(AppSettings *appSettings, QObject *parent)
-    : QAbstractTableModel(parent),
-    ApplicationConfig(appSettings)
+DetailCostTableModel::DetailCostTableModel(QObject *parent)
 {
     qDebug() << "DetailCostTableModel constructor called";
 
@@ -96,6 +95,75 @@ DetailCostTableModel::DetailCostTableModel(AppSettings *appSettings, QObject *pa
     }
 }
 
+DetailCostTableModel::DetailCostTableModel(
+    PostGreSQLDB *psAppDatabase, QObject *parent) :
+    dbAppDatabase(psAppDatabase)
+{
+    qDebug() << "DetailCostTableModel constructor called";
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieven the detail cost records
+    //
+    //-----------------------------------------------------------------------------------
+    DetailedCostSqlTable = new DetailCostSqlModel(ApplicationConfig);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Open the database to be able to retrieve the electricity records
+    //
+    //-----------------------------------------------------------------------------------
+//    acElectricityTblData = new PostGreSQLDB(ApplicationConfig);
+//    if (SetDbConnectionConfig() != 0)
+//    {
+//        qDebug() << "error in database configuration definition in config file";
+//    }
+//    if (acElectricityTblData->ConnectDatabase() != 0)
+//    {
+//        qDebug() << "Database connection to acAutoCost failed";
+//    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Fill tblDetailCostValues with the values out of the database and the calculated
+    //  values
+    //
+    //-----------------------------------------------------------------------------------
+    for (int iCnt1 = 0; iCnt1 < DetailedCostSqlTable->iNbRows; iCnt1++)
+    {
+        //-------------------------------------------------------------------------------
+        //
+        //  Reset variables to empty values
+        //
+        //-------------------------------------------------------------------------------
+        dAccuUsagePercentage = -1;
+        dKWhperKM = -1;
+        dKWhLoaded = -1;
+        dKMPerPercentage = -1;
+        dKWhPerPercentage = -1;
+        dKWhTrip = -1;
+        dMillageTrip = -1;
+        dTotalCost = -99999.99;
+        dAccuLoadDeltaPercentage = -1;
+        dAccuUsagePercentage = -1;
+        iAccuStartPercentage = -1;
+        iFrequency = -1;
+        iMillage = -1;
+        iRecId = -1;
+        iRecordType = -1;
+        strDate = "";
+        strDescription = "";
+        strStartTime = "";
+
+        //-------------------------------------------------------------------------------
+        //
+        //  Convert values and load them to tblDetailCostValues
+        //
+        //-------------------------------------------------------------------------------
+        ConvertSqlrecordToTableViewRow(iCnt1);
+    }
+}
+
 //---------------------------------------------------------------------------------------
 //
 //  DetailCostTableModel destructor
@@ -107,8 +175,8 @@ DetailCostTableModel::~DetailCostTableModel()
 {
     qDebug() << "DetailCostSqlModel destructor called in DetailCostTableModel destructor";
     delete DetailedCostSqlTable;
-    qDebug() << "db close electricity called in DetailCostTableModel destructor";
-    delete acElectricityTblData;
+    // qDebug() << "db close electricity called in DetailCostTableModel destructor";
+    // delete acElectricityTblData;
 }
 
 //---------------------------------------------------------------------------------------

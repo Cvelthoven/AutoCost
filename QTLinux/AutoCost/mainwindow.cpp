@@ -6,7 +6,6 @@
 //
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
-#include "appsettings.h"
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
@@ -33,6 +32,15 @@ MainWindow::MainWindow(QWidget *parent)
     {
         exit(0);
     }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Connect to database
+    //
+    //-----------------------------------------------------------------------------------
+    AppDatabase = new PostGreSQLDB(ApplicationConfiguration);
+    AppDatabase->setStrConnectionName("AutoCost");
+    AppDatabase->ConnectDatabase();
 
     //-----------------------------------------------------------------------------------
     //
@@ -64,7 +72,9 @@ MainWindow::~MainWindow()
     delete ui;
     delete ManualDataInput;
     delete AutoCostDetails;
+    delete AppDatabase;
     delete ApplicationConfig;
+
 }
 
 //---------------------------------------------------------------------------------------
@@ -83,12 +93,19 @@ int MainWindow::ProgramConfigurationLoad()
 
     //-----------------------------------------------------------------------------------
     //
+    //  Retrieve the application configuration available at startup of application
+    //
+    //-----------------------------------------------------------------------------------
+    ApplicationConfiguration = new AppConfiguration();
+
+    //-----------------------------------------------------------------------------------
+    //  Needs to be removed
     //  Create instance of AppSettings and configure the instance
     //
     //-----------------------------------------------------------------------------------
-    ApplicationConfig = new AppSettings(strApplicationDomain,
-                                        strApplicationName,
-                                        strApplicationOrganization);
+    // ApplicationConfig = new AppSettings(strApplicationDomain,
+    //                                     strApplicationName,
+    //                                     strApplicationOrganization);
 
     return 0;
 }
@@ -107,7 +124,19 @@ int MainWindow::OpenAutoCostDetails()
     //  Create database access with global application settings
     //
     //-----------------------------------------------------------------------------------
-    AppDatabase = new PostGreSQLDB(ApplicationConfig);
+ //   AppDatabase = new PostGreSQLDB(ApplicationConfig);
+ //   AppDatabase = new PostGreSQLDB(ApplicationConfiguration); // needs to be remove
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Ensure application database instance exists
+    //
+    //-----------------------------------------------------------------------------------
+    if (AppDatabase == nullptr)
+    {
+        qDebug() << "In MainWindow->OpenAutoCostDetails no AppDatabase available";
+        return 1;
+    }
 
     //-----------------------------------------------------------------------------------
     //
@@ -116,7 +145,7 @@ int MainWindow::OpenAutoCostDetails()
     //-----------------------------------------------------------------------------------
     qDebug() << "DetailCostTableModel constructor called in MainWindow->OpenAutoCostDetails";
 //    AutoCostDetails = new DetailCostTableModel();
-    AutoCostDetails = new DetailCostTableModel(ApplicationConfig);
+    AutoCostDetails = new DetailCostTableModel(AppDatabase);
 
     //-----------------------------------------------------------------------------------
     //

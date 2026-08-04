@@ -92,4 +92,18 @@ enum ElecRecordFiels
     ElecRecAutoCostRecID
 };
 
+//---------------------------------------------------------------------------------------
+//
+//  Enums for the application settings in configuration file
+//
+enum AppConfDatabase
+{
+    DBServerIP = 0,
+    DBServerPort,
+    DBName,
+    DBAppUserId,
+    DBAppPassword
+};
+
+
 #endif // AUTOCOST_H
