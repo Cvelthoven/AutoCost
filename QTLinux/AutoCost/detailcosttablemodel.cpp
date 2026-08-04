@@ -30,14 +30,15 @@
 //---------------------------------------------------------------------------------------
 DetailCostTableModel::DetailCostTableModel(QObject *parent)
 {
-    qDebug() << "DetailCostTableModel constructor called";
+    qDebug() << "DetailCostTableModel constructor called, this constructor should NOT be called";
 
     //-----------------------------------------------------------------------------------
     //
     //  Retrieven the detail cost records
     //
     //-----------------------------------------------------------------------------------
-    DetailedCostSqlTable = new DetailCostSqlModel(ApplicationConfig);
+//    DetailedCostSqlTable = new DetailCostSqlModel(ApplicationConfig);
+    DetailedCostSqlTable = new DetailCostSqlModel();
 
     //-----------------------------------------------------------------------------------
     //
@@ -106,7 +107,7 @@ DetailCostTableModel::DetailCostTableModel(
     //  Retrieven the detail cost records
     //
     //-----------------------------------------------------------------------------------
-    DetailedCostSqlTable = new DetailCostSqlModel(ApplicationConfig);
+    DetailedCostSqlTable = new DetailCostSqlModel();
 
     //-----------------------------------------------------------------------------------
     //

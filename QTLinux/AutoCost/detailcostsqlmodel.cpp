@@ -27,10 +27,7 @@
 //  DetailCostSqlModel default constructor
 //
 //---------------------------------------------------------------------------------------
-//DetailCostSqlModel::DetailCostSqlModel(QObject *parent)
-DetailCostSqlModel::DetailCostSqlModel(AppSettings *appSettings, QObject *parent)
-   : ApplicationConfig(appSettings)
-
+DetailCostSqlModel::DetailCostSqlModel(QObject *parent)
 {
     acAutoCostTblData = new PostGreSQLDB(ApplicationConfig);
     if (SetDbConnectionConfig() != 0)
