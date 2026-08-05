@@ -29,15 +29,15 @@
 //---------------------------------------------------------------------------------------
 DetailCostSqlModel::DetailCostSqlModel(QObject *parent)
 {
-    acAutoCostTblData = new PostGreSQLDB(ApplicationConfig);
-    if (SetDbConnectionConfig() != 0)
-    {
-        qDebug() << "error in database configuration definition in config file";
-    }
-    if (acAutoCostTblData->ConnectDatabase() != 0)
-    {
-        qDebug() << "Database connection to acAutoCost failed";
-    }
+    // acAutoCostTblData = new PostGreSQLDB(ApplicationConfig);
+    // if (SetDbConnectionConfig() != 0)
+    // {
+    //     qDebug() << "error in database configuration definition in config file";
+    // }
+    // if (acAutoCostTblData->ConnectDatabase() != 0)
+    // {
+    //     qDebug() << "Database connection to acAutoCost failed";
+    // }
 
     //-----------------------------------------------------------------------------------
     //

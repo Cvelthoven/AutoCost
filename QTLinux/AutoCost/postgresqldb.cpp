@@ -33,12 +33,12 @@ PostGreSQLDB::PostGreSQLDB(AppConfiguration *appSettings)
 
 //----- Overload to make compile working
 //----- Needs to be removed
-PostGreSQLDB::PostGreSQLDB(AppSettings *Application)
-    : Application(Application)
-{
-    qDebug() << "PostGreSQLDB constructor called";
-    LoadDatabaseSettings();
-}
+// PostGreSQLDB::PostGreSQLDB(AppSettings *Application)
+//     : Application(Application)
+// {
+//     qDebug() << "PostGreSQLDB constructor called";
+//     LoadDatabaseSettings();
+// }
 
 
 //---------------------------------------------------------------------------------------
@@ -77,23 +77,23 @@ PostGreSQLDB::~PostGreSQLDB()
 //          - -2: query returned with an error
 //
 //---------------------------------------------------------------------------------------
-int PostGreSQLDB::ExecQuery(QString *strQuery)
-{
-    QSqlQuery qQuery("",dbAppDatabase);
-    if (qQuery.exec(*strQuery))
-    {
-        if (qQuery.size() >= 0)
-        {
-            rResult = qQuery.record();
-            return qQuery.size();
-        }
-    }
-    else
-    {
-        return -1;
-    }
-    return -2;
-}
+// int PostGreSQLDB::ExecQuery(QString *strQuery)
+// {
+//     QSqlQuery qQuery("",dbAppDatabase);
+//     if (qQuery.exec(*strQuery))
+//     {
+//         if (qQuery.size() >= 0)
+//         {
+//             rResult = qQuery.record();
+//             return qQuery.size();
+//         }
+//     }
+//     else
+//     {
+//         return -1;
+//     }
+//     return -2;
+// }
 
 //---------------------------------------------------------------------------------------
 //
@@ -101,39 +101,39 @@ int PostGreSQLDB::ExecQuery(QString *strQuery)
 //  Can handle only 1 record as result, returns it in a stringlist (stlRecordContent)
 //
 //---------------------------------------------------------------------------------------
-int PostGreSQLDB::SelectQuery(QString *strQuery)
-{
-    QString strTemp ="";
-    stlRecordContent.clear();
-    stlRecordContent.squeeze();
+// int PostGreSQLDB::SelectQuery(QString *strQuery)
+// {
+//     QString strTemp ="";
+//     stlRecordContent.clear();
+//     stlRecordContent.squeeze();
 
-    //-----------------------------------------------------------------------------------
-    //
-    //  Execute query and store content of 1 record in a stringlist
-    //
-    //-----------------------------------------------------------------------------------
-    QSqlQuery qQuery("",dbAppDatabase);
-    if ((qQuery.exec(*strQuery))&&(qQuery.size() == 1))
-    {
-        qQuery.next();
-        rResult = qQuery.record();
+//     //-----------------------------------------------------------------------------------
+//     //
+//     //  Execute query and store content of 1 record in a stringlist
+//     //
+//     //-----------------------------------------------------------------------------------
+//     QSqlQuery qQuery("",dbAppDatabase);
+//     if ((qQuery.exec(*strQuery))&&(qQuery.size() == 1))
+//     {
+//         qQuery.next();
+//         rResult = qQuery.record();
 
-        //-------------------------------------------------------------------------------
-        //
-        //  Create a stringlist with the content of the field in the record
-        //
-        //-------------------------------------------------------------------------------
-        for (int iCnt1 = 0; iCnt1 < rResult.count(); iCnt1++)
-        {
-            stlRecordContent << qQuery.value(iCnt1).toString();
-        }
-        return 1;
-    }
-    else
-    {
-        return qQuery.size();
-    }
-}
+//         //-------------------------------------------------------------------------------
+//         //
+//         //  Create a stringlist with the content of the field in the record
+//         //
+//         //-------------------------------------------------------------------------------
+//         for (int iCnt1 = 0; iCnt1 < rResult.count(); iCnt1++)
+//         {
+//             stlRecordContent << qQuery.value(iCnt1).toString();
+//         }
+//         return 1;
+//     }
+//     else
+//     {
+//         return qQuery.size();
+//     }
+// }
 
 //---------------------------------------------------------------------------------------
 //
@@ -187,7 +187,7 @@ int PostGreSQLDB::ConnectDatabase()
     //  Configer database connection
     //
     //-----------------------------------------------------------------------------------
-    if (strConnectionName.length() >= 0)
+    if (strConnectionName.length() > 0)
     {
         dbAppDatabase = QSqlDatabase::addDatabase("QPSQL", strConnectionName);
     }
@@ -220,19 +220,19 @@ int PostGreSQLDB::ConnectDatabase()
 //  LoadDatabaseSettings
 //
 //---------------------------------------------------------------------------------------
-int PostGreSQLDB::LoadDatabaseSettings()
-{
-    if (ApplicationConfig == nullptr)
-        return 1;
+// int PostGreSQLDB::LoadDatabaseSettings()
+// {
+//     if (ApplicationConfig == nullptr)
+//         return 1;
 
-    QString host, dbName, user, password, port;
+//     QString host, dbName, user, password, port;
 
-    // ApplicationConfig->GetAppSettings("Database", "Host", host, false);
-    // ApplicationConfig->GetAppSettings("Database", "Name", dbName, false);
-    // ApplicationConfig->GetAppSettings("Database", "User", user, false);
-    // ApplicationConfig->GetAppSettings("Database", "Password", password, true);
-    // ApplicationConfig->GetAppSettings("Database", "Port", port, false);
+//     // ApplicationConfig->GetAppSettings("Database", "Host", host, false);
+//     // ApplicationConfig->GetAppSettings("Database", "Name", dbName, false);
+//     // ApplicationConfig->GetAppSettings("Database", "User", user, false);
+//     // ApplicationConfig->GetAppSettings("Database", "Password", password, true);
+//     // ApplicationConfig->GetAppSettings("Database", "Port", port, false);
 
-    // assign these to your existing connection members/logic
-    return 0;
-}
+//     // assign these to your existing connection members/logic
+//     return 0;
+// }

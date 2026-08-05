@@ -2,6 +2,8 @@
 //
 //  Module: postgresqldb.h
 //
+//  This class manages an instance of a connection to a PostGreSql database
+//
 //---------------------------------------------------------------------------------------
 #ifndef POSTGRESQLDB_H
 #define POSTGRESQLDB_H
@@ -11,14 +13,14 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "appsettings.h"
+//#include "appsettings.h"
 #include "appconfiguration.h"
 
 #include <QSqlDatabase>
 #include <QtSql>
 #include <QSqlQueryModel>
 #include <QString>
-#include <QStringList>
+//#include <QStringList>
 
 //---------------------------------------------------------------------------------------
 //
@@ -30,17 +32,11 @@ class PostGreSQLDB : public QSqlQueryModel
     Q_OBJECT
 public:
 //    PostGreSQLDB(QObject *parent = nullptr);
-    explicit PostGreSQLDB(AppSettings *Application);// needs to be removed
+//    explicit PostGreSQLDB(AppSettings *Application);// needs to be removed
     explicit PostGreSQLDB(AppConfiguration *appSettings);
     ~PostGreSQLDB();
 
-    int ExecQuery(QString *strQuery);
-    int SelectQuery(QString *strQuery);
-    void close();
 
-    QSqlDatabase dbAppDatabase;
-
-    QStringList stlRecordContent;
 
     //-----------------------------------------------------------------------------------
     //
@@ -60,12 +56,29 @@ public:
     //
     //-----------------------------------------------------------------------------------
     int ConnectDatabase();
+    //    int ExecQuery(QString *strQuery);
+    //    int SelectQuery(QString *strQuery);
+    void close();
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Public variables
+    //
+    //-----------------------------------------------------------------------------------
+    QSqlDatabase dbAppDatabase;
+
+    //    QStringList stlRecordContent;
 
 private:
-    int LoadDatabaseSettings();
+    //-----------------------------------------------------------------------------------
+    //
+    //  Private variables
+    //
+    //-----------------------------------------------------------------------------------
+//    int LoadDatabaseSettings();
 
     AppConfiguration *ApplicationConfig = nullptr;
-    AppSettings *Application = nullptr;
+//    AppSettings *Application = nullptr;
 
     int iDBServerPort = 0;
 

@@ -45,15 +45,15 @@ DetailCostTableModel::DetailCostTableModel(QObject *parent)
     //  Open the database to be able to retrieve the electricity records
     //
     //-----------------------------------------------------------------------------------
-    acElectricityTblData = new PostGreSQLDB(ApplicationConfig);
-    if (SetDbConnectionConfig() != 0)
-    {
-        qDebug() << "error in database configuration definition in config file";
-    }
-    if (acElectricityTblData->ConnectDatabase() != 0)
-    {
-        qDebug() << "Database connection to acAutoCost failed";
-    }
+    // acElectricityTblData = new PostGreSQLDB(ApplicationConfig);
+    // if (SetDbConnectionConfig() != 0)
+    // {
+    //     qDebug() << "error in database configuration definition in config file";
+    // }
+    // if (acElectricityTblData->ConnectDatabase() != 0)
+    // {
+    //     qDebug() << "Database connection to acAutoCost failed";
+    // }
 
     //-----------------------------------------------------------------------------------
     //
@@ -277,109 +277,109 @@ int DetailCostTableModel:: GetElectricityRecord(int &iRecID)
     //  Built query
     //
     //-----------------------------------------------------------------------------------
-    QString strElectricityQuery =
-        "SELECT * FROM public.\"acElectricity\" WHERE \"AutoCostRecId\" = \'"
-                                  + QString::number(iRecID) + "\';";
+    // QString strElectricityQuery =
+    //     "SELECT * FROM public.\"acElectricity\" WHERE \"AutoCostRecId\" = \'"
+    //                               + QString::number(iRecID) + "\';";
 
     //-----------------------------------------------------------------------------------
     //
     //  Retrieve corresponding electricity record and convert it
     //
     //-----------------------------------------------------------------------------------
-    if (acElectricityTblData->SelectQuery(&strElectricityQuery) == 1)
-    {
-        for (int iCnt1 = ElecRecRecID; iCnt1 < ElecRecAutoCostRecID; iCnt1++)
-        {
-            switch (iCnt1) {
-            case ElecRecRecID:
-                // Not used
-                break;
-            case ElecRecDate:
-                strDate = acElectricityTblData->stlRecordContent.at(iCnt1);
-                break;
-            case ElecRecKmTotal:
-                iMillage = acElectricityTblData->stlRecordContent.at(iCnt1).toInt();
-                dMillageTrip = iMillage - iMillagePrevious;
-                iMillagePrevious = iMillage;
-                break;
-            case ElekRecKWhLoaded:
-                dKWhLoaded = acElectricityTblData->stlRecordContent.at(iCnt1).toDouble();
-                break;
-            case ElecRecCapBatStart:
-                iAccuStartPercentage = acElectricityTblData->stlRecordContent.at(iCnt1).toInt();
-                break;
-            case ElecRecCapBatEnd:
-                iAccuEndPercentagePrevious = iAccuEndPercentage;
-                iAccuEndPercentage = acElectricityTblData->stlRecordContent.at(iCnt1).toInt();
-                break;
-            case ElecRecStartTime:
-                strDate = acElectricityTblData->stlRecordContent.at(iCnt1);
-                break;
-            case ElecRecAutoCostRecID:
-                // Not used, already defined in query
-            default:
-                break;
-            }
+    // if (acElectricityTblData->SelectQuery(&strElectricityQuery) == 1)
+    // {
+    //     for (int iCnt1 = ElecRecRecID; iCnt1 < ElecRecAutoCostRecID; iCnt1++)
+    //     {
+    //         switch (iCnt1) {
+    //         case ElecRecRecID:
+    //             // Not used
+    //             break;
+    //         case ElecRecDate:
+    //             strDate = acElectricityTblData->stlRecordContent.at(iCnt1);
+    //             break;
+    //         case ElecRecKmTotal:
+    //             iMillage = acElectricityTblData->stlRecordContent.at(iCnt1).toInt();
+    //             dMillageTrip = iMillage - iMillagePrevious;
+    //             iMillagePrevious = iMillage;
+    //             break;
+    //         case ElekRecKWhLoaded:
+    //             dKWhLoaded = acElectricityTblData->stlRecordContent.at(iCnt1).toDouble();
+    //             break;
+    //         case ElecRecCapBatStart:
+    //             iAccuStartPercentage = acElectricityTblData->stlRecordContent.at(iCnt1).toInt();
+    //             break;
+    //         case ElecRecCapBatEnd:
+    //             iAccuEndPercentagePrevious = iAccuEndPercentage;
+    //             iAccuEndPercentage = acElectricityTblData->stlRecordContent.at(iCnt1).toInt();
+    //             break;
+    //         case ElecRecStartTime:
+    //             strDate = acElectricityTblData->stlRecordContent.at(iCnt1);
+    //             break;
+    //         case ElecRecAutoCostRecID:
+    //             // Not used, already defined in query
+    //         default:
+    //             break;
+    //         }
 
-        }
+    //     }
 
-        //---------------------------------------------------------------------------
-        //
-        //  Calculate the calculated values
-        //  Order of the calculates is important
-        //
-        //---------------------------------------------------------------------------
-        //
-        //  Load Delta percentage
-        //  delta = end current - start current load session
-        //
-        dAccuLoadDeltaPercentage = iAccuEndPercentage - iAccuStartPercentage;
+    //     //---------------------------------------------------------------------------
+    //     //
+    //     //  Calculate the calculated values
+    //     //  Order of the calculates is important
+    //     //
+    //     //---------------------------------------------------------------------------
+    //     //
+    //     //  Load Delta percentage
+    //     //  delta = end current - start current load session
+    //     //
+    //     dAccuLoadDeltaPercentage = iAccuEndPercentage - iAccuStartPercentage;
 
-        //
-        //  Percentage Usaged
-        //  usage = end previous load - start current load
-        //
-        dAccuUsagePercentage = iAccuEndPercentagePrevious - iAccuStartPercentage;
+    //     //
+    //     //  Percentage Usaged
+    //     //  usage = end previous load - start current load
+    //     //
+    //     dAccuUsagePercentage = iAccuEndPercentagePrevious - iAccuStartPercentage;
 
-        //
-        //  KWh/%
-        //  KWh/% = KWhLoaded / (end current load - start current load)
-        //
-        dKWhPerPercentage = dKWhLoaded / dAccuLoadDeltaPercentage;
+    //     //
+    //     //  KWh/%
+    //     //  KWh/% = KWhLoaded / (end current load - start current load)
+    //     //
+    //     dKWhPerPercentage = dKWhLoaded / dAccuLoadDeltaPercentage;
 
-        //
-        //  KM/%
-        //  KM/% = (Millage current - Millage previous trip) /
-        //          (end current load - start current load)
-        //
-        dKMPerPercentage = dMillageTrip / dAccuLoadDeltaPercentage;
+    //     //
+    //     //  KM/%
+    //     //  KM/% = (Millage current - Millage previous trip) /
+    //     //          (end current load - start current load)
+    //     //
+    //     dKMPerPercentage = dMillageTrip / dAccuLoadDeltaPercentage;
 
-        //
-        // KWh used in trip = percentage used * KWh/%
-        //
-        //
-        dKWhTrip = dAccuUsagePercentage * dKWhPerPercentage;
+    //     //
+    //     // KWh used in trip = percentage used * KWh/%
+    //     //
+    //     //
+    //     dKWhTrip = dAccuUsagePercentage * dKWhPerPercentage;
 
-        //
-        //  Average KWh price of current loading session
-        //  Electricity cost / KWh loaded
-        //
-        dAvgEuroPerKWh = dTotalCost / dKWhLoaded;
+    //     //
+    //     //  Average KWh price of current loading session
+    //     //  Electricity cost / KWh loaded
+    //     //
+    //     dAvgEuroPerKWh = dTotalCost / dKWhLoaded;
 
 
-        //
-        //  Average KWh/km
-        //  KWh loaded / Millage trip
-        //
-        dKWhperKM = dKWhLoaded / dMillageTrip;
+    //     //
+    //     //  Average KWh/km
+    //     //  KWh loaded / Millage trip
+    //     //
+    //     dKWhperKM = dKWhLoaded / dMillageTrip;
 
-        return 0;
-    }
-    else
-    {
-        return -1;
-    }
-
+    //     return 0;
+    // }
+    // else
+    // {
+    //     return -1;
+    // }
+    return 0;
 }
 
 //---------------------------------------------------------------------------------------
