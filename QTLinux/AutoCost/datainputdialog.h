@@ -11,7 +11,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "appsettings.h"
+//#include "appsettings.h"
 #include "AutoCost.h"
 #include "datainput.h"
 
@@ -41,8 +41,8 @@ class DataInputDialog : public QDialog
     Q_OBJECT
 
 public:
-//    explicit DataInputDialog(QWidget *parent = nullptr);
-    explicit DataInputDialog(AppSettings *appSettings, QWidget *parent = nullptr);
+    explicit DataInputDialog(QWidget *parent = nullptr);
+ //   explicit DataInputDialog(AppSettings *appSettings, QWidget *parent = nullptr);
     ~DataInputDialog();
 
     //---------------------------------------------------------------------------------------
@@ -106,7 +106,7 @@ private slots:
 
 private:
     Ui::DataInputDialog *ui;
-    AppSettings *ApplicationConfig = nullptr;
+//    AppSettings *ApplicationConfig = nullptr;
     DataInput *dbData;
 
     //-----------------------------------------------------------------------------------

@@ -140,40 +140,46 @@ PostGreSQLDB::~PostGreSQLDB()
 //  Setters
 //
 //---------------------------------------------------------------------------------------
-void PostGreSQLDB::close()
-{
-    dbAppDatabase.close();
-}
-
 void PostGreSQLDB::setStrConnectionName(const QString &newStrConnectionName)
 {
     strConnectionName = newStrConnectionName;
 }
 
-void PostGreSQLDB::setStrDBServerIP(const QString &newStrDBServerIP)
+// void PostGreSQLDB::setStrDBServerIP(const QString &newStrDBServerIP)
+// {
+//     strDBServerIP = newStrDBServerIP;
+// }
+
+// void PostGreSQLDB::setIDBServerPort(int newIDBServerPort)
+// {
+//     iDBServerPort = newIDBServerPort;
+// }
+
+// void PostGreSQLDB::setStrDBName(const QString &newStrDBName)
+// {
+//     strDBName = newStrDBName;
+// }
+
+// void PostGreSQLDB::setStrDBUserID(const QString &newStrDBUserID)
+// {
+//     strDBUserID = newStrDBUserID;
+// }
+
+// void PostGreSQLDB::setStrDBPassword(const QString &newStrDBPassword)
+// {
+//     strDBPassword = newStrDBPassword;
+// }
+
+//---------------------------------------------------------------------------------------
+//
+//  Close database connection
+//
+//---------------------------------------------------------------------------------------
+void PostGreSQLDB::close()
 {
-    strDBServerIP = newStrDBServerIP;
+    dbAppDatabase.close();
 }
 
-void PostGreSQLDB::setIDBServerPort(int newIDBServerPort)
-{
-    iDBServerPort = newIDBServerPort;
-}
-
-void PostGreSQLDB::setStrDBName(const QString &newStrDBName)
-{
-    strDBName = newStrDBName;
-}
-
-void PostGreSQLDB::setStrDBUserID(const QString &newStrDBUserID)
-{
-    strDBUserID = newStrDBUserID;
-}
-
-void PostGreSQLDB::setStrDBPassword(const QString &newStrDBPassword)
-{
-    strDBPassword = newStrDBPassword;
-}
 
 //---------------------------------------------------------------------------------------
 //

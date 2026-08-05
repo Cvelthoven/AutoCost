@@ -10,7 +10,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "appsettings.h"
+//#include "appsettings.h"
 #include "postgresqldb.h"
 
 #include <QDate>
@@ -88,7 +88,7 @@ private:
     //  Private variables
     //
     //-----------------------------------------------------------------------------------
-    AppSettings* dbConnectionConfig;
+//    AppSettings* dbConnectionConfig;
     PostGreSQLDB* dbAcAutocost;
 
     //-----------------------------------------------------------------------------------

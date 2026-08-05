@@ -12,7 +12,7 @@
 //
 //---------------------------------------------------------------------------------------
 #include "appconfiguration.h"
-#include "appsettings.h"
+//#include "appsettings.h"
 #include "appsettingsdialog.h"
 #include "datainput.h"
 #include "datainputdialog.h"
@@ -64,7 +64,7 @@ private:
     //
     //-----------------------------------------------------------------------------------
     AppConfiguration* ApplicationConfiguration = nullptr;
-    AppSettings *ApplicationConfig;
+    //AppSettings *ApplicationConfig;
     DataInput* ManualData = nullptr;
     DetailCostTableModel *AutoCostDetails = nullptr;
     PostGreSQLDB* AppDatabase = nullptr;

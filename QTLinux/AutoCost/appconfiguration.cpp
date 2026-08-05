@@ -11,6 +11,7 @@
 //
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
+#include "appsettings.h"
 #include "appconfiguration.h"
 
 #include <QString>
@@ -47,6 +48,19 @@ AppConfiguration::~AppConfiguration()
     delete asApplicationSettings;
 }
 
+//---------------------------------------------------------------------------------------
+//
+//  Class methods
+//
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//
+//  RetriveDBConfiguration
+//
+//  Retrieves the available application database configuration values
+//  and stores them in a QList<QString> ApplicationDBConfig
+//
+//---------------------------------------------------------------------------------------
 void AppConfiguration::RetriveDBConfiguration()
 {
     QString
@@ -96,5 +110,4 @@ void AppConfiguration::RetriveDBConfiguration()
             ApplicationDBConfig.append("");
         }
     }
-
 }

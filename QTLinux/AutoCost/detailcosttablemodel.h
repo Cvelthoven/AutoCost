@@ -16,7 +16,7 @@
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
 #include "appconfiguration.h"
-#include "appsettings.h"
+//#include "appsettings.h"
 #include "detailcostsqlmodel.h"
 #include "postgresqldb.h"
 
@@ -74,8 +74,8 @@ private:
     PostGreSQLDB *dbAppDatabase = nullptr;
 //    AppConfiguration *ApplicationConfig = nullptr;
     AppConfiguration *acAppConfig = nullptr;
-    AppSettings *ApplicationConfig = nullptr;
-    AppSettings *ElectricityTblConnectionConfig;
+//    AppSettings *ApplicationConfig = nullptr;
+ //   AppSettings *ElectricityTblConnectionConfig;
     DetailCostSqlModel *DetailedCostSqlTable;
     PostGreSQLDB *acElectricityTblData;
 

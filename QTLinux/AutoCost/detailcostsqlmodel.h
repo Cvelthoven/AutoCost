@@ -17,7 +17,7 @@
 //
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
-#include "appsettings.h"
+//#include "appsettings.h"
 #include "postgresqldb.h"
 
 #include <QObject>
@@ -70,8 +70,8 @@ private:
     //  Private class variables
     //
     //-----------------------------------------------------------------------------------
-    AppSettings *ApplicationConfig = nullptr;
-    AppSettings *AutoCostTblConnectionConfig;
+//    AppSettings *ApplicationConfig = nullptr;
+//    AppSettings *AutoCostTblConnectionConfig;
     PostGreSQLDB* acAutoCostTblData;
 
     bool bEncrypted = false;

@@ -44,11 +44,11 @@ public:
     //
     //-----------------------------------------------------------------------------------
     void setStrConnectionName(const QString &newStrConnectionName);
-    void setStrDBServerIP(const QString &newStrDBServerIP);
-    void setIDBServerPort(int newIDBServerPort);
-    void setStrDBName(const QString &newStrDBName);
-    void setStrDBUserID(const QString &newStrDBUserID);
-    void setStrDBPassword(const QString &newStrDBPassword);
+    // void setStrDBServerIP(const QString &newStrDBServerIP);
+    // void setIDBServerPort(int newIDBServerPort);
+    // void setStrDBName(const QString &newStrDBName);
+    // void setStrDBUserID(const QString &newStrDBUserID);
+    // void setStrDBPassword(const QString &newStrDBPassword);
 
     //-----------------------------------------------------------------------------------
     //

@@ -30,15 +30,6 @@ public:
 
     //-----------------------------------------------------------------------------------
     //
-    //  Application QSettings values
-    //
-    QString
-        strDomainApplication = strApplicationDomain,
-        strNameApplication = strApplicationName,
-        strOrgApplication = strApplicationOrganization;
-
-    //-----------------------------------------------------------------------------------
-    //
     //  Stringlists containing the configuration settings per section
     //
     QList<QString>

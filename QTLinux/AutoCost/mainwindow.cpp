@@ -73,7 +73,7 @@ MainWindow::~MainWindow()
     delete ManualDataInput;
     delete AutoCostDetails;
     delete AppDatabase;
-    delete ApplicationConfig;
+ //   delete ApplicationConfig;
 
 }
 
@@ -98,14 +98,6 @@ int MainWindow::ProgramConfigurationLoad()
     //-----------------------------------------------------------------------------------
     ApplicationConfiguration = new AppConfiguration();
 
-    //-----------------------------------------------------------------------------------
-    //  Needs to be removed
-    //  Create instance of AppSettings and configure the instance
-    //
-    //-----------------------------------------------------------------------------------
-    // ApplicationConfig = new AppSettings(strApplicationDomain,
-    //                                     strApplicationName,
-    //                                     strApplicationOrganization);
 
     return 0;
 }
@@ -207,8 +199,8 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_actionManual_Data_input_triggered()
 {
     qDebug() << "Constructor of DataInputDialog called from MainWindow on_actionManual_Data_input_triggered";
-//    ManualDataInput = new DataInputDialog;
-    ManualDataInput = new DataInputDialog(ApplicationConfig);
+    ManualDataInput = new DataInputDialog;
+//    ManualDataInput = new DataInputDialog(ApplicationConfiguration);
 
     //-----------------------------------------------------------------------------------
     //
