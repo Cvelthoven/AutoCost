@@ -242,29 +242,29 @@ int DataInput::addAcAutoCostRecord()
         //  Built query
         //
         //-------------------------------------------------------------------------------
-        QSqlQuery quAutoCostInsert(dbAcAutocost->dbAppDatabase);
-        quAutoCostInsert.prepare(strAutoCostPrepare);
-        quAutoCostInsert.bindValue(":RecordType",iRecordType);
-        quAutoCostInsert.bindValue(":Date", daDate);
-        quAutoCostInsert.bindValue(":Description",strDescription);
-        quAutoCostInsert.bindValue(":TotalCost", dTotalCost);
-        quAutoCostInsert.bindValue(":Frequency", 0);
+        // QSqlQuery quAutoCostInsert(dbAcAutocost->dbAppDatabase);
+        // quAutoCostInsert.prepare(strAutoCostPrepare);
+        // quAutoCostInsert.bindValue(":RecordType",iRecordType);
+        // quAutoCostInsert.bindValue(":Date", daDate);
+        // quAutoCostInsert.bindValue(":Description",strDescription);
+        // quAutoCostInsert.bindValue(":TotalCost", dTotalCost);
+        // quAutoCostInsert.bindValue(":Frequency", 0);
 
         //-------------------------------------------------------------------------------
         //
         //  Execute query
         //
         //-------------------------------------------------------------------------------
-        if (quAutoCostInsert.exec())
-        {
-            iRC = 0;
-            qDebug() << "insert acAutoCost OK: " << quAutoCostInsert.lastError().text();
-        }
-        else
-        {
-            iRC = 1;
-            qDebug() << "insert acAutoCost failed: " << quAutoCostInsert.lastError().text();
-        }
+        // if (quAutoCostInsert.exec())
+        // {
+        //     iRC = 0;
+        //     qDebug() << "insert acAutoCost OK: " << quAutoCostInsert.lastError().text();
+        // }
+        // else
+        // {
+        //     iRC = 1;
+        //     qDebug() << "insert acAutoCost failed: " << quAutoCostInsert.lastError().text();
+        // }
 
 
     }
@@ -313,14 +313,14 @@ int DataInput::connectDatabase()
 {
     int
         iRC = 0;
-    if (dbAcAutocost->ConnectDatabase() == 0)
-    {
-        iRC = 0;
-    }
-    else
-    {
-        iRC = 1;
-    }
+    // if (dbAcAutocost->ConnectDatabase() == 0)
+    // {
+    //     iRC = 0;
+    // }
+    // else
+    // {
+    //     iRC = 1;
+    // }
 
     return iRC;
 }

@@ -43,11 +43,11 @@ DetailCostSqlModel::DetailCostSqlModel(QObject *parent)
     //  Create a QSqlTableModel
     //
     //-----------------------------------------------------------------------------------
-    tmSqlDetailCostRecords = new QSqlTableModel(this, acAutoCostTblData->dbAppDatabase);
-    tmSqlDetailCostRecords->setTable("acAutoCost");
-    tmSqlDetailCostRecords->setSort(Date, Qt::AscendingOrder);
-    tmSqlDetailCostRecords->select();
-    iNbRows = tmSqlDetailCostRecords->rowCount();
+    // tmSqlDetailCostRecords = new QSqlTableModel(this, acAutoCostTblData->dbAppDatabase);
+    // tmSqlDetailCostRecords->setTable("acAutoCost");
+    // tmSqlDetailCostRecords->setSort(Date, Qt::AscendingOrder);
+    // tmSqlDetailCostRecords->select();
+    // iNbRows = tmSqlDetailCostRecords->rowCount();
 }
 
 //---------------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ DetailCostSqlModel::~DetailCostSqlModel()
     if (acAutoCostTblData != nullptr)
     {
         qDebug() << "db connection for autocost closed in DetailCostSqlModel destructor";
-        delete acAutoCostTblData;
+ //       delete acAutoCostTblData;
     }
     QSqlDatabase::removeDatabase(strConnectionName);
 

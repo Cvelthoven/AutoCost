@@ -38,11 +38,11 @@ MainWindow::MainWindow(QWidget *parent)
     //  Connect to database
     //
     //-----------------------------------------------------------------------------------
-    AppDatabase = new PostGreSQLDB(ApplicationConfiguration);
-    AppDatabase->setStrConnectionName("AutoCost");
-    AppDatabase->ConnectDatabase();
+    // AppDatabase = new PostGreSQLDB(ApplicationConfiguration);
+    // AppDatabase->setStrConnectionName("AutoCost");
+    // AppDatabase->ConnectDatabase();
 
-    //-----------------------------------------------------------------------------------
+    // //-----------------------------------------------------------------------------------
     //
     //  Activate the GUI of the application
     //  This creates the elements of the MainWindow
@@ -72,7 +72,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete ManualDataInput;
     delete AutoCostDetails;
-    delete AppDatabase;
+ //   delete AppDatabase;
  //   delete ApplicationConfig;
 
 }
