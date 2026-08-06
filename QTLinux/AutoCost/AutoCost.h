@@ -41,7 +41,13 @@ const QString
     strAppDBServerPortKey = "ServerPort",
     strAppDBNameKey = "AppDBName",
     strAppDBUserIDKey = "AppDBUserID",
-    strAppDBUserPasswordKey = "AppDBUserPassword";
+    strAppDBUserPasswordKey = "AppDBUserPassword",
+    //-----------------------------------------------------------------------------------
+    //
+    //  Other QString values
+    //
+    strApplicationDatabaseConnectionName = "AppDataDBConnection";
+
 
 //-----------------------------------------------------------------------------------
 //

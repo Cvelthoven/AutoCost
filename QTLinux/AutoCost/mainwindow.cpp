@@ -8,6 +8,7 @@
 #include "AutoCost.h"
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include "postgresqldb.h"
 
 #include <QString>
 #include <QTableView>
@@ -35,14 +36,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     //-----------------------------------------------------------------------------------
     //
-    //  Connect to database
+    //  Create connection to database
     //
     //-----------------------------------------------------------------------------------
-    // AppDatabase = new PostGreSQLDB(ApplicationConfiguration);
-    // AppDatabase->setStrConnectionName("AutoCost");
-    // AppDatabase->ConnectDatabase();
+    if (ConnectApplicationDataDB() != 0)
+    {
+        exit(0);
+    }
 
-    // //-----------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------
     //
     //  Activate the GUI of the application
     //  This creates the elements of the MainWindow
@@ -69,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent)
 //---------------------------------------------------------------------------------------
 MainWindow::~MainWindow()
 {
+    AppDataDB->close();
     delete ui;
     delete ManualDataInput;
     delete AutoCostDetails;
@@ -82,7 +85,47 @@ MainWindow::~MainWindow()
 //  MainWindow methodes
 //
 //---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
 //
+//  ConnectApplicationDataDB
+//
+//---------------------------------------------------------------------------------------
+int MainWindow::ConnectApplicationDataDB()
+{
+    int iRC = 0;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Create connection to application data database
+    //
+    AppDataDB = &PostGreSQLDB::instance();
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Configure the database connection
+    //
+    AppDataDB->configure(
+        ApplicationConfiguration->ApplicationDBConfig[DBServerIP],
+        ApplicationConfiguration->ApplicationDBConfig[DBServerPort].toInt(),
+        ApplicationConfiguration->ApplicationDBConfig[DBName],
+        ApplicationConfiguration->ApplicationDBConfig[DBAppUserId],
+        ApplicationConfiguration->ApplicationDBConfig[DBAppPassword],
+        strApplicationDatabaseConnectionName);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Open database connection
+    //
+    if (!AppDataDB->open())
+    {
+        qDebug() << "Connection " << strApplicationDatabaseConnectionName << " failed";
+        iRC = 1;
+    }
+
+    return iRC;
+}
+
+//---------------------------------------------------------------------------------------
 //  ProgramConfigurationLoad
 //
 //  Creates an applicattionSetting instance
@@ -97,8 +140,6 @@ int MainWindow::ProgramConfigurationLoad()
     //
     //-----------------------------------------------------------------------------------
     ApplicationConfiguration = new AppConfiguration();
-
-
     return 0;
 }
 
@@ -124,11 +165,11 @@ int MainWindow::OpenAutoCostDetails()
     //  Ensure application database instance exists
     //
     //-----------------------------------------------------------------------------------
-    if (AppDatabase == nullptr)
-    {
-        qDebug() << "In MainWindow->OpenAutoCostDetails no AppDatabase available";
-        return 1;
-    }
+    // if (AppDatabase == nullptr)
+    // {
+    //     qDebug() << "In MainWindow->OpenAutoCostDetails no AppDatabase available";
+    //     return 1;
+    // }
 
     //-----------------------------------------------------------------------------------
     //
@@ -137,7 +178,7 @@ int MainWindow::OpenAutoCostDetails()
     //-----------------------------------------------------------------------------------
     qDebug() << "DetailCostTableModel constructor called in MainWindow->OpenAutoCostDetails";
 //    AutoCostDetails = new DetailCostTableModel();
-    AutoCostDetails = new DetailCostTableModel(AppDatabase);
+//    AutoCostDetails = new DetailCostTableModel(AppDatabase);
 
     //-----------------------------------------------------------------------------------
     //

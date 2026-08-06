@@ -12,7 +12,6 @@
 //
 //---------------------------------------------------------------------------------------
 #include "appconfiguration.h"
-//#include "appsettings.h"
 #include "appsettingsdialog.h"
 #include "datainput.h"
 #include "datainputdialog.h"
@@ -55,8 +54,9 @@ private:
     //  Private methods
     //
     //-----------------------------------------------------------------------------------
-    int ProgramConfigurationLoad();
+    int ConnectApplicationDataDB();
     int OpenAutoCostDetails();
+    int ProgramConfigurationLoad();
 
     //-----------------------------------------------------------------------------------
     //
@@ -64,10 +64,9 @@ private:
     //
     //-----------------------------------------------------------------------------------
     AppConfiguration* ApplicationConfiguration = nullptr;
-    //AppSettings *ApplicationConfig;
     DataInput* ManualData = nullptr;
     DetailCostTableModel *AutoCostDetails = nullptr;
-    PostGreSQLDB* AppDatabase = nullptr;
+    PostGreSQLDB* AppDataDB = nullptr;
 
 
 };

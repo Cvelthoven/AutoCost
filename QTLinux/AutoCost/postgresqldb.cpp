@@ -176,7 +176,7 @@ bool PostGreSQLDB::open()
     m_Database.setUserName(m_strDBUserName);
     m_Database.setPassword(m_strDBPassword);
 
-    if (m_Database.open())
+    if (!m_Database.open())
     {
         return false;
     }
