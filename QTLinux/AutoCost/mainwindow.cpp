@@ -126,59 +126,21 @@ int MainWindow::ConnectApplicationDataDB()
 }
 
 //---------------------------------------------------------------------------------------
-//  ProgramConfigurationLoad
-//
-//  Creates an applicattionSetting instance
-//
-//---------------------------------------------------------------------------------------
-int MainWindow::ProgramConfigurationLoad()
-{
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Retrieve the application configuration available at startup of application
-    //
-    //-----------------------------------------------------------------------------------
-    ApplicationConfiguration = new AppConfiguration();
-    return 0;
-}
-
-//---------------------------------------------------------------------------------------
 //
 //  OpenAutoCostDetails
 //
-//  Creates an AppDatabase instance
+//  Creates an table overview of the auto cost details
 //
 //---------------------------------------------------------------------------------------
 int MainWindow::OpenAutoCostDetails()
 {
-    //-----------------------------------------------------------------------------------
-    //
-    //  Create database access with global application settings
-    //
-    //-----------------------------------------------------------------------------------
- //   AppDatabase = new PostGreSQLDB(ApplicationConfig);
- //   AppDatabase = new PostGreSQLDB(ApplicationConfiguration); // needs to be remove
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Ensure application database instance exists
-    //
-    //-----------------------------------------------------------------------------------
-    // if (AppDatabase == nullptr)
-    // {
-    //     qDebug() << "In MainWindow->OpenAutoCostDetails no AppDatabase available";
-    //     return 1;
-    // }
 
     //-----------------------------------------------------------------------------------
     //
     //  Create an instance of details autocost overview
     //
-    //-----------------------------------------------------------------------------------
     qDebug() << "DetailCostTableModel constructor called in MainWindow->OpenAutoCostDetails";
-//    AutoCostDetails = new DetailCostTableModel();
-//    AutoCostDetails = new DetailCostTableModel(AppDatabase);
+ //   AutoCostDetails = new DetailCostTableModel();
 
     //-----------------------------------------------------------------------------------
     //
@@ -207,6 +169,24 @@ int MainWindow::OpenAutoCostDetails()
     ui->tblDetailOverview->setColumnWidth(CostOverViewAccuUsagePercentage, 80);
     ui->tblDetailOverview->setColumnWidth(CostOverViewAccuLoadDeltaPercentage, 75);
 
+    return 0;
+}
+
+//---------------------------------------------------------------------------------------
+//  ProgramConfigurationLoad
+//
+//  Creates an applicattionSetting instance
+//
+//---------------------------------------------------------------------------------------
+int MainWindow::ProgramConfigurationLoad()
+{
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieve the application configuration available at startup of application
+    //
+    //-----------------------------------------------------------------------------------
+    ApplicationConfiguration = new AppConfiguration();
     return 0;
 }
 

@@ -9,19 +9,13 @@
 #ifndef DETAILCOSTSQLMODEL_H
 #define DETAILCOSTSQLMODEL_H
 
-#include <QObject>
-
 //---------------------------------------------------------------------------------------
 //
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "AutoCost.h"
-//#include "appsettings.h"
-#include "postgresqldb.h"
-
 #include <QObject>
-#include <QSqlTableModel>
+#include <QSqlRelationalTableModel>
 #include <QString>
 
 //---------------------------------------------------------------------------------------
@@ -30,32 +24,20 @@
 //
 //---------------------------------------------------------------------------------------
 class DetailCostSqlModel
-  : public QSqlTableModel
+  : public QSqlRelationalTableModel
 {
     Q_OBJECT
 public:
     DetailCostSqlModel(QObject *parent = nullptr);
-//    explicit DetailCostSqlModel(AppSettings *appSettings, QObject *parent = nullptr);
 
     ~DetailCostSqlModel();
 
-    void GetRecordData(const int iRecordNb,
-                      int* iRecID,
-                      int* iRecordType,
-                      QString* strDate,
-                      QString* strDescription,
-                      double* dTotalCost,
-                      int* iFrequency);
 
     //-----------------------------------------------------------------------------------
     //
     //  Public class variables
     //
     //-----------------------------------------------------------------------------------
-    QSqlTableModel *tmSqlDetailCostRecords;
-
-    int
-        iNbRows = 0;
 
 private:
     //-----------------------------------------------------------------------------------
@@ -63,40 +45,78 @@ private:
     //  Private class methods
     //
     //-----------------------------------------------------------------------------------
-    int SetDbConnectionConfig();
 
     //-----------------------------------------------------------------------------------
     //
     //  Private class variables
     //
     //-----------------------------------------------------------------------------------
-//    AppSettings *ApplicationConfig = nullptr;
-//    AppSettings *AutoCostTblConnectionConfig;
-    PostGreSQLDB* acAutoCostTblData;
-
-    bool bEncrypted = false;
-
-    QString
-        strConnectionName = "acAutoCost",
-        strSectionName = strSectionNameAppDB,
-        strKeyName = "",
-        strDBServerIP = "",
-        strDBServerPort = "",
-        strDBName = "",
-        strDBUserID = "",
-        strDBPassword = "";
-
-
-    enum acAutoCostFields
-    {
-        RecordID = 0,
-        RecordType,
-        Date,
-        Description,
-        Amount,
-        Frequency
-    };
-
+    bool
+        bAppDataOpen = false;
 };
+
+//------------------------------------------------
+// Old code
+//-------------------------------------------------
+// class DetailCostSqlModel
+//     : public QSqlRelationalTableModel
+// {
+//     Q_OBJECT
+// public:
+//     DetailCostSqlModel(QObject *parent = nullptr);
+
+//     ~DetailCostSqlModel();
+
+//     int LoadDetailCostData();
+
+//     // void GetRecordData(const int iRecordNb,
+//     //                   int* iRecID,
+//     //                   int* iRecordType,
+//     //                   QString* strDate,
+//     //                   QString* strDescription,
+//     //                   double* dTotalCost,
+//     //                   int* iFrequency);
+
+//     //-----------------------------------------------------------------------------------
+//     //
+//     //  Public class variables
+//     //
+//     //-----------------------------------------------------------------------------------
+//     QSqlQuery quDetailCostOverview;
+
+//     //    QSqlTableModel *tmSqlDetailCostRecords;
+
+//     bool bAppDataOpen = false;
+
+//     int
+//         iNbRows = 0;
+
+// private:
+//     //-----------------------------------------------------------------------------------
+//     //
+//     //  Private class methods
+//     //
+//     //-----------------------------------------------------------------------------------
+
+//     //-----------------------------------------------------------------------------------
+//     //
+//     //  Private class variables
+//     //
+//     //-----------------------------------------------------------------------------------
+//     PostGreSQLDB* acAutoCostTblData;
+
+//     bool bEncrypted = false;
+
+//     enum acAutoCostFields
+//     {
+//         RecordID = 0,
+//         RecordType,
+//         Date,
+//         Description,
+//         Amount,
+//         Frequency
+//     };
+
+// };
 
 #endif // DETAILCOSTSQLMODEL_H
