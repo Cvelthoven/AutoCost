@@ -1,3 +1,42 @@
+//---------------------------------------------------------------------------------------
+//
+//  Module: detailcostdataview.cpp
+//
+//  This class manages the presentation of the detailed cost data
+//  The class DetailCostDataModel manages the detail cost data
+//
+//---------------------------------------------------------------------------------------
+//
+//  Header files
+//
+//---------------------------------------------------------------------------------------
+#include "detailcostdatamodel.h"
 #include "detailcostdataview.h"
 
-DetailCostDataView::DetailCostDataView() {}
+
+#include <QDebug>
+
+//---------------------------------------------------------------------------------------
+//
+//  Class DetailCostDataView constructors and destructors
+//
+//---------------------------------------------------------------------------------------
+//
+//  Default constructor
+//
+//---------------------------------------------------------------------------------------
+DetailCostDataView::DetailCostDataView()
+{
+    qDebug() << "Constructor DetailCostDataView called";
+
+    qDebug() << "Constructor DetailCostData called in DetailCostDataView->DetailCostDataView";
+    DetailCostData = new DetailCostDataModel;
+
+}
+
+
+//---------------------------------------------------------------------------------------
+//
+//  DetailCostDataView class methods
+//
+//---------------------------------------------------------------------------------------

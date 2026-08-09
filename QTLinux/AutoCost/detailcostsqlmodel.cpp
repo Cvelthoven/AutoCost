@@ -1,5 +1,9 @@
 //---------------------------------------------------------------------------------------
 //
+//  This class will be removed replacement is the setup with detaildatacost(model/view)
+//
+//---------------------------------------------------------------------------------------
+//
 //  Module: DetailCostSqlModel.cpp
 //
 //  This class retrieves the autocost records in a table format which is input for the

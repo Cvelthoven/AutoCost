@@ -74,6 +74,7 @@ MainWindow::~MainWindow()
     AppDataDB->close();
     delete ui;
     delete ManualDataInput;
+    delete DetailCostDataViewTable;
     delete AutoCostDetails;
  //   delete AppDatabase;
  //   delete ApplicationConfig;
@@ -139,8 +140,9 @@ int MainWindow::OpenAutoCostDetails()
     //
     //  Create an instance of details autocost overview
     //
-    qDebug() << "DetailCostTableModel constructor called in MainWindow->OpenAutoCostDetails";
  //   AutoCostDetails = new DetailCostTableModel();
+    qDebug() << "Constructor DetailCostDataView called in MainWindow->OpenAutoCostDetails";
+    DetailCostDataViewTable = new DetailCostDataView();
 
     //-----------------------------------------------------------------------------------
     //

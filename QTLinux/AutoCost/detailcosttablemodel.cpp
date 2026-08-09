@@ -1,5 +1,9 @@
 //---------------------------------------------------------------------------------------
 //
+//  This class will be removed replacement is the setup with detaildatacost(model/view)
+//
+//---------------------------------------------------------------------------------------
+//
 //  Module: DetailCostTableModel.cpp
 //
 //  This class prepares the data from detailcostsqlmodel to be displayed.
