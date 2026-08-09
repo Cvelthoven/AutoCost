@@ -40,6 +40,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         datainputdialog.h datainputdialog.cpp datainputdialog.ui
         datainput.h datainput.cpp
         appconfiguration.h appconfiguration.cpp
+        detailcostdatamodel.h detailcostdatamodel.cpp
+        detailcostdataview.h detailcostdataview.cpp
 
 
 
