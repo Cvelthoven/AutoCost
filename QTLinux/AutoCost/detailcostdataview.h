@@ -30,6 +30,8 @@ public:
 
 private:
     DetailCostDataModel* DetailCostData;
+
+    int iDetailCostRecordNb = -1;
 };
 
 #endif // DETAILCOSTDATAVIEW_H

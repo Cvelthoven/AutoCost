@@ -10,7 +10,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "detailcostdatamodel.h"
+//#include "detailcostdatamodel.h"
 #include "detailcostdataview.h"
 
 
@@ -28,9 +28,6 @@
 DetailCostDataView::DetailCostDataView()
 {
     qDebug() << "Constructor DetailCostDataView called";
-
-    qDebug() << "Constructor DetailCostData called in DetailCostDataView->DetailCostDataView";
-    DetailCostData = new DetailCostDataModel;
 
 }
 
