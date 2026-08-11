@@ -15,40 +15,33 @@
 //
 //---------------------------------------------------------------------------------------
 #include <QObject>
-
-#include <QAbstractTableModel>
 #include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQueryModel>
 
-//---------------------------------------------------------------------------------------
-//
-//  Class DetailCostDataModel definitions
-//
-//---------------------------------------------------------------------------------------
-class DetailCostDataModel :
-    public QAbstractTableModel
+class DetailCostDataModel : public QSqlQueryModel
 {
     Q_OBJECT
 public:
     explicit DetailCostDataModel(QObject *parent = nullptr);
+    ~DetailCostDataModel();
+
+    // Load data from database using your JOIN query
+    bool loadDetailCostData();
+
+    // Override to provide custom headers
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
     bool getBAppDataOpen() const;
-
-    int RetrieveDetailCostData();
-
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Default methods required by QAbstractTableModel
-    //
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QString getLastError() const;
 
 private:
-    QSqlDatabase dbAutoCost;
+    QString buildDetailCostQuery() const;
 
-    bool
-        bAppDataOpen = false;
+    QSqlDatabase dbAutoCost;
+    bool bAppDataOpen = false;
+    QString strLastError;
+    QSqlError queryError;
 
 };
 

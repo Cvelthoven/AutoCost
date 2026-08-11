@@ -28,17 +28,23 @@ MainWindow::MainWindow(QWidget *parent)
     //
     //  Load the Program configuration
     //
-    //-----------------------------------------------------------------------------------
     if (ProgramConfigurationLoad() != 0)
     {
         exit(0);
     }
 
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Activate the GUI of the application
+    //  This creates the elements of the MainWindow
+    //
+    ui->setupUi(this);
+
     //-----------------------------------------------------------------------------------
     //
     //  Create connection to database
     //
-    //-----------------------------------------------------------------------------------
     if (ConnectApplicationDataDB() != 0)
     {
         exit(0);
@@ -46,22 +52,39 @@ MainWindow::MainWindow(QWidget *parent)
 
     //-----------------------------------------------------------------------------------
     //
-    //  Activate the GUI of the application
-    //  This creates the elements of the MainWindow
+    //  Create the model
     //
-    //-----------------------------------------------------------------------------------
-    ui->setupUi(this);
+    DetailCostDataModelTable = new DetailCostDataModel(this);
 
     //-----------------------------------------------------------------------------------
     //
-    //  Load detailed auto cost records from the database
+    //  Create the view
     //
+    DetailCostDataViewTable = new DetailCostDataView(this);
+
     //-----------------------------------------------------------------------------------
-    if (OpenAutoCostDetails() != 0)
-    {
-        exit(0);
+    //
+    //  Set the model for the view (this connects them)
+    //
+    DetailCostDataViewTable->setModel(DetailCostDataModelTable);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set the view as central widget
+    //
+    setCentralWidget(DetailCostDataViewTable);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Load initial data
+    if (!DetailCostDataViewTable->loadData()) {
+        qWarning() << "Error loading detail cost data";
     }
 
+    // Connect signals if needed
+    // connect(ui->actionRefresh, &QAction::triggered, DetailCostDataViewTable, [this]() {
+    //     DetailCostDataViewTable->loadData();
+    // });
 }
 
 //---------------------------------------------------------------------------------------
@@ -75,6 +98,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete ManualDataInput;
     delete DetailCostDataViewTable;
+    delete DetailCostDataModelTable;
  //   delete AutoCostDetails;
  //   delete AppDatabase;
  //   delete ApplicationConfig;

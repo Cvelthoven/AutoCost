@@ -15,7 +15,9 @@
 //
 //---------------------------------------------------------------------------------------
 #include "detailcostdatamodel.h"
-#include <QObject>
+
+#include <QTableView>
+#include <QPushButton>
 #include <QWidget>
 
 //---------------------------------------------------------------------------------------
@@ -23,15 +25,28 @@
 //  Class DetailCostDataView definitions
 //
 //---------------------------------------------------------------------------------------
-class DetailCostDataView
+class DetailCostDataView : public QWidget
 {
+    Q_OBJECT
 public:
-    DetailCostDataView();
+    explicit DetailCostDataView(QWidget *parent = nullptr);
+    ~DetailCostDataView();
+
+    // Set the model for the view
+    void setModel(DetailCostDataModel *model);
+
+    // Load and display data
+    bool loadData();
+
+private slots:
+    void onRefreshClicked();
 
 private:
-    DetailCostDataModel* DetailCostData;
+    QTableView *tableView;
+    QPushButton *refreshButton;
+    DetailCostDataModel *dataModel;
 
-    int iDetailCostRecordNb = -1;
+    void setupUI();
 };
 
 #endif // DETAILCOSTDATAVIEW_H
