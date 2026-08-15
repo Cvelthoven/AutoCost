@@ -17,9 +17,10 @@
 #include <QObject>
 #include <QSqlDatabase>
 #include <QSqlError>
-#include <QSqlQueryModel>
+#include <QAbstractTableModel>
+#include <QVector>
 
-class DetailCostDataModel : public QSqlQueryModel
+class DetailCostDataModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
@@ -28,6 +29,11 @@ public:
 
     // Load data from database using your JOIN query
     bool loadDetailCostData();
+
+    // QAbstractTableModel overrides
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     // Override to provide custom headers
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -43,6 +49,8 @@ private:
     QString strLastError;
     QSqlError queryError;
 
+    QVector<QString> m_headers;
+    QVector<QVector<QVariant>> m_rows;
 };
 
 #endif // DETAILCOSTDATAMODEL_H

@@ -15,7 +15,8 @@
 
 #include <QSqlDatabase>
 #include <QSqlError>
-#include <QSqlQueryModel>
+#include <QSqlQuery>
+#include <QSqlRecord>
 
 #include <QDebug>
 
@@ -29,7 +30,7 @@
 //
 //---------------------------------------------------------------------------------------
 DetailCostDataModel::DetailCostDataModel(QObject *parent)
-    : QSqlQueryModel(parent)
+    : QAbstractTableModel(parent)
 {
     qDebug() << "Constructor DetailCostDataModel called";
 
@@ -43,6 +44,21 @@ DetailCostDataModel::DetailCostDataModel(QObject *parent)
     } else {
         bAppDataOpen = false;
     }
+
+    m_headers = {
+        "ID",
+        "Type",
+        "Date",
+        "Description",
+        "Total Cost",
+        "Frequency",
+        "Elec ID",
+        "Km Total",
+        "KWh Loaded",
+        "Battery Start",
+        "Battery End",
+        "Start Time"
+    };
 }
 DetailCostDataModel::~DetailCostDataModel()
 {
@@ -94,17 +110,90 @@ bool DetailCostDataModel::loadDetailCostData()
         return false;
     }
 
-    setQuery(buildDetailCostQuery(), dbAutoCost);
-    queryError = this->lastError();
-    if (queryError.isValid()) {
+    QSqlQuery query(dbAutoCost);
+    if (!query.exec(buildDetailCostQuery())) {
+        queryError = query.lastError();
         strLastError = queryError.text();
         qWarning() << "Query error:" << strLastError;
         return false;
     }
 
+    beginResetModel();
+    m_rows.clear();
 
-    qDebug() << "Loaded" << rowCount() << "records";
+    while (query.next()) {
+        QVector<QVariant> row;
+        row.reserve(m_headers.size());
+
+        for (int col = 0; col < m_headers.size(); ++col) {
+            row.append(query.value(col));
+        }
+
+        m_rows.append(row);
+    }
+
+    endResetModel();
+
+    strLastError.clear();
+    qDebug() << "Loaded" << m_rows.size() << "records";
     return true;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  rowCount
+//
+//---------------------------------------------------------------------------------------
+int DetailCostDataModel::rowCount(const QModelIndex &parent) const
+{
+    if (parent.isValid()) {
+        return 0;
+    }
+
+    return m_rows.size();
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  columnCount
+//
+//---------------------------------------------------------------------------------------
+int DetailCostDataModel::columnCount(const QModelIndex &parent) const
+{
+    if (parent.isValid()) {
+        return 0;
+    }
+
+    return m_headers.size();
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  data
+//
+//---------------------------------------------------------------------------------------
+QVariant DetailCostDataModel::data(const QModelIndex &index, int role) const
+{
+    if (!index.isValid()) {
+        return QVariant();
+    }
+
+    if (role != Qt::DisplayRole) {
+        return QVariant();
+    }
+
+    const int row = index.row();
+    const int col = index.column();
+
+    if (row < 0 || row >= m_rows.size()) {
+        return QVariant();
+    }
+
+    if (col < 0 || col >= m_headers.size()) {
+        return QVariant();
+    }
+
+    return m_rows.at(row).at(col);
 }
 
 //---------------------------------------------------------------------------------------
@@ -114,25 +203,18 @@ bool DetailCostDataModel::loadDetailCostData()
 //---------------------------------------------------------------------------------------
 QVariant DetailCostDataModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
-        // Return custom headers
-        switch(section) {
-        case 0: return "ID";
-        case 1: return "Type";
-        case 2: return "Date";
-        case 3: return "Description";
-        case 4: return "Total Cost";
-        case 5: return "Frequency";
-        case 6: return "Elec ID";
-        case 7: return "Km Total";
-        case 8: return "KWh Loaded";
-        case 9: return "Battery Start";
-        case 10: return "Battery End";
-        case 11: return "Start Time";
-        default: return QString();
-        }
+    if (role != Qt::DisplayRole) {
+        return QVariant();
     }
-    return QSqlQueryModel::headerData(section, orientation, role);
+
+    if (orientation == Qt::Horizontal) {
+        if (section >= 0 && section < m_headers.size()) {
+            return m_headers.at(section);
+        }
+        return QVariant();
+    }
+
+    return QAbstractTableModel::headerData(section, orientation, role);
 }
 
 //---------------------------------------------------------------------------------------
