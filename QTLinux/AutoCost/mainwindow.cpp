@@ -6,6 +6,7 @@
 //
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
+#include "detailcostdatamodel.h"
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "postgresqldb.h"
@@ -22,7 +23,8 @@
 //---------------------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindow),
+    DetailCostDataModelTable(new DetailCostDataModel(this))
 {
     //-----------------------------------------------------------------------------------
     //
@@ -52,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //-----------------------------------------------------------------------------------
     //
-    //  Create the model
+    //  Create the detail cost data model and load data
     //
     DetailCostDataModelTable = new DetailCostDataModel(this);
 
@@ -60,26 +62,29 @@ MainWindow::MainWindow(QWidget *parent)
     //
     //  Create the view
     //
-    DetailCostDataViewTable = new DetailCostDataView(this);
+
 
     //-----------------------------------------------------------------------------------
     //
     //  Set the model for the view (this connects them)
     //
-    DetailCostDataViewTable->setModel(DetailCostDataModelTable);
+    //
+    ui->tblDetailOverview->setModel(DetailCostDataModelTable);
 
     //-----------------------------------------------------------------------------------
     //
-    //  Set the view as central widget
+    //  Set the view to tblDetailOverview
     //
-    setCentralWidget(DetailCostDataViewTable);
+    // setCentralWidget(DetailCostDataViewTable);
+
 
     //-----------------------------------------------------------------------------------
     //
     //  Load initial data
-    if (!DetailCostDataViewTable->loadData()) {
-        qWarning() << "Error loading detail cost data";
-    }
+    // if (!DetailCostDataViewTable->loadData())
+    // {
+    //     qWarning() << "Error loading detail cost data";
+    // }
 
     // Connect signals if needed
     // connect(ui->actionRefresh, &QAction::triggered, DetailCostDataViewTable, [this]() {
@@ -97,7 +102,7 @@ MainWindow::~MainWindow()
     AppDataDB->close();
     delete ui;
     delete ManualDataInput;
-    delete DetailCostDataViewTable;
+ //   delete DetailCostDataViewTable;
     delete DetailCostDataModelTable;
  //   delete AutoCostDetails;
  //   delete AppDatabase;
@@ -167,7 +172,7 @@ int MainWindow::OpenAutoCostDetails()
  //   AutoCostDetails = new DetailCostTableModel();
     qDebug() << "Constructor DetailCostDataView called in MainWindow->OpenAutoCostDetails";
 
-    DetailCostDataViewTable = new DetailCostDataView();
+//    DetailCostDataViewTable = new DetailCostDataView();
 
     //-----------------------------------------------------------------------------------
     //

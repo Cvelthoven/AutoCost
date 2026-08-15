@@ -15,9 +15,7 @@
 #include "appsettingsdialog.h"
 #include "datainput.h"
 #include "datainputdialog.h"
-#include "detailcostdataview.h"
 #include "detailcostdatamodel.h"
-//#include "detailcosttablemodel.h"// needs to be removed
 #include "postgresqldb.h"
 
 #include <QMainWindow>
@@ -67,9 +65,7 @@ private:
     //-----------------------------------------------------------------------------------
     AppConfiguration* ApplicationConfiguration = nullptr;
     DataInput* ManualData = nullptr;
-    DetailCostDataView* DetailCostDataViewTable = nullptr;
     DetailCostDataModel* DetailCostDataModelTable = nullptr;
- //   DetailCostTableModel *AutoCostDetails = nullptr;// needs to be removed
     PostGreSQLDB* AppDataDB = nullptr;
 
 

@@ -1,3 +1,5 @@
+// Must be removed
+//  only needed in case one of the default QT tableview is not sufficient
 //---------------------------------------------------------------------------------------
 //
 //  Module: detailcostdataview.cpp
@@ -10,6 +12,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "detailcostdatamodel.h"
 #include "detailcostdataview.h"
 
 #include <QVBoxLayout>
@@ -26,8 +29,10 @@
 //  constructor and destructor
 //
 //---------------------------------------------------------------------------------------
+// DetailCostDataView::DetailCostDataView(QWidget *parent)
+    // : QWidget(parent), tableView(nullptr), refreshButton(nullptr), dataModel(nullptr)
 DetailCostDataView::DetailCostDataView(QWidget *parent)
-    : QWidget(parent), tableView(nullptr), refreshButton(nullptr), dataModel(nullptr)
+    : QTableView(parent)
 {
     qDebug() << "Constructor DetailCostDataView called";
     setupUI();

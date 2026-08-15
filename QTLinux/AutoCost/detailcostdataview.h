@@ -1,3 +1,5 @@
+// Must be removed
+//  only needed in case one of the default QT tableview is not sufficient
 //---------------------------------------------------------------------------------------
 //
 //  Module: detailcostdataview.cpp
@@ -25,7 +27,8 @@
 //  Class DetailCostDataView definitions
 //
 //---------------------------------------------------------------------------------------
-class DetailCostDataView : public QWidget
+//class DetailCostDataView : public QWidget
+class DetailCostDataView : public QTableView
 {
     Q_OBJECT
 public:
