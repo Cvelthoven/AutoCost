@@ -3,7 +3,7 @@
 //  Module: detailcostdatamodel.h
 //
 //  This class manages the detail cost data
-//  The class DetailCostDataView manages the presentation of the detailed cost data
+//  The default QT class QTableView handles the presentation
 //
 //---------------------------------------------------------------------------------------
 #ifndef DETAILCOSTDATAMODEL_H
@@ -42,15 +42,26 @@ public:
     QString getLastError() const;
 
 private:
+    //-----------------------------------------------------------------------------------
+    //
+    //  Private methods
+    //
+    //-----------------------------------------------------------------------------------
     QString buildDetailCostQuery() const;
 
-    QSqlDatabase dbAutoCost;
+    //-----------------------------------------------------------------------------------
+    //
+    //  Private variables
+    //
+    //-----------------------------------------------------------------------------------
     bool bAppDataOpen = false;
-    QString strLastError;
+    QSqlDatabase dbAutoCost;
     QSqlError queryError;
+    QString strLastError;
 
-    QVector<QString> m_headers;
+    QVector<QString> strHeaders;
     QVector<QVector<QVariant>> m_rows;
+
 };
 
 #endif // DETAILCOSTDATAMODEL_H

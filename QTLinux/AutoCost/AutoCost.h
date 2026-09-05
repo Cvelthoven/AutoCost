@@ -78,6 +78,11 @@ enum CostOverViewCol
     CostOverViewPeriod
 
 };
+
+//---------------------------------------------------------------------------------------
+//
+//  Descriptove names for the record types
+//
 enum CostRecordTypes
 {
     CostRecPeriodic = 1,
@@ -86,17 +91,26 @@ enum CostRecordTypes
     CostRecAccessory
 };
 
-enum ElecRecordFiels
+//---------------------------------------------------------------------------------------
+//
+//  Descriptive column names of DetailCostDataModel query
+//
+enum DataColumnFields
 {
-    ElecRecRecID = 0,
-    ElecRecDate,
-    ElecRecKmTotal,
-    ElekRecKWhLoaded,
-    ElecRecCapBatStart,
-    ElecRecCapBatEnd,
-    ElecRecStartTime,
-    ElecRecAutoCostRecID
+    DataColAutoCostRecID = 0,
+    DataColAutoCostRecType,
+    DataColAutoCostDate,
+    DataColAutoCostDescription,
+    DataColAutoCostTotalCost,
+    DataColAutoCostFrequency,
+    DataColElectricityRecID,
+    DataColElectricityKmTotal,
+    DataColElectricityKWhLoaded,
+    DataColElectricityCapBattteryStart,
+    DataColElectricityCapBatteryEnd,
+    DataColElectricityStartTime
 };
+
 
 //---------------------------------------------------------------------------------------
 //

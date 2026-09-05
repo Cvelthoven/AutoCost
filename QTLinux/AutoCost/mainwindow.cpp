@@ -23,8 +23,7 @@
 //---------------------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow),
-    DetailCostDataModelTable(new DetailCostDataModel(this))
+    , ui(new Ui::MainWindow)
 {
     //-----------------------------------------------------------------------------------
     //
@@ -57,11 +56,10 @@ MainWindow::MainWindow(QWidget *parent)
     //  Create the detail cost data model and load data
     //
     DetailCostDataModelTable = new DetailCostDataModel(this);
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Create the view
-    //
+    if (!DetailCostDataModelTable->loadDetailCostData())
+    {
+        exit(0);
+    }
 
 
     //-----------------------------------------------------------------------------------
@@ -70,6 +68,7 @@ MainWindow::MainWindow(QWidget *parent)
     //
     //
     ui->tblDetailOverview->setModel(DetailCostDataModelTable);
+    ConfigureAutoCostDetails();
 
     //-----------------------------------------------------------------------------------
     //
@@ -77,19 +76,6 @@ MainWindow::MainWindow(QWidget *parent)
     //
     // setCentralWidget(DetailCostDataViewTable);
 
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Load initial data
-    // if (!DetailCostDataViewTable->loadData())
-    // {
-    //     qWarning() << "Error loading detail cost data";
-    // }
-
-    // Connect signals if needed
-    // connect(ui->actionRefresh, &QAction::triggered, DetailCostDataViewTable, [this]() {
-    //     DetailCostDataViewTable->loadData();
-    // });
 }
 
 //---------------------------------------------------------------------------------------
@@ -102,11 +88,7 @@ MainWindow::~MainWindow()
     AppDataDB->close();
     delete ui;
     delete ManualDataInput;
- //   delete DetailCostDataViewTable;
     delete DetailCostDataModelTable;
- //   delete AutoCostDetails;
- //   delete AppDatabase;
- //   delete ApplicationConfig;
 
 }
 
@@ -115,6 +97,44 @@ MainWindow::~MainWindow()
 //  MainWindow methodes
 //
 //---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//
+//  ConfigureAutoCostDetails
+//
+//  Sets the column width of the detail cost table view
+//
+//---------------------------------------------------------------------------------------
+void MainWindow::ConfigureAutoCostDetails()
+{
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Create the view of the detail cost
+    //
+    //-----------------------------------------------------------------------------------
+    ui->tblDetailOverview->setColumnWidth(CostOverViewRecID, 20);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewRecType, 20);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewDate, 90);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewDescription, 300);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewPeriodic, 75);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewElectricity, 75);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewOther, 75);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewAccessory, 75);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewMillage, 60);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewMillageTrip, 60);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewKWhTrip, 60);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewKWhLoaded, 80);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewKWhperKM, 60);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewAvgEuroPerKWh, 90);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewKWhPerPercentage, 60);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewKMPerPercentage, 60);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewAccuStartPercentage, 75);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewAccuEndPercentage, 75);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewAccuUsagePercentage, 80);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewAccuLoadDeltaPercentage, 75);
+
+}
+
 //---------------------------------------------------------------------------------------
 //
 //  ConnectApplicationDataDB
@@ -153,55 +173,6 @@ int MainWindow::ConnectApplicationDataDB()
     }
 
     return iRC;
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  OpenAutoCostDetails
-//
-//  Creates an table overview of the auto cost details
-//
-//---------------------------------------------------------------------------------------
-int MainWindow::OpenAutoCostDetails()
-{
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Create an instance of details autocost overview
-    //
- //   AutoCostDetails = new DetailCostTableModel();
-    qDebug() << "Constructor DetailCostDataView called in MainWindow->OpenAutoCostDetails";
-
-//    DetailCostDataViewTable = new DetailCostDataView();
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Create the view of the detail cost
-    //
-    //-----------------------------------------------------------------------------------
-    // ui->tblDetailOverview->setModel(AutoCostDetails);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewRecID, 20);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewRecType, 20);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewDate, 90);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewDescription, 300);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewPeriodic, 75);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewElectricity, 75);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewOther, 75);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewAccessory, 75);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewMillage, 60);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewMillageTrip, 60);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewKWhTrip, 60);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewKWhLoaded, 80);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewKWhperKM, 60);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewAvgEuroPerKWh, 90);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewKWhPerPercentage, 60);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewKMPerPercentage, 60);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewAccuStartPercentage, 75);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewAccuEndPercentage, 75);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewAccuUsagePercentage, 80);
-    // ui->tblDetailOverview->setColumnWidth(CostOverViewAccuLoadDeltaPercentage, 75);
-
-    return 0;
 }
 
 //---------------------------------------------------------------------------------------

@@ -3,7 +3,7 @@
 //  Module: detailcostdatamodel.cpp
 //
 //  This class manages the detail cost data
-//  The class DetailCostDataView manages the presentation of the detailed cost data
+//  The default QT class QTableView handles the presentation
 //
 //---------------------------------------------------------------------------------------
 //
@@ -45,18 +45,28 @@ DetailCostDataModel::DetailCostDataModel(QObject *parent)
         bAppDataOpen = false;
     }
 
-    m_headers = {
+    strHeaders = {
         "ID",
         "Type",
         "Date",
         "Description",
-        "Total Cost",
+        "Periodic",
+        "Electricity",
+        "Other",
+        "Accessories",
         "Frequency",
         "Elec ID",
-        "Km Total",
+        "Milage total",
+        "Milage trip",
+        "KWh trip",
         "KWh Loaded",
+        "KWh/km",
+        "Avg €/KWh",
+        "KWh/%",
+        "km/%",
         "Battery Start",
         "Battery End",
+        "Load Delta",
         "Start Time"
     };
 }
@@ -104,12 +114,33 @@ QString DetailCostDataModel::buildDetailCostQuery() const
 //---------------------------------------------------------------------------------------
 bool DetailCostDataModel::loadDetailCostData()
 {
-    if (!bAppDataOpen) {
+    //-----------------------------------------------------------------------------------
+    //
+    //  Local variables
+    //
+    //-----------------------------------------------------------------------------------
+    int
+        iDataColumnNb = 0,
+        iDataColums = 0,
+        iViewColumn = 0;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Verify database is open
+    //
+    //-----------------------------------------------------------------------------------
+    if (!bAppDataOpen)
+    {
         strLastError = "Database connection not open";
         qWarning() << strLastError;
         return false;
     }
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Execute SQL query
+    //
+    //-----------------------------------------------------------------------------------
     QSqlQuery query(dbAutoCost);
     if (!query.exec(buildDetailCostQuery())) {
         queryError = query.lastError();
@@ -117,19 +148,87 @@ bool DetailCostDataModel::loadDetailCostData()
         qWarning() << "Query error:" << strLastError;
         return false;
     }
+    iDataColums = query.record().count();
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Reset table view datamodel
+    //
+    //-----------------------------------------------------------------------------------
     beginResetModel();
     m_rows.clear();
 
-    while (query.next()) {
+    //-----------------------------------------------------------------------------------
+    //
+    //  Build Table view datamodel
+    //
+    //-----------------------------------------------------------------------------------
+    while (query.next())
+    {
         QVector<QVariant> row;
-        row.reserve(m_headers.size());
+        row.reserve(strHeaders.size());
 
-        for (int col = 0; col < m_headers.size(); ++col) {
-            row.append(query.value(col));
+        //-------------------------------------------------------------------------------
+        //
+        //  Load data from record into temp variables the column calculations
+        //
+        for (iDataColumnNb = 0; iDataColumnNb < iDataColums; iDataColumnNb++)
+        {
+            switch (iDataColumnNb)
+            {
+            case DataColAutoCostRecID:
+                break;
+            case DataColAutoCostDate:
+                break;
+            case DataColAutoCostDescription:
+                break;
+            case DataColAutoCostRecType:
+                break;
+            case DataColAutoCostFrequency:
+                break;
+            case DataColAutoCostTotalCost:
+                break;
+            case DataColElectricityRecID:
+                break;
+            case DataColElectricityKmTotal:
+                break;
+            case DataColElectricityKWhLoaded:
+                break;
+            case DataColElectricityCapBattteryStart:
+                break;
+            case DataColElectricityCapBatteryEnd:
+                break;
+            case DataColElectricityStartTime:
+                break;
+            default:
+                break;
+            }
+
+        }
+
+        for (iViewColumn = 0; iViewColumn < strHeaders.size(); ++iViewColumn)
+        {
+            switch (iDataColumnNb)
+            {
+            case DataColAutoCostRecID:
+                iViewColumn = CostOverViewRecID;
+                break;
+            case DataColAutoCostRecType:
+                iViewColumn = CostOverViewRecType;
+                break;
+            case DataColAutoCostDate:
+                iViewColumn = CostOverViewDate;
+                break;
+            case DataColAutoCostDescription:
+                iViewColumn = CostOverViewDescription;
+                break;
+            }
+            row.append(query.value(iDataColumnNb));
+            iDataColumnNb++;
         }
 
         m_rows.append(row);
+        iDataColumnNb = 0;
     }
 
     endResetModel();
@@ -164,7 +263,7 @@ int DetailCostDataModel::columnCount(const QModelIndex &parent) const
         return 0;
     }
 
-    return m_headers.size();
+    return strHeaders.size();
 }
 
 //---------------------------------------------------------------------------------------
@@ -189,7 +288,7 @@ QVariant DetailCostDataModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    if (col < 0 || col >= m_headers.size()) {
+    if (col < 0 || col >= strHeaders.size()) {
         return QVariant();
     }
 
@@ -208,8 +307,8 @@ QVariant DetailCostDataModel::headerData(int section, Qt::Orientation orientatio
     }
 
     if (orientation == Qt::Horizontal) {
-        if (section >= 0 && section < m_headers.size()) {
-            return m_headers.at(section);
+        if (section >= 0 && section < strHeaders.size()) {
+            return strHeaders.at(section);
         }
         return QVariant();
     }

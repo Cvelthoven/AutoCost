@@ -54,8 +54,8 @@ private:
     //  Private methods
     //
     //-----------------------------------------------------------------------------------
+    void ConfigureAutoCostDetails();
     int ConnectApplicationDataDB();
-    int OpenAutoCostDetails();
     int ProgramConfigurationLoad();
 
     //-----------------------------------------------------------------------------------
