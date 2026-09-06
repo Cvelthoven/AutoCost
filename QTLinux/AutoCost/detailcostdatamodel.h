@@ -14,7 +14,9 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include <QDateTime>
 #include <QObject>
+#include <QString>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QAbstractTableModel>
@@ -48,6 +50,10 @@ private:
     //
     //-----------------------------------------------------------------------------------
     QString buildDetailCostQuery() const;
+    QString CostAccessory();
+    QString CostElectricity();
+    QString CostOther();
+    QString CostPeriodic();
 
     //-----------------------------------------------------------------------------------
     //
@@ -61,6 +67,28 @@ private:
 
     QVector<QString> strHeaders;
     QVector<QVector<QVariant>> m_rows;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Variables that contain record values
+    //
+    double
+        dAutoCostTotalCost = -999999,
+        dElectricityKWhLoaded = -1;
+    int
+        iAutoCostRecID = -1,
+        iAutoCostType = -1,
+        iAutoCostFrequency = -1,
+        iElectricityRecID = -1,
+        iElectricityTotalKM = -1,
+        iElectricityAccuStart = -1,
+        iElectricityAccuEnd = -1;
+    QDate
+        dtAutoCoatDate;
+    QString
+        strAutoCostDescription = "";
+    QTime
+        tmElectricityStartTime;
 
 };
 

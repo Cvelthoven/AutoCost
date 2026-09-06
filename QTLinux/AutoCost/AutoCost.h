@@ -63,6 +63,7 @@ enum CostOverViewCol
     CostOverViewElectricity,
     CostOverViewOther,
     CostOverViewAccessory,
+    CostOverViewElecRecId,
     CostOverViewMillage,
     CostOverViewMillageTrip,
     CostOverViewKWhTrip,

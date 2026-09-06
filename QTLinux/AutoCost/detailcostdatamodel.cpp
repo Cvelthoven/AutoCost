@@ -13,6 +13,7 @@
 #include "AutoCost.h"
 #include "detailcostdatamodel.h"
 
+#include <QDateTime>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -54,7 +55,6 @@ DetailCostDataModel::DetailCostDataModel(QObject *parent)
         "Electricity",
         "Other",
         "Accessories",
-        "Frequency",
         "Elec ID",
         "Milage total",
         "Milage trip",
@@ -67,7 +67,8 @@ DetailCostDataModel::DetailCostDataModel(QObject *parent)
         "Battery Start",
         "Battery End",
         "Load Delta",
-        "Start Time"
+        "Start Time",
+        "Frequency"
     };
 }
 DetailCostDataModel::~DetailCostDataModel()
@@ -124,6 +125,9 @@ bool DetailCostDataModel::loadDetailCostData()
         iDataColums = 0,
         iViewColumn = 0;
 
+    QString
+        strValue = "";
+
     //-----------------------------------------------------------------------------------
     //
     //  Verify database is open
@@ -177,28 +181,43 @@ bool DetailCostDataModel::loadDetailCostData()
             switch (iDataColumnNb)
             {
             case DataColAutoCostRecID:
-                break;
-            case DataColAutoCostDate:
-                break;
-            case DataColAutoCostDescription:
+                iAutoCostRecID = query.value(iDataColumnNb).toInt();
                 break;
             case DataColAutoCostRecType:
+                iAutoCostType = query.value(iDataColumnNb).toInt();
+                break;
+            case DataColAutoCostDate:
+                dtAutoCoatDate = query.value(iDataColumnNb).toDate();
+                break;
+            case DataColAutoCostDescription:
+                strAutoCostDescription = query.value(iDataColumnNb).toString();
                 break;
             case DataColAutoCostFrequency:
+                iAutoCostFrequency = query.value(iDataColumnNb).toInt();
                 break;
             case DataColAutoCostTotalCost:
+                dAutoCostTotalCost = query.value(iDataColumnNb).toDouble();
                 break;
             case DataColElectricityRecID:
+                iElectricityRecID = query.value(iDataColumnNb).toInt();
                 break;
             case DataColElectricityKmTotal:
+                iElectricityTotalKM = query.value(iDataColumnNb).toInt();
                 break;
             case DataColElectricityKWhLoaded:
+                dElectricityKWhLoaded = query.value(iDataColumnNb).toDouble();
                 break;
             case DataColElectricityCapBattteryStart:
+                iElectricityAccuStart = query.value(iDataColumnNb).toInt();
                 break;
             case DataColElectricityCapBatteryEnd:
+                iElectricityAccuEnd = query.value(iDataColumnNb).toInt();
                 break;
             case DataColElectricityStartTime:
+                if (iAutoCostType == CostRecElectricity)
+                {
+                    tmElectricityStartTime = query.value(iDataColumnNb).toTime();
+                }
                 break;
             default:
                 break;
@@ -206,29 +225,50 @@ bool DetailCostDataModel::loadDetailCostData()
 
         }
 
+        //-------------------------------------------------------------------------------
+        //
+        //  Write values to detailcost table view
+        //
         for (iViewColumn = 0; iViewColumn < strHeaders.size(); ++iViewColumn)
         {
-            switch (iDataColumnNb)
+            switch (iViewColumn)
             {
-            case DataColAutoCostRecID:
-                iViewColumn = CostOverViewRecID;
+            case CostOverViewRecID:
+                strValue = QString::number(iAutoCostRecID);
                 break;
-            case DataColAutoCostRecType:
-                iViewColumn = CostOverViewRecType;
+            case CostOverViewRecType:
+                strValue = QString::number(iAutoCostType);
                 break;
-            case DataColAutoCostDate:
-                iViewColumn = CostOverViewDate;
+            case CostOverViewDate:
+                strValue = dtAutoCoatDate.toString("dd-MM-yyyy");
                 break;
-            case DataColAutoCostDescription:
-                iViewColumn = CostOverViewDescription;
+            case CostOverViewDescription:
+                strValue = strAutoCostDescription;
+                break;
+            case CostOverViewPeriodic:
+                strValue = CostPeriodic();
+                break;
+            case CostOverViewElectricity:
+                strValue = CostElectricity();
+                break;
+            case CostOverViewOther:
+                strValue = CostOther();
+                break;
+            case CostOverViewAccessory:
+                strValue = CostAccessory();
+                break;
+            case CostOverViewPeriod:
+                strValue = QString::number(iAutoCostFrequency);
+                break;
+            default:
+                strValue = "";
                 break;
             }
-            row.append(query.value(iDataColumnNb));
-            iDataColumnNb++;
+            row.append(strValue);
+            strValue = "";
         }
 
         m_rows.append(row);
-        iDataColumnNb = 0;
     }
 
     endResetModel();
@@ -335,3 +375,72 @@ QString DetailCostDataModel::getLastError() const
 {
     return strLastError;
 }
+
+//---------------------------------------------------------------------------------------
+//
+//  CostAccessory
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostAccessory()
+{
+QString
+        strAccessoryCost = "";
+
+    if (iAutoCostType == CostRecAccessory)
+    {
+        strAccessoryCost = QString::number(dAutoCostTotalCost, 'f', 2);
+    }
+    return strAccessoryCost;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  CostElectricity
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostElectricity()
+{
+    QString
+        strElectricityCost = "";
+
+    if (iAutoCostType == CostRecElectricity)
+    {
+        strElectricityCost = QString::number(dAutoCostTotalCost, 'f', 2);
+    }
+    return strElectricityCost;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  CostOther
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostOther()
+{
+    QString
+        strOtherCost = "";
+
+    if (iAutoCostType == CostRecOther)
+    {
+        strOtherCost = QString::number(dAutoCostTotalCost, 'f', 2);
+    }
+    return strOtherCost;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  CostPeriodic
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostPeriodic()
+{
+    QString
+        strPeriodicCost = "";
+
+    if (iAutoCostType == CostRecPeriodic)
+    {
+        strPeriodicCost = QString::number(dAutoCostTotalCost, 'f', 2);
+    }
+    return strPeriodicCost;
+}
+
