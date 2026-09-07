@@ -52,12 +52,16 @@ private:
     QString buildDetailCostQuery() const;
     QString CostAccessory();
     QString CostAccuEnd();
+    QString CostAccuLoadDelta();
     QString CostAccuStart();
+    QString CostAccuUsedPercentage();
     QString CostElectricity();
     QString CostElectricityRecId();
     QString CostKWhLoaded();
+    QString CostLoadStartTime();
     QString CostMillage();
     QString CostMillageTrip();
+    QString CostTripKwhUsed();
     QString CostOther();
     QString CostPeriodic();
 
@@ -69,6 +73,8 @@ private:
     bool bAppDataOpen = false;
 
     double
+        dElectrcityAccuUsedPercentage = 0,
+        dElectricitySessionLoadPercentage = 0,
         dElectricityTotalKMPrev = 0,
         dElectrictyTripKM = 0;
 

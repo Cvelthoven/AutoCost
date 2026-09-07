@@ -63,6 +63,7 @@ DetailCostDataModel::DetailCostDataModel(QObject *parent)
         "km/%",
         "Battery Start",
         "Battery End",
+        "Battery Used",
         "Load Delta",
         "Start Time",
         "Auto ID",
@@ -258,6 +259,7 @@ bool DetailCostDataModel::loadDetailCostData()
                 strValue = CostMillageTrip();
                 break;
             case CostOverViewKWhTrip:
+                strValue = CostTripKwhUsed();
                 break;
             case CostOverViewKWhLoaded:
                 strValue = CostKWhLoaded();
@@ -274,15 +276,17 @@ bool DetailCostDataModel::loadDetailCostData()
                 strValue = CostAccuStart();
                 break;
              case CostOverViewAccuEndPercentage:
-                 strValue = CostAccuEnd();
-                 break;
+                strValue = CostAccuEnd();
+                break;
             case CostOverViewAccuUsagePercentage:
+                 strValue = CostAccuUsedPercentage();
                 break;
             case CostOverViewAccuLoadDeltaPercentage:
+                strValue = CostAccuLoadDelta();
                 break;
             case CostOverViewLoadStartTime:
+                strValue = CostLoadStartTime();
                 break;
-            // Following value should be hidden in final release
             case CostOverViewRecID:
                 strValue = QString::number(iAutoCostRecID);
                 break;
@@ -444,6 +448,23 @@ QString DetailCostDataModel::CostAccuEnd()
     }
     return strElectricityAccuEnd;
 }
+//---------------------------------------------------------------------------------------
+//
+//  CostAccuLoadDelta
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostAccuLoadDelta()
+{
+    QString
+        strAccuLoadDelta = "";
+
+    if (iAutoCostType == CostRecElectricity)
+    {
+        dElectricitySessionLoadPercentage = dElectricityAccuEnd - dElectricityAccuStart;
+        strAccuLoadDelta = QString::number(dElectricitySessionLoadPercentage, 'f', 0);
+    }
+    return strAccuLoadDelta;
+}
 
 //---------------------------------------------------------------------------------------
 //
@@ -460,6 +481,30 @@ QString DetailCostDataModel::CostAccuStart()
         strElectricityAccuStart = QString::number(dElectricityAccuStart, 'f', 0);
     }
     return strElectricityAccuStart;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  CostAccuUsedPercentage
+//
+//  The end percentage of the previous load session is store locally in method
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostAccuUsedPercentage()
+{
+    static double
+        dElectricityAccuEndPrev = 90;
+
+    QString
+        strElectricityAccuUsedPercentage = "";
+
+    if (iAutoCostType == CostRecElectricity)
+    {
+        dElectrcityAccuUsedPercentage = dElectricityAccuEndPrev - dElectricityAccuStart;
+        strElectricityAccuUsedPercentage = QString::number(dElectrcityAccuUsedPercentage, 'f', 0);
+        dElectricityAccuEndPrev = dElectricityAccuEnd;
+    }
+    return strElectricityAccuUsedPercentage;
 }
 
 //---------------------------------------------------------------------------------------
@@ -511,6 +556,23 @@ QString DetailCostDataModel::CostKWhLoaded()
         strKWhLoaded = QString::number(dElectricityKWhLoaded, 'f', 2);
     }
     return strKWhLoaded;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  CostLoadStartTime
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostLoadStartTime()
+{
+    QString
+        strLoadStartTime = "";
+
+    if (iAutoCostType == CostRecElectricity)
+    {
+        strLoadStartTime = tmElectricityStartTime.toString("HH:mm");
+    }
+    return strLoadStartTime;
 }
 
 //---------------------------------------------------------------------------------------
@@ -583,3 +645,28 @@ QString DetailCostDataModel::CostPeriodic()
     return strPeriodicCost;
 }
 
+//---------------------------------------------------------------------------------------
+//
+//  CostTripKwhUsed
+//
+//  The end percentage of the previous load session is store locally in method
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostTripKwhUsed()
+{
+    static double
+        dAccuEndPrev = 90;
+
+    QString
+        strTripKWhUsed = "";
+
+    if (iAutoCostType == CostRecElectricity)
+    {
+        strTripKWhUsed = QString::number((dElectricityKWhLoaded *
+                                ((dAccuEndPrev - dElectricityAccuStart)/
+                                (dElectricityAccuEnd - dElectricityAccuStart))),
+                                'f', 3);
+        dAccuEndPrev = dElectricityAccuEnd;
+    }
+    return strTripKWhUsed;
+}
