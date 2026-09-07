@@ -112,8 +112,6 @@ void MainWindow::ConfigureAutoCostDetails()
     //  Create the view of the detail cost
     //
     //-----------------------------------------------------------------------------------
-    ui->tblDetailOverview->setColumnWidth(CostOverViewRecID, 20);
-    ui->tblDetailOverview->setColumnWidth(CostOverViewRecType, 20);
     ui->tblDetailOverview->setColumnWidth(CostOverViewDate, 90);
     ui->tblDetailOverview->setColumnWidth(CostOverViewDescription, 300);
     ui->tblDetailOverview->setColumnWidth(CostOverViewPeriodic, 75);
@@ -132,6 +130,11 @@ void MainWindow::ConfigureAutoCostDetails()
     ui->tblDetailOverview->setColumnWidth(CostOverViewAccuEndPercentage, 75);
     ui->tblDetailOverview->setColumnWidth(CostOverViewAccuUsagePercentage, 80);
     ui->tblDetailOverview->setColumnWidth(CostOverViewAccuLoadDeltaPercentage, 75);
+    //  Following fields must be hidden in final release
+    ui->tblDetailOverview->setColumnWidth(CostOverViewRecID, 20);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewElecRecId, 20);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewRecType, 20);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewPeriod, 20);
 
 }
 

@@ -51,7 +51,13 @@ private:
     //-----------------------------------------------------------------------------------
     QString buildDetailCostQuery() const;
     QString CostAccessory();
+    QString CostAccuEnd();
+    QString CostAccuStart();
     QString CostElectricity();
+    QString CostElectricityRecId();
+    QString CostKWhLoaded();
+    QString CostMillage();
+    QString CostMillageTrip();
     QString CostOther();
     QString CostPeriodic();
 
@@ -61,6 +67,11 @@ private:
     //
     //-----------------------------------------------------------------------------------
     bool bAppDataOpen = false;
+
+    double
+        dElectricityTotalKMPrev = 0,
+        dElectrictyTripKM = 0;
+
     QSqlDatabase dbAutoCost;
     QSqlError queryError;
     QString strLastError;
@@ -74,15 +85,15 @@ private:
     //
     double
         dAutoCostTotalCost = -999999,
-        dElectricityKWhLoaded = -1;
+        dElectricityAccuStart = -1,
+        dElectricityAccuEnd = -1,
+        dElectricityKWhLoaded = -1,
+        dElectricityTotalKM = -1;
     int
         iAutoCostRecID = -1,
         iAutoCostType = -1,
         iAutoCostFrequency = -1,
-        iElectricityRecID = -1,
-        iElectricityTotalKM = -1,
-        iElectricityAccuStart = -1,
-        iElectricityAccuEnd = -1;
+        iElectricityRecID = -1;
     QDate
         dtAutoCoatDate;
     QString

@@ -47,15 +47,12 @@ DetailCostDataModel::DetailCostDataModel(QObject *parent)
     }
 
     strHeaders = {
-        "ID",
-        "Type",
         "Date",
         "Description",
         "Periodic",
         "Electricity",
         "Other",
         "Accessories",
-        "Elec ID",
         "Milage total",
         "Milage trip",
         "KWh trip",
@@ -68,6 +65,9 @@ DetailCostDataModel::DetailCostDataModel(QObject *parent)
         "Battery End",
         "Load Delta",
         "Start Time",
+        "Auto ID",
+        "Elec ID",
+        "Type",
         "Frequency"
     };
 }
@@ -202,16 +202,16 @@ bool DetailCostDataModel::loadDetailCostData()
                 iElectricityRecID = query.value(iDataColumnNb).toInt();
                 break;
             case DataColElectricityKmTotal:
-                iElectricityTotalKM = query.value(iDataColumnNb).toInt();
+                dElectricityTotalKM = query.value(iDataColumnNb).toDouble();
                 break;
             case DataColElectricityKWhLoaded:
                 dElectricityKWhLoaded = query.value(iDataColumnNb).toDouble();
                 break;
             case DataColElectricityCapBattteryStart:
-                iElectricityAccuStart = query.value(iDataColumnNb).toInt();
+                dElectricityAccuStart = query.value(iDataColumnNb).toDouble();
                 break;
             case DataColElectricityCapBatteryEnd:
-                iElectricityAccuEnd = query.value(iDataColumnNb).toInt();
+                dElectricityAccuEnd = query.value(iDataColumnNb).toDouble();
                 break;
             case DataColElectricityStartTime:
                 if (iAutoCostType == CostRecElectricity)
@@ -233,12 +233,6 @@ bool DetailCostDataModel::loadDetailCostData()
         {
             switch (iViewColumn)
             {
-            case CostOverViewRecID:
-                strValue = QString::number(iAutoCostRecID);
-                break;
-            case CostOverViewRecType:
-                strValue = QString::number(iAutoCostType);
-                break;
             case CostOverViewDate:
                 strValue = dtAutoCoatDate.toString("dd-MM-yyyy");
                 break;
@@ -256,6 +250,47 @@ bool DetailCostDataModel::loadDetailCostData()
                 break;
             case CostOverViewAccessory:
                 strValue = CostAccessory();
+                break;
+            case CostOverViewMillage:
+                strValue = CostMillage();
+                break;
+            case CostOverViewMillageTrip:
+                strValue = CostMillageTrip();
+                break;
+            case CostOverViewKWhTrip:
+                break;
+            case CostOverViewKWhLoaded:
+                strValue = CostKWhLoaded();
+                break;
+             case CostOverViewKWhperKM:
+                break;
+            case CostOverViewAvgEuroPerKWh:
+                break;
+            case CostOverViewKWhPerPercentage:
+                break;
+            case CostOverViewKMPerPercentage:
+                break;
+             case CostOverViewAccuStartPercentage:
+                strValue = CostAccuStart();
+                break;
+             case CostOverViewAccuEndPercentage:
+                 strValue = CostAccuEnd();
+                 break;
+            case CostOverViewAccuUsagePercentage:
+                break;
+            case CostOverViewAccuLoadDeltaPercentage:
+                break;
+            case CostOverViewLoadStartTime:
+                break;
+            // Following value should be hidden in final release
+            case CostOverViewRecID:
+                strValue = QString::number(iAutoCostRecID);
+                break;
+            case CostOverViewElecRecId:
+                strValue = CostElectricityRecId();
+                break;
+            case CostOverViewRecType:
+                strValue = QString::number(iAutoCostType);
                 break;
             case CostOverViewPeriod:
                 strValue = QString::number(iAutoCostFrequency);
@@ -395,6 +430,40 @@ QString
 
 //---------------------------------------------------------------------------------------
 //
+//  CostAccuEnd
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostAccuEnd()
+{
+    QString
+        strElectricityAccuEnd = "";
+
+    if (iAutoCostType == CostRecElectricity)
+    {
+        strElectricityAccuEnd = QString::number(dElectricityAccuEnd, 'f', 0);
+    }
+    return strElectricityAccuEnd;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  CostAccuStart
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostAccuStart()
+{
+    QString
+        strElectricityAccuStart = "";
+
+    if (iAutoCostType == CostRecElectricity)
+    {
+        strElectricityAccuStart = QString::number(dElectricityAccuStart, 'f', 0);
+    }
+    return strElectricityAccuStart;
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  CostElectricity
 //
 //---------------------------------------------------------------------------------------
@@ -408,6 +477,76 @@ QString DetailCostDataModel::CostElectricity()
         strElectricityCost = QString::number(dAutoCostTotalCost, 'f', 2);
     }
     return strElectricityCost;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  CostElectricity
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostElectricityRecId()
+{
+    QString
+        strElectricityCostRecID = "";
+
+    if (iAutoCostType == CostRecElectricity)
+    {
+        strElectricityCostRecID = QString::number(iElectricityRecID);
+    }
+    return strElectricityCostRecID;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  CostKWhLoaded
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostKWhLoaded()
+{
+    QString
+        strKWhLoaded = "";
+
+    if (iAutoCostType == CostRecElectricity)
+    {
+        strKWhLoaded = QString::number(dElectricityKWhLoaded, 'f', 2);
+    }
+    return strKWhLoaded;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  CostKWhLoaded
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostMillage()
+{
+    QString
+        strMillage = "";
+
+    if (iAutoCostType == CostRecElectricity)
+    {
+        strMillage = QString::number(dElectricityTotalKM, 'f', 0);
+    }
+    return strMillage;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  CostMillageTrip
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostMillageTrip()
+{
+    QString
+        strMillageTrip = "";
+
+    if (iAutoCostType == CostRecElectricity)
+    {
+        dElectrictyTripKM = dElectricityTotalKM - dElectricityTotalKMPrev;
+        strMillageTrip = QString::number(dElectrictyTripKM, 'f', 0);
+        dElectricityTotalKMPrev = dElectricityTotalKM;
+    }
+    return strMillageTrip;
 }
 
 //---------------------------------------------------------------------------------------

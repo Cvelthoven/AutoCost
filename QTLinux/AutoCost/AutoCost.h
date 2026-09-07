@@ -55,15 +55,12 @@ const QString
 //
 enum CostOverViewCol
 {
-    CostOverViewRecID = 0,
-    CostOverViewRecType,
-    CostOverViewDate,
+    CostOverViewDate = 0,
     CostOverViewDescription,
     CostOverViewPeriodic,
     CostOverViewElectricity,
     CostOverViewOther,
     CostOverViewAccessory,
-    CostOverViewElecRecId,
     CostOverViewMillage,
     CostOverViewMillageTrip,
     CostOverViewKWhTrip,
@@ -76,6 +73,10 @@ enum CostOverViewCol
     CostOverViewAccuEndPercentage,
     CostOverViewAccuUsagePercentage,
     CostOverViewAccuLoadDeltaPercentage,
+    CostOverViewLoadStartTime,
+    CostOverViewRecID,
+    CostOverViewElecRecId,
+    CostOverViewRecType,
     CostOverViewPeriod
 
 };
