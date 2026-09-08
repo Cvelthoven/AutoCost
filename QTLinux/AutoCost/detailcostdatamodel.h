@@ -56,8 +56,13 @@ private:
     QString CostAccuStart();
     QString CostAccuUsedPercentage();
     QString CostElectricity();
+    void CostElectricityFieldCalc();
     QString CostElectricityRecId();
+    QString CostEuroPerKWh();
+    QString CostKMperPercentage();
     QString CostKWhLoaded();
+    QString CostKWhPerKM();
+    QString CostKWhPerPercentage();
     QString CostLoadStartTime();
     QString CostMillage();
     QString CostMillageTrip();
@@ -74,6 +79,11 @@ private:
 
     double
         dElectrcityAccuUsedPercentage = 0,
+        dElectricityEuroPerKWh = 0,
+        dElectricityKMperPercentage = 0,
+        dElectricityKWhperKM = 0,
+        dElectricityKWhperPercentage = 0,
+        dElectirictyTripUsage = 0,
         dElectricitySessionLoadPercentage = 0,
         dElectricityTotalKMPrev = 0,
         dElectrictyTripKM = 0;

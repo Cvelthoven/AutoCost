@@ -223,7 +223,16 @@ bool DetailCostDataModel::loadDetailCostData()
             default:
                 break;
             }
+        }
 
+        //-------------------------------------------------------------------------------
+        //
+        //  Calculate values of electricity records
+        //
+        //-------------------------------------------------------------------------------
+        if (iAutoCostType == CostRecElectricity)
+        {
+            CostElectricityFieldCalc();
         }
 
         //-------------------------------------------------------------------------------
@@ -265,12 +274,16 @@ bool DetailCostDataModel::loadDetailCostData()
                 strValue = CostKWhLoaded();
                 break;
              case CostOverViewKWhperKM:
+                strValue = CostKWhPerKM();
                 break;
             case CostOverViewAvgEuroPerKWh:
-                break;
+                 strValue = CostEuroPerKWh();
+                 break;
             case CostOverViewKWhPerPercentage:
+                strValue = CostKWhPerPercentage();
                 break;
             case CostOverViewKMPerPercentage:
+                strValue = CostKMperPercentage();
                 break;
              case CostOverViewAccuStartPercentage:
                 strValue = CostAccuStart();
@@ -460,7 +473,6 @@ QString DetailCostDataModel::CostAccuLoadDelta()
 
     if (iAutoCostType == CostRecElectricity)
     {
-        dElectricitySessionLoadPercentage = dElectricityAccuEnd - dElectricityAccuStart;
         strAccuLoadDelta = QString::number(dElectricitySessionLoadPercentage, 'f', 0);
     }
     return strAccuLoadDelta;
@@ -487,22 +499,16 @@ QString DetailCostDataModel::CostAccuStart()
 //
 //  CostAccuUsedPercentage
 //
-//  The end percentage of the previous load session is store locally in method
-//
 //---------------------------------------------------------------------------------------
 QString DetailCostDataModel::CostAccuUsedPercentage()
 {
-    static double
-        dElectricityAccuEndPrev = 90;
 
     QString
         strElectricityAccuUsedPercentage = "";
 
     if (iAutoCostType == CostRecElectricity)
     {
-        dElectrcityAccuUsedPercentage = dElectricityAccuEndPrev - dElectricityAccuStart;
         strElectricityAccuUsedPercentage = QString::number(dElectrcityAccuUsedPercentage, 'f', 0);
-        dElectricityAccuEndPrev = dElectricityAccuEnd;
     }
     return strElectricityAccuUsedPercentage;
 }
@@ -526,6 +532,82 @@ QString DetailCostDataModel::CostElectricity()
 
 //---------------------------------------------------------------------------------------
 //
+//  CostElectricityFieldCalc
+//
+//  Method that calculates the fiels of the electricity field before the
+//  detailcost table is filled
+//
+//---------------------------------------------------------------------------------------
+void DetailCostDataModel::CostElectricityFieldCalc()
+{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Local variables
+    static double
+        dElectricityAccuEndPrev = 90;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Trip millage
+    //
+    dElectrictyTripKM = dElectricityTotalKM - dElectricityTotalKMPrev;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Percentage accu load session
+    //
+    dElectricitySessionLoadPercentage = dElectricityAccuEnd - dElectricityAccuStart;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Percentage accu usage of trip
+    //
+    dElectrcityAccuUsedPercentage = dElectricityAccuEndPrev - dElectricityAccuStart;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  KWh used during trip
+    //
+    dElectirictyTripUsage = (dElectricityKWhLoaded *
+                            ((dElectricityAccuEndPrev - dElectricityAccuStart)/
+                            (dElectricityAccuEnd - dElectricityAccuStart)));
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  KWh/km
+    //
+    dElectricityKWhperKM = dElectirictyTripUsage / dElectrictyTripKM;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Euro/KWh
+    //
+    dElectricityEuroPerKWh = dAutoCostTotalCost / dElectricityKWhLoaded;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  KWh per percentage loaded
+    //
+    dElectricityKWhperPercentage = dElectricityKWhLoaded /
+                                   dElectricitySessionLoadPercentage;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  KM per percentage loaded
+    //
+    dElectricityKMperPercentage = dElectrictyTripKM / dElectricitySessionLoadPercentage;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Save values that are basis for the next run
+    //
+    dElectricityTotalKMPrev = dElectricityTotalKM;
+    dElectricityAccuEndPrev = dElectricityAccuEnd;
+
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  CostElectricity
 //
 //---------------------------------------------------------------------------------------
@@ -543,6 +625,39 @@ QString DetailCostDataModel::CostElectricityRecId()
 
 //---------------------------------------------------------------------------------------
 //
+//  CostEuroPerKWh
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostEuroPerKWh()
+{
+    QString
+        strEuroPerKWh = "";
+
+    if (iAutoCostType == CostRecElectricity)
+    {
+        strEuroPerKWh = QString::number(dElectricityEuroPerKWh, 'f', 3);
+    }
+    return strEuroPerKWh;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  CostKMperPercentage
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostKMperPercentage()
+{
+    QString
+        strKMperPercentage = "";
+
+    if (iAutoCostType == CostRecElectricity)
+    {
+        strKMperPercentage = QString::number(dElectricityKMperPercentage, 'f', 4);
+    }
+    return strKMperPercentage;
+}
+//---------------------------------------------------------------------------------------
+//
 //  CostKWhLoaded
 //
 //---------------------------------------------------------------------------------------
@@ -556,6 +671,40 @@ QString DetailCostDataModel::CostKWhLoaded()
         strKWhLoaded = QString::number(dElectricityKWhLoaded, 'f', 2);
     }
     return strKWhLoaded;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  CostKWhPerKM
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostKWhPerKM()
+{
+    QString
+        strKWhPerKM = "";
+
+    if (iAutoCostType == CostRecElectricity)
+    {
+        strKWhPerKM = QString::number(dElectricityKWhperKM, 'f', 3);
+    }
+    return strKWhPerKM;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  CostKWhPerPercentage
+//
+//---------------------------------------------------------------------------------------
+QString DetailCostDataModel::CostKWhPerPercentage()
+{
+    QString
+        strKWhperPercentage = "";
+
+    if (iAutoCostType == CostRecElectricity)
+    {
+        strKWhperPercentage = QString::number(dElectricityKWhperPercentage, 'f', 4);
+    }
+    return strKWhperPercentage;
 }
 
 //---------------------------------------------------------------------------------------
@@ -577,7 +726,7 @@ QString DetailCostDataModel::CostLoadStartTime()
 
 //---------------------------------------------------------------------------------------
 //
-//  CostKWhLoaded
+//  CostMillage
 //
 //---------------------------------------------------------------------------------------
 QString DetailCostDataModel::CostMillage()
@@ -604,9 +753,7 @@ QString DetailCostDataModel::CostMillageTrip()
 
     if (iAutoCostType == CostRecElectricity)
     {
-        dElectrictyTripKM = dElectricityTotalKM - dElectricityTotalKMPrev;
         strMillageTrip = QString::number(dElectrictyTripKM, 'f', 0);
-        dElectricityTotalKMPrev = dElectricityTotalKM;
     }
     return strMillageTrip;
 }
@@ -649,24 +796,15 @@ QString DetailCostDataModel::CostPeriodic()
 //
 //  CostTripKwhUsed
 //
-//  The end percentage of the previous load session is store locally in method
-//
 //---------------------------------------------------------------------------------------
 QString DetailCostDataModel::CostTripKwhUsed()
 {
-    static double
-        dAccuEndPrev = 90;
-
     QString
         strTripKWhUsed = "";
 
     if (iAutoCostType == CostRecElectricity)
     {
-        strTripKWhUsed = QString::number((dElectricityKWhLoaded *
-                                ((dAccuEndPrev - dElectricityAccuStart)/
-                                (dElectricityAccuEnd - dElectricityAccuStart))),
-                                'f', 3);
-        dAccuEndPrev = dElectricityAccuEnd;
+        strTripKWhUsed = QString::number(dElectirictyTripUsage, 'f', 3);
     }
     return strTripKWhUsed;
 }
