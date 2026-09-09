@@ -369,6 +369,23 @@ QVariant DetailCostDataModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set the field alignment of the columns
+    //
+    //-----------------------------------------------------------------------------------
+    if (role == Qt::TextAlignmentRole)
+    {
+        switch (index.column())
+        {
+            case CostOverViewDate: return Qt::AlignCenter;
+            case CostOverViewDescription: return Qt::AlignLeft;
+            case CostOverViewLoadStartTime: return Qt::AlignCenter;
+            default:
+                return Qt::AlignRight;
+        }
+    }
+
     if (role != Qt::DisplayRole) {
         return QVariant();
     }
