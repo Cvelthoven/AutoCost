@@ -66,6 +66,7 @@ private:
     QString CostLoadStartTime();
     QString CostMillage();
     QString CostMillageTrip();
+    void CostTotals();
     QString CostTripKwhUsed();
     QString CostOther();
     QString CostPeriodic();
@@ -88,10 +89,22 @@ private:
         dElectricityTotalKMPrev = 0,
         dElectrictyTripKM = 0;
 
+    int
+        iYear = 0,
+        iYearCurrentRow = 0;// the current row in the totals vectors
+
     QSqlDatabase dbAutoCost;
     QSqlError queryError;
     QString strLastError;
 
+    QVector<double>
+        dTotalCost,
+        dTotalPeriodic,
+        dTotalElectricity,
+        dTotalOtherCost,
+        dTotalAccessory;
+    QVector<int>
+        iYears;
     QVector<QString> strHeaders;
     QVector<QVector<QVariant>> m_rows;
 

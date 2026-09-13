@@ -19,7 +19,10 @@
 //  Application configuration definitions
 //
 //---------------------------------------------------------------------------------------
-const int iMaxNbElectricityPeriods = 10;
+const int
+    iMaxNbElectricityPeriods = 10,// -> App settings or dynamic
+    iNumberOfYears = 6,// -> App settings or dynamic
+    iStartYear = 2024;// -> App settings or dynamic
 
 const QString
     strApplicationName = "AutoCost",
@@ -113,7 +116,6 @@ enum DataColumnFields
     DataColElectricityStartTime
 };
 
-
 //---------------------------------------------------------------------------------------
 //
 //  Enums for the application settings in configuration file
@@ -126,6 +128,5 @@ enum AppConfDatabase
     DBAppUserId,
     DBAppPassword
 };
-
 
 #endif // AUTOCOST_H

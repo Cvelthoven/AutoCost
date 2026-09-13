@@ -40,9 +40,12 @@ DetailCostDataModel::DetailCostDataModel(QObject *parent)
     //  Reuse open Application database connection
     //
     dbAutoCost = QSqlDatabase::database(strApplicationDatabaseConnectionName, false);
-    if ((dbAutoCost.isValid()) && (dbAutoCost.isOpen())) {
+    if ((dbAutoCost.isValid()) && (dbAutoCost.isOpen()))
+    {
         bAppDataOpen = true;
-    } else {
+    }
+    else
+    {
         bAppDataOpen = false;
     }
 
@@ -72,6 +75,7 @@ DetailCostDataModel::DetailCostDataModel(QObject *parent)
         "Frequency"
     };
 }
+
 DetailCostDataModel::~DetailCostDataModel()
 {
 }
@@ -227,6 +231,13 @@ bool DetailCostDataModel::loadDetailCostData()
 
         //-------------------------------------------------------------------------------
         //
+        //  Calculate the totals
+        //
+        //-------------------------------------------------------------------------------
+        CostTotals();
+
+        //-------------------------------------------------------------------------------
+        //
         //  Calculate values of electricity records
         //
         //-------------------------------------------------------------------------------
@@ -378,9 +389,9 @@ QVariant DetailCostDataModel::data(const QModelIndex &index, int role) const
     {
         switch (index.column())
         {
-            case CostOverViewDate: return Qt::AlignCenter;
+            case CostOverViewDate: return Qt::AlignHCenter;
             case CostOverViewDescription: return Qt::AlignLeft;
-            case CostOverViewLoadStartTime: return Qt::AlignCenter;
+            case CostOverViewLoadStartTime: return Qt::AlignHCenter;
             default:
                 return Qt::AlignRight;
         }
@@ -562,6 +573,18 @@ void DetailCostDataModel::CostElectricityFieldCalc()
     //  Local variables
     static double
         dElectricityAccuEndPrev = 90;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Store year
+    //
+    iYear = dtAutoCoatDate.year();
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Calculate the totals
+    //
+    //-----------------------------------------------------------------------------------
 
     //-----------------------------------------------------------------------------------
     //
@@ -807,6 +830,82 @@ QString DetailCostDataModel::CostPeriodic()
         strPeriodicCost = QString::number(dAutoCostTotalCost, 'f', 2);
     }
     return strPeriodicCost;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  CostTotals
+//
+//---------------------------------------------------------------------------------------
+void DetailCostDataModel::CostTotals()
+{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Local variables
+    //
+    int iYearOfRecord = 0;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Init vectors containing the totals
+    //  Set of set of each vector:
+    //      - the first (total of totals) to 0
+    //
+    if (dTotalCost.size()==0)
+    {
+        iYears.append(0);
+        dTotalCost.append(0);
+        dTotalPeriodic.append(0);
+        dTotalElectricity.append(0);
+        dTotalOtherCost.append(0);
+        dTotalAccessory.append(0);
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Get year of record
+    //  Append a item to each total vector and set it to 0
+    //
+    iYearOfRecord = dtAutoCoatDate.year();
+    if (iYear != iYearOfRecord)
+    {
+        iYear = iYearOfRecord;
+        iYears.append(iYearOfRecord);
+        iYearCurrentRow++;
+        dTotalCost.append(0);
+        dTotalPeriodic.append(0);
+        dTotalElectricity.append(0);
+        dTotalOtherCost.append(0);
+        dTotalAccessory.append(0);
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Calculate the totals overall
+    //
+    dTotalCost[0] += dAutoCostTotalCost;
+    dTotalCost[iYearCurrentRow] += dAutoCostTotalCost;
+    if (iAutoCostType == CostRecPeriodic)
+    {
+        dTotalPeriodic[0] += dAutoCostTotalCost;
+        dTotalPeriodic[iYearCurrentRow] += dAutoCostTotalCost;
+    }
+    else if (iAutoCostType == CostRecElectricity)
+    {
+        dTotalElectricity[0] += dAutoCostTotalCost;
+        dTotalElectricity[iYearCurrentRow] += dAutoCostTotalCost;
+    }
+    else if (iAutoCostType == CostRecOther)
+    {
+        dTotalOtherCost[0] += dAutoCostTotalCost;
+        dTotalOtherCost[iYearCurrentRow] += dAutoCostTotalCost;
+    }
+    else if (iAutoCostType == CostRecAccessory)
+    {
+        dTotalAccessory[0] += dAutoCostTotalCost;
+        dTotalAccessory[iYearCurrentRow] += dAutoCostTotalCost;
+    }
+
 }
 
 //---------------------------------------------------------------------------------------
