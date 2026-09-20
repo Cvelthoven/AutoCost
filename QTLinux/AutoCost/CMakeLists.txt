@@ -41,6 +41,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         datainput.h datainput.cpp
         appconfiguration.h appconfiguration.cpp
         detailcostdatamodel.h detailcostdatamodel.cpp
+        totalcostdatamodel.h totalcostdatamodel.cpp
 
 
 
