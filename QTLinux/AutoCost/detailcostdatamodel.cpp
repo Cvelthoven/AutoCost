@@ -14,6 +14,7 @@
 #include "detailcostdatamodel.h"
 
 #include <QDateTime>
+#include <QObject>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -49,6 +50,10 @@ DetailCostDataModel::DetailCostDataModel(QObject *parent)
         bAppDataOpen = false;
     }
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set column headers
+    //
     strHeaders = {
         "Date",
         "Description",
@@ -343,20 +348,6 @@ bool DetailCostDataModel::loadDetailCostData()
 
 //---------------------------------------------------------------------------------------
 //
-//  rowCount
-//
-//---------------------------------------------------------------------------------------
-int DetailCostDataModel::rowCount(const QModelIndex &parent) const
-{
-    if (parent.isValid()) {
-        return 0;
-    }
-
-    return m_rows.size();
-}
-
-//---------------------------------------------------------------------------------------
-//
 //  columnCount
 //
 //---------------------------------------------------------------------------------------
@@ -367,6 +358,20 @@ int DetailCostDataModel::columnCount(const QModelIndex &parent) const
     }
 
     return strHeaders.size();
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  rowCount
+//
+//---------------------------------------------------------------------------------------
+int DetailCostDataModel::rowCount(const QModelIndex &parent) const
+{
+    if (parent.isValid()) {
+        return 0;
+    }
+
+    return m_rows.size();
 }
 
 //---------------------------------------------------------------------------------------
