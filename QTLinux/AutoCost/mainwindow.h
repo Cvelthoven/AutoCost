@@ -17,6 +17,7 @@
 #include "datainputdialog.h"
 #include "detailcostdatamodel.h"
 #include "postgresqldb.h"
+#include "totalcostdatamodel.h"
 
 #include <QMainWindow>
 #include <QTableView>
@@ -67,6 +68,7 @@ private:
     DataInput* ManualData = nullptr;
     DetailCostDataModel* DetailCostDataModelTable = nullptr;
     PostGreSQLDB* AppDataDB = nullptr;
+    TotalCostDataModel* TotallCostDataModelTable = nullptr;
 
 
 };

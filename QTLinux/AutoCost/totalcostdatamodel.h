@@ -14,6 +14,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "detailcostdatamodel.h"
 #include <QAbstractTableModel>
 #include <QObject>
 #include <QVector>
@@ -31,6 +32,8 @@ public:
     // Override to provide custom headers
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
+    void loadTotals(const DetailCostDataModel &detailModel);
+//    void loadTotals(const DetailCostDataModel &detailModel);
 private:
     QVector<QString> strHeaders;
     QVector<QVector<QVariant>> m_rows;

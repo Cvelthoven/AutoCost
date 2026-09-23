@@ -38,10 +38,27 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     // Override to provide custom headers
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+    QVariant headerData(int section, Qt::Orientation orientation,
+                        int role = Qt::DisplayRole) const override;
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Getters
+    //
+    QVector<double> getTotalAccessory() const;
+    QVector<double> getTotalCost() const;
+    QVector<double> getTotalElectricity() const;
+    QVector<double> getTotalOtherCost() const;
+    QVector<double> getTotalPeriodic() const;
+    QVector<int> getYears() const;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Other public class methods
+    //
     bool getBAppDataOpen() const;
     QString getLastError() const;
+
 
 private:
     //-----------------------------------------------------------------------------------

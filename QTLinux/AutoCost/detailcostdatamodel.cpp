@@ -120,6 +120,78 @@ QString DetailCostDataModel::buildDetailCostQuery() const
 
 //---------------------------------------------------------------------------------------
 //
+//  getTotalAccessory
+//
+//  Returns the vector with the totals per year of the periodic cost
+//
+//---------------------------------------------------------------------------------------
+QVector<double> DetailCostDataModel::getTotalAccessory() const
+{
+    return dTotalAccessory;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  getTotalCost
+//
+//  Returns the vector with the totals per year of the total cost
+//
+//---------------------------------------------------------------------------------------
+QVector<double> DetailCostDataModel::getTotalCost() const
+{
+    return dTotalCost;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  getTotalElectricity
+//
+//  Returns the vector with the totals per year of the electricity cost
+//
+//---------------------------------------------------------------------------------------
+QVector<double> DetailCostDataModel::getTotalElectricity() const
+{
+    return dTotalElectricity;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  getTotalOtherCost
+//
+//  Returns the vector with the totals per year of the other cost
+//
+//---------------------------------------------------------------------------------------
+QVector<double> DetailCostDataModel::getTotalOtherCost() const
+{
+    return dTotalOtherCost;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  getTotalPeriodic
+//
+//  Returns the vector with the totals per year of the periodic cost
+//
+//---------------------------------------------------------------------------------------
+QVector<double> DetailCostDataModel::getTotalPeriodic() const
+{
+    return dTotalPeriodic;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  getYears
+//
+//  Returns the vector with the year values
+//
+//---------------------------------------------------------------------------------------
+QVector<int> DetailCostDataModel::getYears() const
+{
+    return iYears;
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  loadDetailCostData
 //
 //---------------------------------------------------------------------------------------

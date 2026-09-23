@@ -10,6 +10,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "postgresqldb.h"
+#include "totalcostdatamodel.h"
 
 #include <QString>
 #include <QTableView>
@@ -61,21 +62,25 @@ MainWindow::MainWindow(QWidget *parent)
         exit(0);
     }
 
-
     //-----------------------------------------------------------------------------------
     //
-    //  Set the model for the view (this connects them)
-    //
+    //  Set the model for the detailed cost view (this connects them)
     //
     ui->tblDetailOverview->setModel(DetailCostDataModelTable);
     ConfigureAutoCostDetails();
 
     //-----------------------------------------------------------------------------------
     //
-    //  Set the view to tblDetailOverview
+    //  Create the total sot data model and load data
     //
-    // setCentralWidget(DetailCostDataViewTable);
+    TotallCostDataModelTable = new TotalCostDataModel(this);
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set the model for the total cost view
+    //
+    ui->tblYearTotalOverview->setModel(TotallCostDataModelTable);
+    TotallCostDataModelTable->loadTotals(*DetailCostDataModelTable);
 }
 
 //---------------------------------------------------------------------------------------

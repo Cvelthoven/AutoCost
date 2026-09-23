@@ -70,30 +70,26 @@
       <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QTableWidget" name="tblYearTotalOverview">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>25</y>
-       <width>2050</width>
-       <height>300</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QTableView" name="tblDetailOverview">
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>365</y>
+       <y>415</y>
        <width>2050</width>
-       <height>700</height>
+       <height>650</height>
       </rect>
      </property>
     </widget>
-    <zorder>lblMainYearTotals</zorder>
-    <zorder>tblYearTotalOverview</zorder>
-    <zorder>lblMainDetailOverview</zorder>
-    <zorder>tblDetailOverview</zorder>
+    <widget class="QTableView" name="tblYearTotalOverview">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>50</y>
+       <width>2050</width>
+       <height>250</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

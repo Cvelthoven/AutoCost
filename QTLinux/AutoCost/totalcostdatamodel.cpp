@@ -129,6 +129,39 @@ QVariant TotalCostDataModel::headerData(int section, Qt::Orientation orientation
 
 //---------------------------------------------------------------------------------------
 //
+//  loadTotals
+//
+//  Load the total values from the detailcostdata model
+//
+//---------------------------------------------------------------------------------------
+void TotalCostDataModel::loadTotals(const DetailCostDataModel &detailModel)
+{
+    beginResetModel();
+    m_rows.clear();
+
+    QVector<int> years = detailModel.getYears();
+    QVector<double> totalCost = detailModel.getTotalCost();
+    QVector<double> periodic = detailModel.getTotalPeriodic();
+    QVector<double> electricity = detailModel.getTotalElectricity();
+    QVector<double> other = detailModel.getTotalOtherCost();
+    QVector<double> accessory = detailModel.getTotalAccessory();
+
+    for (int i = 0; i < years.size(); ++i) {
+        QVector<QVariant> row;
+        row << (i == 0 ? "Total" : QString::number(years.at(i)))
+            << QString::number(totalCost.value(i), 'f', 2)
+            << QString::number(periodic.value(i), 'f', 2)
+            << QString::number(electricity.value(i), 'f', 2)
+            << QString::number(other.value(i), 'f', 2)
+            << QString::number(accessory.value(i), 'f', 2);
+        m_rows.append(row);
+    }
+
+    endResetModel();
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  rowCount
 //
 //---------------------------------------------------------------------------------------
