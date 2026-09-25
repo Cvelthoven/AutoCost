@@ -70,7 +70,8 @@ int TotalCostDataModel::columnCount(const QModelIndex &parent) const
 //---------------------------------------------------------------------------------------
 QVariant TotalCostDataModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid()) {
+    if (!index.isValid())
+    {
         return QVariant();
     }
 
@@ -83,6 +84,9 @@ QVariant TotalCostDataModel::data(const QModelIndex &index, int role) const
     {
         switch (index.column())
         {
+        case TotalCostViewYear:
+            return Qt::AlignCenter;
+            break;
          default:
             return Qt::AlignRight;
         }
@@ -136,25 +140,78 @@ QVariant TotalCostDataModel::headerData(int section, Qt::Orientation orientation
 //---------------------------------------------------------------------------------------
 void TotalCostDataModel::loadTotals(const DetailCostDataModel &detailModel)
 {
+    int iRowNb =0,
+        iColNb = 0,
+        iTotalRows = 0,
+        iTotalCol = 0;
+
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieve the total values from the detailModel
+    //
+    years = detailModel.getYears();
+    totalCost = detailModel.getTotalCost();
+    periodic = detailModel.getTotalPeriodic();
+    electricity = detailModel.getTotalElectricity();
+    other = detailModel.getTotalOtherCost();
+    accessory = detailModel.getTotalAccessory();
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Reset table view datamodel
+    //
+    iTotalRows = years.size();
+    iTotalCol = strHeaders.size();
+
     beginResetModel();
     m_rows.clear();
 
-    QVector<int> years = detailModel.getYears();
-    QVector<double> totalCost = detailModel.getTotalCost();
-    QVector<double> periodic = detailModel.getTotalPeriodic();
-    QVector<double> electricity = detailModel.getTotalElectricity();
-    QVector<double> other = detailModel.getTotalOtherCost();
-    QVector<double> accessory = detailModel.getTotalAccessory();
-
-    for (int i = 0; i < years.size(); ++i) {
-        QVector<QVariant> row;
-        row << (i == 0 ? "Total" : QString::number(years.at(i)))
-            << QString::number(totalCost.value(i), 'f', 2)
-            << QString::number(periodic.value(i), 'f', 2)
-            << QString::number(electricity.value(i), 'f', 2)
-            << QString::number(other.value(i), 'f', 2)
-            << QString::number(accessory.value(i), 'f', 2);
-        m_rows.append(row);
+    //-----------------------------------------------------------------------------------
+    //
+    //  Build table view datamodel
+    //
+    for (iRowNb = 0; iRowNb < iTotalRows; iRowNb++)
+    {
+        QVector<QVariant> totalrow;
+        totalrow.reserve(iTotalCol);
+        for (iColNb = 0; iColNb < iTotalCol; iColNb++)
+        {
+            switch (iColNb) {
+            case TotalCostViewYear:
+                if (iRowNb == 0)
+                {
+                    totalrow.append("Total");
+                }
+                else
+                {
+                    totalrow.append(QString::number(years.at(iRowNb)));
+                }
+                break;
+            case TotalCostViewTotal:
+                totalrow.append(QString::number(totalCost.at(iRowNb), 'f', 2));
+                break;
+            case TotalCostViewPeriodic:
+                totalrow.append(QString::number(periodic.at(iRowNb), 'f', 2));
+                break;
+            case TotalCostViewElectricity:
+                totalrow.append(QString::number(electricity.at(iRowNb), 'f', 2));
+                break;
+            case TotalCostViewOther:
+                totalrow.append(QString::number(other.at(iRowNb), 'f', 2));
+                break;
+            case TotalCostViewAccessory:
+                totalrow.append(QString::number(accessory.at(iRowNb), 'f', 2));
+                break;
+            case TotalCostViewMillage:
+                totalrow.append("Mil");
+                break;
+            default:
+                totalrow.append("Test");
+                break;
+            }
+        }
+        m_rows.append(totalrow);
     }
 
     endResetModel();

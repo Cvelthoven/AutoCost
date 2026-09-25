@@ -33,11 +33,32 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
     void loadTotals(const DetailCostDataModel &detailModel);
-//    void loadTotals(const DetailCostDataModel &detailModel);
+
 private:
     QVector<QString> strHeaders;
     QVector<QVector<QVariant>> m_rows;
 
+    QVector<int> years;
+    QVector<double> totalCost;
+    QVector<double> periodic;
+    QVector<double> electricity;
+    QVector<double> other;
+    QVector<double> accessory;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Descriptive names for the total Cost overview
+    //
+    enum TotalCostColumn
+    {
+        TotalCostViewYear = 0,
+        TotalCostViewTotal,
+        TotalCostViewPeriodic,
+        TotalCostViewElectricity,
+        TotalCostViewOther,
+        TotalCostViewAccessory,
+        TotalCostViewMillage
+    };
 
 };
 

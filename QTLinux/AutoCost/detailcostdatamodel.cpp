@@ -34,7 +34,6 @@
 DetailCostDataModel::DetailCostDataModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
-    qDebug() << "Constructor DetailCostDataModel called";
 
     //-----------------------------------------------------------------------------------
     //
@@ -414,7 +413,6 @@ bool DetailCostDataModel::loadDetailCostData()
     endResetModel();
 
     strLastError.clear();
-    qDebug() << "Loaded" << m_rows.size() << "records";
     return true;
 }
 
