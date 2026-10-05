@@ -39,11 +39,13 @@ private:
     QVector<QVector<QVariant>> m_rows;
 
     QVector<int> years;
-    QVector<double> totalCost;
-    QVector<double> periodic;
-    QVector<double> electricity;
-    QVector<double> other;
+
     QVector<double> accessory;
+    QVector<double> electricity;
+    QVector<double> MillageYearStart;
+    QVector<double> other;
+    QVector<double> periodic;
+    QVector<double> totalCost;
 
     //-----------------------------------------------------------------------------------
     //
@@ -57,7 +59,7 @@ private:
         TotalCostViewElectricity,
         TotalCostViewOther,
         TotalCostViewAccessory,
-        TotalCostViewMillage
+        TotalCostViewStartMillage
     };
 
 };

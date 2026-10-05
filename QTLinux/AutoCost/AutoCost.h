@@ -20,9 +20,7 @@
 //
 //---------------------------------------------------------------------------------------
 const int
-    iMaxNbElectricityPeriods = 10,// -> App settings or dynamic
-    iNumberOfYears = 6,// -> App settings or dynamic
-    iStartYear = 2024;// -> App settings or dynamic
+    iMaxNbElectricityPeriods = 10;// -> App settings or dynamic
 
 const QString
     strApplicationName = "AutoCost",

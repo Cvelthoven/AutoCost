@@ -45,6 +45,7 @@ public:
     //
     //  Getters
     //
+    QVector<double> getDMillageYearStart() const;
     QVector<double> getTotalAccessory() const;
     QVector<double> getTotalCost() const;
     QVector<double> getTotalElectricity() const;
@@ -58,6 +59,7 @@ public:
     //
     bool getBAppDataOpen() const;
     QString getLastError() const;
+
 
 
 private:
@@ -93,7 +95,9 @@ private:
     //  Private variables
     //
     //-----------------------------------------------------------------------------------
-    bool bAppDataOpen = false;
+    bool
+        bAppDataOpen = false,
+        bSaveMillageYearStart = false;
 
     double
         dElectrcityAccuUsedPercentage = 0,
@@ -115,13 +119,16 @@ private:
     QString strLastError;
 
     QVector<double>
+        dMillageYearStart,
         dTotalCost,
         dTotalPeriodic,
         dTotalElectricity,
         dTotalOtherCost,
         dTotalAccessory;
+
     QVector<int>
         iYears;
+
     QVector<QString> strHeaders;
     QVector<QVector<QVariant>> m_rows;
 

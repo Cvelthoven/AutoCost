@@ -119,6 +119,18 @@ QString DetailCostDataModel::buildDetailCostQuery() const
 
 //---------------------------------------------------------------------------------------
 //
+//  getDMillageYearStart
+//
+//  Returns the vector with the millage of the first load session of each year
+//
+//---------------------------------------------------------------------------------------
+QVector<double> DetailCostDataModel::getDMillageYearStart() const
+{
+    return dMillageYearStart;
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  getTotalAccessory
 //
 //  Returns the vector with the totals per year of the periodic cost
@@ -926,9 +938,10 @@ void DetailCostDataModel::CostTotals()
     //  Set of set of each vector:
     //      - the first (total of totals) to 0
     //
-    if (dTotalCost.size()==0)
+    if (dTotalCost.size() == 0)
     {
         iYears.append(0);
+        dMillageYearStart.append(0);
         dTotalCost.append(0);
         dTotalPeriodic.append(0);
         dTotalElectricity.append(0);
@@ -946,6 +959,7 @@ void DetailCostDataModel::CostTotals()
     {
         iYear = iYearOfRecord;
         iYears.append(iYearOfRecord);
+        bSaveMillageYearStart = true;
         iYearCurrentRow++;
         dTotalCost.append(0);
         dTotalPeriodic.append(0);
@@ -969,6 +983,27 @@ void DetailCostDataModel::CostTotals()
     {
         dTotalElectricity[0] += dAutoCostTotalCost;
         dTotalElectricity[iYearCurrentRow] += dAutoCostTotalCost;
+
+        //-------------------------------------------------------------------------------
+        //
+        //  Save start millage of year
+        //
+        if (bSaveMillageYearStart)
+        {
+            if (iYearCurrentRow != 1)
+            {
+                dMillageYearStart.append(dElectricityTotalKM);
+            }
+            //---------------------------------------------------------------------------
+            //
+            //  Set first year start millage to the overall start millage
+            //
+            else
+            {
+                dMillageYearStart.append(dMillageYearStart[0]);
+            }
+            bSaveMillageYearStart = false;
+        }
     }
     else if (iAutoCostType == CostRecOther)
     {

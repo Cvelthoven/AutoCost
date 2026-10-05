@@ -39,7 +39,7 @@ TotalCostDataModel::TotalCostDataModel(QObject *parent)
         "Electricity",
         "Other",
         "Accessories",
-        "Millage"
+        "Start Millage"
     };
 
 }
@@ -156,6 +156,7 @@ void TotalCostDataModel::loadTotals(const DetailCostDataModel &detailModel)
     electricity = detailModel.getTotalElectricity();
     other = detailModel.getTotalOtherCost();
     accessory = detailModel.getTotalAccessory();
+    MillageYearStart = detailModel.getDMillageYearStart();
 
     //-----------------------------------------------------------------------------------
     //
@@ -203,8 +204,8 @@ void TotalCostDataModel::loadTotals(const DetailCostDataModel &detailModel)
             case TotalCostViewAccessory:
                 totalrow.append(QString::number(accessory.at(iRowNb), 'f', 2));
                 break;
-            case TotalCostViewMillage:
-                totalrow.append("Mil");
+            case TotalCostViewStartMillage:
+                totalrow.append(QString::number(MillageYearStart.at(iRowNb), 'f', 0));
                 break;
             default:
                 totalrow.append("Test");
