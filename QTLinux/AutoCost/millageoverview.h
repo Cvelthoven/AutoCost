@@ -1,30 +1,29 @@
 //---------------------------------------------------------------------------------------
 //
-//  Module: totalcostdatamodel.h
+//  Module: millagemverview.h
 //
-//  This class manages the total cost data
+//  This class manages the millage overview
 //  The default QT class QTableView handles the presentation
 //
 //---------------------------------------------------------------------------------------
-#ifndef TOTALCOSTDATAMODEL_H
-#define TOTALCOSTDATAMODEL_H
+#ifndef MILLAGEOVERVIEW_H
+#define MILLAGEOVERVIEW_H
 
 //---------------------------------------------------------------------------------------
 //
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "detailcostdatamodel.h"
 #include <QAbstractTableModel>
 #include <QObject>
 #include <QString>
 #include <QVector>
 
-class TotalCostDataModel : public QAbstractTableModel
+class MillageOverview : QAbstractTableModel
 {
     Q_OBJECT
 public:
-    TotalCostDataModel(QObject *parent = nullptr);
+    MillageOverview(QObject *parent = nullptr);
 
     // QAbstractTableModel overrides
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -33,21 +32,10 @@ public:
     // Override to provide custom headers
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
-    void loadTotals(const DetailCostDataModel &detailModel);
 
 private:
     QVector<QString> strHeaders;
     QVector<QVector<QVariant>> m_rows;
-
-    QVector<int> years;
-
-    QVector<double> accessory;
-    QVector<double> electricity;
-    QVector<double> MillageYearStart;
-    QVector<double> other;
-    QVector<double> periodic;
-    QVector<double> totalCost;
-
 };
 
-#endif // TOTALCOSTDATAMODEL_H
+#endif // MILLAGEOVERVIEW_H

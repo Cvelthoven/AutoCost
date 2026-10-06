@@ -85,7 +85,7 @@ QVariant TotalCostDataModel::data(const QModelIndex &index, int role) const
         switch (index.column())
         {
         case TotalCostViewYear:
-            return Qt::AlignCenter;
+            return Qt::AlignHCenter;
             break;
          default:
             return Qt::AlignRight;
