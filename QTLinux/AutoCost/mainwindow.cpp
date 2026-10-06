@@ -55,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     //-----------------------------------------------------------------------------------
     //
     //  Create the detail cost data model and load data
+    //  Detail cost must be before total cost
     //
     DetailCostDataModelTable = new DetailCostDataModel(this);
     if (!DetailCostDataModelTable->loadDetailCostData())
@@ -72,15 +73,18 @@ MainWindow::MainWindow(QWidget *parent)
     //-----------------------------------------------------------------------------------
     //
     //  Create the total sot data model and load data
+    //  Must be after detail cost due to data used from detail cost
     //
     TotallCostDataModelTable = new TotalCostDataModel(this);
+    TotallCostDataModelTable->loadTotals(*DetailCostDataModelTable);
 
     //-----------------------------------------------------------------------------------
     //
-    //  Set the model for the total cost view
+    //  Set the model for the total cost view and configure the view
     //
     ui->tblYearTotalOverview->setModel(TotallCostDataModelTable);
-    TotallCostDataModelTable->loadTotals(*DetailCostDataModelTable);
+    ConfigureAutoTotalCost();
+
 }
 
 //---------------------------------------------------------------------------------------
@@ -119,13 +123,8 @@ void MainWindow::ConfigureAutoCostDetails()
     //-----------------------------------------------------------------------------------
     ui->tblDetailOverview->setAlternatingRowColors(true);
 
-    //-----------------------------------------------------------------------------------
-    //
-    //  Create the view of the detail cost
-    //
-    //-----------------------------------------------------------------------------------
     ui->tblDetailOverview->setColumnWidth(CostOverViewDate, 90);
-    ui->tblDetailOverview->setColumnWidth(CostOverViewDescription, 300);
+    ui->tblDetailOverview->setColumnWidth(CostOverViewDescription, 330);
     ui->tblDetailOverview->setColumnWidth(CostOverViewPeriodic, 75);
     ui->tblDetailOverview->setColumnWidth(CostOverViewElectricity, 75);
     ui->tblDetailOverview->setColumnWidth(CostOverViewOther, 75);
@@ -147,6 +146,31 @@ void MainWindow::ConfigureAutoCostDetails()
     ui->tblDetailOverview->setColumnWidth(CostOverViewElecRecId, 20);
     ui->tblDetailOverview->setColumnWidth(CostOverViewRecType, 20);
     ui->tblDetailOverview->setColumnWidth(CostOverViewPeriod, 20);
+
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  ConfigureAutoTotalCost
+//
+//  Sets the column width of the total cost table view
+//
+//---------------------------------------------------------------------------------------
+void MainWindow::ConfigureAutoTotalCost()
+{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set column width of total cost overview
+    //
+    //-----------------------------------------------------------------------------------
+    ui->tblYearTotalOverview->setAlternatingRowColors(true);
+
+    ui->tblYearTotalOverview->setColumnWidth(TotalCostViewYear, 60);
+    ui->tblYearTotalOverview->setColumnWidth(TotalCostViewTotal, 80);
+    ui->tblYearTotalOverview->setColumnWidth(TotalCostViewPeriodic, 80);
+    ui->tblYearTotalOverview->setColumnWidth(TotalCostViewElectricity, 80);
+    ui->tblYearTotalOverview->setColumnWidth(TotalCostViewOther, 80);
+    ui->tblYearTotalOverview->setColumnWidth(TotalCostViewAccessory, 80);
 
 }
 

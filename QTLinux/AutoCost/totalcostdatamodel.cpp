@@ -10,6 +10,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "AutoCost.h"
 #include "totalcostdatamodel.h"
 
 #include <QAbstractTableModel>
@@ -38,8 +39,7 @@ TotalCostDataModel::TotalCostDataModel(QObject *parent)
         "Periodic",
         "Electricity",
         "Other",
-        "Accessories",
-        "Start Millage"
+        "Accessories"
     };
 
 }
@@ -204,9 +204,9 @@ void TotalCostDataModel::loadTotals(const DetailCostDataModel &detailModel)
             case TotalCostViewAccessory:
                 totalrow.append(QString::number(accessory.at(iRowNb), 'f', 2));
                 break;
-            case TotalCostViewStartMillage:
-                totalrow.append(QString::number(MillageYearStart.at(iRowNb), 'f', 0));
-                break;
+            // case TotalCostViewStartMillage:
+            //     totalrow.append(QString::number(MillageYearStart.at(iRowNb), 'f', 0));
+            //     break;
             default:
                 totalrow.append("Test");
                 break;

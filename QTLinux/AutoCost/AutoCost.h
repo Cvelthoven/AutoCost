@@ -50,6 +50,19 @@ const QString
     strApplicationDatabaseConnectionName = "AppDataDBConnection";
 
 
+//---------------------------------------------------------------------------------------
+//
+//  Enums for the application settings in configuration file
+//
+enum AppConfDatabase
+{
+    DBServerIP = 0,
+    DBServerPort,
+    DBName,
+    DBAppUserId,
+    DBAppPassword
+};
+
 //-----------------------------------------------------------------------------------
 //
 //  Enums for Cost overview dialog columns with descriptive names
@@ -114,17 +127,19 @@ enum DataColumnFields
     DataColElectricityStartTime
 };
 
-//---------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
 //
-//  Enums for the application settings in configuration file
+//  Descriptive names for the total Cost overview
 //
-enum AppConfDatabase
+enum TotalCostColumn
 {
-    DBServerIP = 0,
-    DBServerPort,
-    DBName,
-    DBAppUserId,
-    DBAppPassword
+    TotalCostViewYear = 0,
+    TotalCostViewTotal,
+    TotalCostViewPeriodic,
+    TotalCostViewElectricity,
+    TotalCostViewOther,
+    TotalCostViewAccessory
 };
+
 
 #endif // AUTOCOST_H

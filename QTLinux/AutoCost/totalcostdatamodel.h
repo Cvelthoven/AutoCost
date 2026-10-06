@@ -47,21 +47,6 @@ private:
     QVector<double> periodic;
     QVector<double> totalCost;
 
-    //-----------------------------------------------------------------------------------
-    //
-    //  Descriptive names for the total Cost overview
-    //
-    enum TotalCostColumn
-    {
-        TotalCostViewYear = 0,
-        TotalCostViewTotal,
-        TotalCostViewPeriodic,
-        TotalCostViewElectricity,
-        TotalCostViewOther,
-        TotalCostViewAccessory,
-        TotalCostViewStartMillage
-    };
-
 };
 
 #endif // TOTALCOSTDATAMODEL_H

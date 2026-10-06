@@ -56,6 +56,7 @@ private:
     //
     //-----------------------------------------------------------------------------------
     void ConfigureAutoCostDetails();
+    void ConfigureAutoTotalCost();
     int ConnectApplicationDataDB();
     int ProgramConfigurationLoad();
 
