@@ -20,6 +20,7 @@
 //
 //---------------------------------------------------------------------------------------
 const int
+    iMaxMillageYear = 10000,    // -> App settings, and per year adjustable
     iMaxNbElectricityPeriods = 10;// -> App settings or dynamic
 
 const QString

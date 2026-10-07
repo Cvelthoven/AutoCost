@@ -42,7 +42,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         appconfiguration.h appconfiguration.cpp
         detailcostdatamodel.h detailcostdatamodel.cpp
         totalcostdatamodel.h totalcostdatamodel.cpp
-        millageoverview.h millageoverview.cpp
+
+        millageoverviewdatamodel.h millageoverviewdatamodel.cpp
 
 
 

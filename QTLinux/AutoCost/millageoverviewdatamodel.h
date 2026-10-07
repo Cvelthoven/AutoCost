@@ -1,13 +1,13 @@
 //---------------------------------------------------------------------------------------
 //
-//  Module: millagemverview.h
+//  Module: millageoverviewdatamodel.h
 //
-//  This class manages the millage overview
+//  Class MillageOverviewDataModel manages the millage overview
 //  The default QT class QTableView handles the presentation
 //
 //---------------------------------------------------------------------------------------
-#ifndef MILLAGEOVERVIEW_H
-#define MILLAGEOVERVIEW_H
+#ifndef MILLAGEOVERVIEWDATAMODEL_H
+#define MILLAGEOVERVIEWDATAMODEL_H
 
 //---------------------------------------------------------------------------------------
 //
@@ -19,11 +19,11 @@
 #include <QString>
 #include <QVector>
 
-class MillageOverview : QAbstractTableModel
+class MillageOverviewDataModel : QAbstractTableModel
 {
     Q_OBJECT
 public:
-    MillageOverview(QObject *parent = nullptr);
+    MillageOverviewDataModel(QObject *parent = nullptr);
 
     // QAbstractTableModel overrides
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -36,6 +36,7 @@ public:
 private:
     QVector<QString> strHeaders;
     QVector<QVector<QVariant>> m_rows;
+
 };
 
-#endif // MILLAGEOVERVIEW_H
+#endif // MILLAGEOVERVIEWDATAMODEL_H

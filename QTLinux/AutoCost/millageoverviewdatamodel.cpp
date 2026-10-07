@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------------------
 //
-//  Module: millageoverview.cpp
+//  Module: millageoverviewdatamodel.cpp
 //
-//  This class manages the millage overview
+//  Class MillageOverviewDataModel manages the millage overview
 //  The default QT class QTableView handles the presentation
 //
 //---------------------------------------------------------------------------------------
@@ -11,7 +11,7 @@
 //
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
-#include "millageoverview.h"
+#include "millageoverviewdatamodel.h"
 
 #include <QAbstractTableModel>
 #include <QObject>
@@ -25,7 +25,7 @@
 //  Default constructor and destructor
 //
 //---------------------------------------------------------------------------------------
-MillageOverview::MillageOverview(QObject *parent)
+MillageOverviewDataModel::MillageOverviewDataModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
     //-----------------------------------------------------------------------------------
@@ -43,6 +43,7 @@ MillageOverview::MillageOverview(QObject *parent)
 
 }
 
+
 //---------------------------------------------------------------------------------------
 //
 //  MillageOverview class methods
@@ -53,7 +54,7 @@ MillageOverview::MillageOverview(QObject *parent)
 //  columnCount
 //
 //---------------------------------------------------------------------------------------
-int MillageOverview::columnCount(const QModelIndex &parent) const
+int MillageOverviewDataModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid()) {
         return 0;
@@ -67,7 +68,7 @@ int MillageOverview::columnCount(const QModelIndex &parent) const
 //  data
 //
 //---------------------------------------------------------------------------------------
-QVariant MillageOverview::data(const QModelIndex &index, int role) const
+QVariant MillageOverviewDataModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
     {
@@ -114,7 +115,7 @@ QVariant MillageOverview::data(const QModelIndex &index, int role) const
 //  headerData
 //
 //---------------------------------------------------------------------------------------
-QVariant MillageOverview::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant MillageOverviewDataModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role != Qt::DisplayRole) {
         return QVariant();
@@ -135,7 +136,7 @@ QVariant MillageOverview::headerData(int section, Qt::Orientation orientation, i
 //  rowCount
 //
 //---------------------------------------------------------------------------------------
-int MillageOverview::rowCount(const QModelIndex &parent) const
+int MillageOverviewDataModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid()) {
         return 0;
