@@ -38,7 +38,7 @@ MillageOverviewDataModel::MillageOverviewDataModel(QObject *parent)
         "Current",
         "Limit",
         "Used",
-        "Remaining"
+        "Rest"
     };
 
 }
@@ -129,6 +129,16 @@ QVariant MillageOverviewDataModel::headerData(int section, Qt::Orientation orien
     }
 
     return QAbstractTableModel::headerData(section, orientation, role);
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  loadMillageData
+//
+//---------------------------------------------------------------------------------------
+bool MillageOverviewDataModel::loadMillageData()
+{
+    return true;
 }
 
 //---------------------------------------------------------------------------------------

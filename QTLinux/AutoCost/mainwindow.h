@@ -16,6 +16,7 @@
 #include "datainput.h"
 #include "datainputdialog.h"
 #include "detailcostdatamodel.h"
+#include "millageoverviewdatamodel.h"
 #include "postgresqldb.h"
 #include "totalcostdatamodel.h"
 
@@ -57,6 +58,7 @@ private:
     //-----------------------------------------------------------------------------------
     void ConfigureAutoCostDetails();
     void ConfigureAutoTotalCost();
+    void MillageOverviewTable();
     int ConnectApplicationDataDB();
     int ProgramConfigurationLoad();
 
@@ -68,9 +70,9 @@ private:
     AppConfiguration* ApplicationConfiguration = nullptr;
     DataInput* ManualData = nullptr;
     DetailCostDataModel* DetailCostDataModelTable = nullptr;
+    MillageOverviewDataModel* MillageDataModelTable = nullptr;
     PostGreSQLDB* AppDataDB = nullptr;
     TotalCostDataModel* TotallCostDataModelTable = nullptr;
-
 
 };
 #endif // MAINWINDOW_H

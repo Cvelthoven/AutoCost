@@ -8,6 +8,7 @@
 #include "AutoCost.h"
 #include "detailcostdatamodel.h"
 #include "mainwindow.h"
+#include "millageoverviewdatamodel.h"
 #include "./ui_mainwindow.h"
 #include "postgresqldb.h"
 #include "totalcostdatamodel.h"
@@ -54,8 +55,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     //-----------------------------------------------------------------------------------
     //
-    //  Create the detail cost data model and load data
+    //  DetailCostDataModelTable:
+    //  - Create
+    //  - Load data
+    //  - set data model
+    //  - configure view
+    //
     //  Detail cost must be before total cost
+    //
+    //-----------------------------------------------------------------------------------
+    //
+    //  Create and load data
     //
     DetailCostDataModelTable = new DetailCostDataModel(this);
     if (!DetailCostDataModelTable->loadDetailCostData())
@@ -66,24 +76,63 @@ MainWindow::MainWindow(QWidget *parent)
     //-----------------------------------------------------------------------------------
     //
     //  Set the model for the detailed cost view (this connects them)
+    //  and configure the view
     //
     ui->tblDetailOverview->setModel(DetailCostDataModelTable);
     ConfigureAutoCostDetails();
 
     //-----------------------------------------------------------------------------------
     //
-    //  Create the total sot data model and load data
+    //  TotallCostDataModelTable:
+    //  - Create
+    //  - Load data
+    //  - set data model
+    //  - configure view
+    //
     //  Must be after detail cost due to data used from detail cost
+    //
+    //-----------------------------------------------------------------------------------
+    //
+    //  Create and load data
     //
     TotallCostDataModelTable = new TotalCostDataModel(this);
     TotallCostDataModelTable->loadTotals(*DetailCostDataModelTable);
 
     //-----------------------------------------------------------------------------------
     //
-    //  Set the model for the total cost view and configure the view
+    //  Set the model for the total cost view (this connects them)
+    //  and configure the view
     //
     ui->tblYearTotalOverview->setModel(TotallCostDataModelTable);
     ConfigureAutoTotalCost();
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  MillageDataModelTable:
+    //  - Create
+    //  - Load data
+    //  - set data model
+    //  - configure view
+    //
+    //  Must be after detail cost due to data used from detail cost
+    //
+    //-----------------------------------------------------------------------------------
+    //
+    //  Create and load data
+    //
+    MillageDataModelTable = new MillageOverviewDataModel(this);
+    if (!MillageDataModelTable->loadMillageData())
+    {
+        exit(0);
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set the model for the total cost view (this connects them)
+    //  and configure the view
+    //
+     ui->tblMillageOverview->setModel(MillageDataModelTable);
+    MillageOverviewTable();
 
 }
 
@@ -96,9 +145,11 @@ MainWindow::~MainWindow()
 {
     AppDataDB->close();
     delete ui;
-    delete ManualDataInput;
+//    delete ManualDataInput; // cause crash needs further investigation
+    delete TotallCostDataModelTable;
+    delete MillageDataModelTable;
+    // Must be last contains data used by other classes
     delete DetailCostDataModelTable;
-
 }
 
 //---------------------------------------------------------------------------------------
@@ -115,14 +166,16 @@ MainWindow::~MainWindow()
 //---------------------------------------------------------------------------------------
 void MainWindow::ConfigureAutoCostDetails()
 {
-
     //-----------------------------------------------------------------------------------
     //
-    //  Format table view for detail cost records
+    //  Set row alternating colors
     //
-    //-----------------------------------------------------------------------------------
     ui->tblDetailOverview->setAlternatingRowColors(true);
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set row alternating colors
+    //
     ui->tblDetailOverview->setColumnWidth(CostOverViewDate, 90);
     ui->tblDetailOverview->setColumnWidth(CostOverViewDescription, 330);
     ui->tblDetailOverview->setColumnWidth(CostOverViewPeriodic, 75);
@@ -146,7 +199,33 @@ void MainWindow::ConfigureAutoCostDetails()
     ui->tblDetailOverview->setColumnWidth(CostOverViewElecRecId, 20);
     ui->tblDetailOverview->setColumnWidth(CostOverViewRecType, 20);
     ui->tblDetailOverview->setColumnWidth(CostOverViewPeriod, 20);
+}
 
+//---------------------------------------------------------------------------------------
+//
+//  ConfigureAutoTotalCost
+//
+//  Sets the column width of the total cost table view
+//
+//---------------------------------------------------------------------------------------
+void MainWindow::MillageOverviewTable()
+{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set row alternating colors
+    //
+    ui->tblMillageOverview->setAlternatingRowColors(true);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set column width
+    //
+    ui->tblMillageOverview->setColumnWidth(MillageOverviewYear, 60);
+    ui->tblMillageOverview->setColumnWidth(MillageOverviewStart, 80);
+    ui->tblMillageOverview->setColumnWidth(MillageOverviewCurrent, 80);
+    ui->tblMillageOverview->setColumnWidth(MillageOverviewLimit, 80);
+    ui->tblMillageOverview->setColumnWidth(MillageOverviewUsed, 80);
+    ui->tblMillageOverview->setColumnWidth(MillageOverviewRemaining, 80);
 }
 
 //---------------------------------------------------------------------------------------
@@ -160,18 +239,20 @@ void MainWindow::ConfigureAutoTotalCost()
 {
     //-----------------------------------------------------------------------------------
     //
-    //  Set column width of total cost overview
+    //  Set row alternating colors
     //
-    //-----------------------------------------------------------------------------------
-    ui->tblYearTotalOverview->setAlternatingRowColors(true);
+     ui->tblYearTotalOverview->setAlternatingRowColors(true);
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set column width
+    //
     ui->tblYearTotalOverview->setColumnWidth(TotalCostViewYear, 60);
     ui->tblYearTotalOverview->setColumnWidth(TotalCostViewTotal, 80);
     ui->tblYearTotalOverview->setColumnWidth(TotalCostViewPeriodic, 80);
     ui->tblYearTotalOverview->setColumnWidth(TotalCostViewElectricity, 80);
     ui->tblYearTotalOverview->setColumnWidth(TotalCostViewOther, 80);
     ui->tblYearTotalOverview->setColumnWidth(TotalCostViewAccessory, 80);
-
 }
 
 //---------------------------------------------------------------------------------------
@@ -278,6 +359,4 @@ void MainWindow::on_actionManual_Data_input_triggered()
         ManualDataInput->resetDialog();
     }
 
-
 }
-

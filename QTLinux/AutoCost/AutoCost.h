@@ -130,6 +130,20 @@ enum DataColumnFields
 
 //-----------------------------------------------------------------------------------
 //
+//  Descriptive names for the Millage overview
+//
+enum MillageOverviewColumn
+{
+    MillageOverviewYear = 0,
+    MillageOverviewStart,
+    MillageOverviewCurrent,
+    MillageOverviewLimit,
+    MillageOverviewUsed,
+    MillageOverviewRemaining
+};
+
+//-----------------------------------------------------------------------------------
+//
 //  Descriptive names for the total Cost overview
 //
 enum TotalCostColumn
