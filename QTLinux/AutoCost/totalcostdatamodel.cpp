@@ -178,38 +178,36 @@ void TotalCostDataModel::loadTotals(const DetailCostDataModel &detailModel)
         totalrow.reserve(iTotalCol);
         for (iColNb = 0; iColNb < iTotalCol; iColNb++)
         {
-            switch (iColNb) {
-            case TotalCostViewYear:
-                if (iRowNb == 0)
-                {
-                    totalrow.append("Total");
-                }
-                else
-                {
-                    totalrow.append(QString::number(years.at(iRowNb)));
-                }
-                break;
-            case TotalCostViewTotal:
-                totalrow.append(QString::number(totalCost.at(iRowNb), 'f', 2));
-                break;
-            case TotalCostViewPeriodic:
-                totalrow.append(QString::number(periodic.at(iRowNb), 'f', 2));
-                break;
-            case TotalCostViewElectricity:
-                totalrow.append(QString::number(electricity.at(iRowNb), 'f', 2));
-                break;
-            case TotalCostViewOther:
-                totalrow.append(QString::number(other.at(iRowNb), 'f', 2));
-                break;
-            case TotalCostViewAccessory:
-                totalrow.append(QString::number(accessory.at(iRowNb), 'f', 2));
-                break;
-            // case TotalCostViewStartMillage:
-            //     totalrow.append(QString::number(MillageYearStart.at(iRowNb), 'f', 0));
-            //     break;
-            default:
-                totalrow.append("Test");
-                break;
+            switch (iColNb)
+            {
+                case TotalCostViewYear:
+                    if (iRowNb == 0)
+                    {
+                        totalrow.append("Total");
+                    }
+                    else
+                    {
+                        totalrow.append(QString::number(years.at(iRowNb)));
+                    }
+                    break;
+                case TotalCostViewTotal:
+                    totalrow.append(QString::number(totalCost.at(iRowNb), 'f', 2));
+                    break;
+                case TotalCostViewPeriodic:
+                    totalrow.append(QString::number(periodic.at(iRowNb), 'f', 2));
+                    break;
+                case TotalCostViewElectricity:
+                    totalrow.append(QString::number(electricity.at(iRowNb), 'f', 2));
+                    break;
+                case TotalCostViewOther:
+                    totalrow.append(QString::number(other.at(iRowNb), 'f', 2));
+                    break;
+                case TotalCostViewAccessory:
+                    totalrow.append(QString::number(accessory.at(iRowNb), 'f', 2));
+                    break;
+                 default:
+                    totalrow.append("Test");
+                    break;
             }
         }
         m_rows.append(totalrow);

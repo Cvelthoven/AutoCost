@@ -14,6 +14,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "detailcostdatamodel.h"
 #include <QAbstractTableModel>
 #include <QObject>
 #include <QString>
@@ -29,7 +30,7 @@ public:
     //
     //  Public methods
     //
-    bool loadMillageData();
+    bool loadMillageData(const DetailCostDataModel &detailModel);
 
     //-----------------------------------------------------------------------------------
     //
@@ -43,8 +44,14 @@ public:
 
 
 private:
+    double dMillageCurrent = -1;
+
     QVector<QString> strHeaders;
     QVector<QVector<QVariant>> m_rows;
+
+    QVector<double> dMillageYearStart;
+    QVector<int> years;
+
 
 };
 

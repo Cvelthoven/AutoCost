@@ -79,18 +79,17 @@ QVariant MillageOverviewDataModel::data(const QModelIndex &index, int role) cons
     //
     //  Set the field alignment of the columns
     //
-    //-----------------------------------------------------------------------------------
-    // if (role == Qt::TextAlignmentRole)
-    // {
-    //     switch (index.column())
-    //     {
-    //     case TotalCostViewYear:
-    //         return Qt::AlignCenter;
-    //         break;
-    //     default:
-    //         return Qt::AlignRight;
-    //     }
-    // }
+    if (role == Qt::TextAlignmentRole)
+    {
+        switch (index.column())
+        {
+        case MillageOverviewYear:
+            return Qt::AlignCenter;
+            break;
+        default:
+            return Qt::AlignRight;
+        }
+    }
 
     if (role != Qt::DisplayRole) {
         return QVariant();
@@ -136,8 +135,117 @@ QVariant MillageOverviewDataModel::headerData(int section, Qt::Orientation orien
 //  loadMillageData
 //
 //---------------------------------------------------------------------------------------
-bool MillageOverviewDataModel::loadMillageData()
+bool MillageOverviewDataModel::loadMillageData(const DetailCostDataModel &detailModel)
 {
+    int iRowNb =0,
+        iColNb = 0,
+        iTotalRows = 0,
+        iTotalCol = 0;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieve data from the detail cost data
+    //
+    dMillageYearStart = detailModel.getDMillageYearStart();
+    dMillageCurrent = detailModel.getMillageCurrent();
+    years = detailModel.getYears();
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Calculate remaining values
+    //
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Reset table view datamodel
+    //
+    iTotalRows = years.size();
+    iTotalCol = strHeaders.size();
+    beginResetModel();
+    m_rows.clear();
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Build table view datamodel
+    //
+    for (iRowNb = 0; iRowNb < iTotalRows; iRowNb++)
+    {
+        QVector<QVariant> millageRow;
+        millageRow.reserve(iTotalCol);
+        for (iColNb = 0; iColNb < iTotalCol; iColNb++)
+        {
+            switch (iColNb)
+            {
+                case MillageOverviewYear:
+                    if (iRowNb == 0)
+                    {
+                        millageRow.append("Total");
+                    }
+                    else
+                    {
+                        millageRow.append(QString::number(years.at(iRowNb)));
+                    }
+                    break;
+                case MillageOverviewStart:
+                    if (iRowNb == 0)
+                    {
+                        millageRow.append(QString::number(0));
+                    }
+                    else
+                    {
+                        millageRow.append(QString::number(dMillageYearStart.at(iRowNb), 'f', 0));
+                    }
+                    break;
+                case MillageOverviewCurrent:
+                    if (iRowNb == 0)
+                    {
+                        millageRow.append(QString::number(0));
+                    }
+                    else
+                    {
+                        millageRow.append(QString::number(dMillageCurrent, 'f', 0));
+                    }
+                    break;
+                case MillageOverviewLimit:
+                    if (iRowNb == 0)
+                    {
+                        millageRow.append(" ");
+                    }
+                    else
+                    {
+                        millageRow.append(QString::number(iMaxMillageYear));
+                    }
+                    break;
+                case MillageOverviewUsed:
+                    if (iRowNb == 0)
+                    {
+                        millageRow.append("test");
+                    }
+                    else
+                    {
+                        millageRow.append("test");
+                    }
+                    break;
+                case MillageOverviewRemaining:
+                    if (iRowNb == 0)
+                    {
+                        millageRow.append("test");
+                    }
+                    else
+                    {
+                        millageRow.append("test");
+                    }
+                    break;
+                default:
+                    millageRow.append("Test");
+                    break;
+            }
+        }
+        m_rows.append(millageRow);
+
+    }
+    endResetModel();
+
     return true;
 }
 

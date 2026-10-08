@@ -119,6 +119,18 @@ QString DetailCostDataModel::buildDetailCostQuery() const
 
 //---------------------------------------------------------------------------------------
 //
+//  getMillageCurrent
+//
+//  Returns the last millage found.
+//
+//---------------------------------------------------------------------------------------
+double DetailCostDataModel::getMillageCurrent() const
+{
+    return dElectricityTotalKM;
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  getDMillageYearStart
 //
 //  Returns the vector with the millage of the first load session of each year

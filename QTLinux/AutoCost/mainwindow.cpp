@@ -121,7 +121,7 @@ MainWindow::MainWindow(QWidget *parent)
     //  Create and load data
     //
     MillageDataModelTable = new MillageOverviewDataModel(this);
-    if (!MillageDataModelTable->loadMillageData())
+    if (!MillageDataModelTable->loadMillageData(*DetailCostDataModelTable))
     {
         exit(0);
     }

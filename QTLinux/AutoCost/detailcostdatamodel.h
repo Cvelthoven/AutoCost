@@ -45,6 +45,7 @@ public:
     //
     //  Getters
     //
+    double getMillageCurrent() const;
     QVector<double> getDMillageYearStart() const;
     QVector<double> getTotalAccessory() const;
     QVector<double> getTotalCost() const;
