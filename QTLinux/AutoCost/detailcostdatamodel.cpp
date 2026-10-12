@@ -131,6 +131,16 @@ double DetailCostDataModel::getMillageCurrent() const
 
 //---------------------------------------------------------------------------------------
 //
+//  getDMillageYearEnd
+//
+//---------------------------------------------------------------------------------------
+QVector<double> DetailCostDataModel::getDMillageYearEnd() const
+{
+    return dMillageYearEnd;
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  getDMillageYearStart
 //
 //  Returns the vector with the millage of the first load session of each year
@@ -938,11 +948,6 @@ QString DetailCostDataModel::CostPeriodic()
 //---------------------------------------------------------------------------------------
 void DetailCostDataModel::CostTotals()
 {
-    //-----------------------------------------------------------------------------------
-    //
-    //  Local variables
-    //
-    int iYearOfRecord = 0;
 
     //-----------------------------------------------------------------------------------
     //
@@ -954,6 +959,7 @@ void DetailCostDataModel::CostTotals()
     {
         iYears.append(0);
         dMillageYearStart.append(0);
+        dMillageYearEnd.append(0);
         dTotalCost.append(0);
         dTotalPeriodic.append(0);
         dTotalElectricity.append(0);
@@ -969,15 +975,7 @@ void DetailCostDataModel::CostTotals()
     iYearOfRecord = dtAutoCoatDate.year();
     if (iYear != iYearOfRecord)
     {
-        iYear = iYearOfRecord;
-        iYears.append(iYearOfRecord);
-        bSaveMillageYearStart = true;
-        iYearCurrentRow++;
-        dTotalCost.append(0);
-        dTotalPeriodic.append(0);
-        dTotalElectricity.append(0);
-        dTotalOtherCost.append(0);
-        dTotalAccessory.append(0);
+        YearSwitch();
     }
 
     //-----------------------------------------------------------------------------------
@@ -1002,18 +1000,7 @@ void DetailCostDataModel::CostTotals()
         //
         if (bSaveMillageYearStart)
         {
-            if (iYearCurrentRow != 1)
-            {
-                dMillageYearStart.append(dElectricityTotalKM);
-            }
-            //---------------------------------------------------------------------------
-            //
-            //  Set first year start millage to the overall start millage
-            //
-            else
-            {
-                dMillageYearStart.append(dMillageYearStart[0]);
-            }
+            YearSwitchElectricity();
             bSaveMillageYearStart = false;
         }
     }
@@ -1046,3 +1033,49 @@ QString DetailCostDataModel::CostTripKwhUsed()
     }
     return strTripKWhUsed;
 }
+
+//---------------------------------------------------------------------------------------
+//
+//  YearSwitch
+//
+//  Handles the switch in years.
+//
+//---------------------------------------------------------------------------------------
+void DetailCostDataModel::YearSwitch()
+{
+    iYear = iYearOfRecord;
+    iYears.append(iYearOfRecord);
+    bSaveMillageYearStart = true;
+    iYearCurrentRow++;
+    dTotalCost.append(0);
+    dTotalPeriodic.append(0);
+    dTotalElectricity.append(0);
+    dTotalOtherCost.append(0);
+    dTotalAccessory.append(0);
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  YearSwitchElectricity
+//
+//  Handles the switch in years when the first electricity record occurs
+//
+//---------------------------------------------------------------------------------------
+void DetailCostDataModel::YearSwitchElectricity()
+{
+    if (iYearCurrentRow != 1)
+    {
+        dMillageYearStart.append(dElectricityTotalKM);
+        dMillageYearEnd.append(dElectricityTotalKM);
+    }
+    //---------------------------------------------------------------------------
+    //
+    //  Set first year start millage to the overall start millage
+    //
+    else
+    {
+        dMillageYearStart.append(dMillageYearStart[0]);
+    }
+
+}
+

@@ -46,12 +46,17 @@ public:
 private:
     double dMillageCurrent = -1;
 
-    QVector<QString> strHeaders;
-    QVector<QVector<QVariant>> m_rows;
+    QVector<double>
+        dMillageYearEnd,
+        dMillageYearRemaining,
+        dMillageYearStart,
+        dMillageYearUsed;
 
-    QVector<double> dMillageYearStart;
     QVector<int> years;
 
+    QVector<QString> strHeaders;
+
+    QVector<QVector<QVariant>> m_rows;
 
 };
 

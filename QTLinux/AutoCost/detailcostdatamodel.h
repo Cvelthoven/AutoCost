@@ -46,6 +46,7 @@ public:
     //  Getters
     //
     double getMillageCurrent() const;
+    QVector<double> getDMillageYearEnd() const;
     QVector<double> getDMillageYearStart() const;
     QVector<double> getTotalAccessory() const;
     QVector<double> getTotalCost() const;
@@ -60,8 +61,6 @@ public:
     //
     bool getBAppDataOpen() const;
     QString getLastError() const;
-
-
 
 private:
     //-----------------------------------------------------------------------------------
@@ -90,6 +89,8 @@ private:
     QString CostTripKwhUsed();
     QString CostOther();
     QString CostPeriodic();
+    void YearSwitch();
+    void YearSwitchElectricity();
 
     //-----------------------------------------------------------------------------------
     //
@@ -113,13 +114,15 @@ private:
 
     int
         iYear = 0,
-        iYearCurrentRow = 0;// the current row in the totals vectors
+        iYearCurrentRow = 0,// the current row in the totals vectors
+        iYearOfRecord = 0;
 
     QSqlDatabase dbAutoCost;
     QSqlError queryError;
     QString strLastError;
 
     QVector<double>
+        dMillageYearEnd,
         dMillageYearStart,
         dTotalCost,
         dTotalPeriodic,

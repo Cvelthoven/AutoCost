@@ -35,7 +35,7 @@ MillageOverviewDataModel::MillageOverviewDataModel(QObject *parent)
     strHeaders = {
         "Year",
         "Start",
-        "Current",
+        "End/Last",
         "Limit",
         "Used",
         "Rest"
@@ -137,10 +137,11 @@ QVariant MillageOverviewDataModel::headerData(int section, Qt::Orientation orien
 //---------------------------------------------------------------------------------------
 bool MillageOverviewDataModel::loadMillageData(const DetailCostDataModel &detailModel)
 {
-    int iRowNb =0,
+    int iCnt1,
         iColNb = 0,
-        iTotalRows = 0,
-        iTotalCol = 0;
+        iRowNb = 0,
+        iTotalCol = 0,
+        iTotalRows = 0;
 
     //-----------------------------------------------------------------------------------
     //
@@ -148,12 +149,31 @@ bool MillageOverviewDataModel::loadMillageData(const DetailCostDataModel &detail
     //
     dMillageYearStart = detailModel.getDMillageYearStart();
     dMillageCurrent = detailModel.getMillageCurrent();
+    dMillageYearEnd = detailModel.getDMillageYearEnd();
     years = detailModel.getYears();
 
     //-----------------------------------------------------------------------------------
     //
-    //  Calculate remaining values
+    //  Calculate year used and remaining millage
     //
+    dMillageYearRemaining.append(0);
+    for (iCnt1 = 0; iCnt1 < dMillageYearStart.size(); iCnt1++)
+    {
+
+        if ((iCnt1 < dMillageYearEnd.size()) && (iCnt1 != 0))
+        {
+            dMillageYearUsed.append(dMillageYearEnd.at(iCnt1) - dMillageYearStart.at(iCnt1));
+            dMillageYearRemaining.append(iMaxMillageYear - dMillageYearEnd.at(iCnt1));
+        }
+        else
+        {
+            dMillageYearUsed.append(dMillageCurrent - dMillageYearStart.at(iCnt1));
+            if (iCnt1 != 0)
+            {
+                dMillageYearRemaining.append(iMaxMillageYear - dMillageCurrent);
+            }
+        }
+    }
 
     //-----------------------------------------------------------------------------------
     //
@@ -197,10 +217,26 @@ bool MillageOverviewDataModel::loadMillageData(const DetailCostDataModel &detail
                     }
                     break;
                 case MillageOverviewCurrent:
+                    //-------------------------------------------------------------------
+                    //
+                    //  Overall millage
+                    //
                     if (iRowNb == 0)
                     {
-                        millageRow.append(QString::number(0));
+                        millageRow.append(QString::number(dMillageCurrent, 'f', 0));
                     }
+                    //-------------------------------------------------------------------
+                    //
+                    //  Previous years
+                    //
+                    else if (iRowNb < dMillageYearEnd.size())
+                    {
+                        millageRow.append(QString::number(dMillageYearEnd.at(iRowNb), 'f', 0));
+                    }
+                    //-------------------------------------------------------------------
+                    //
+                    //  Current year
+                    //
                     else
                     {
                         millageRow.append(QString::number(dMillageCurrent, 'f', 0));
@@ -217,23 +253,16 @@ bool MillageOverviewDataModel::loadMillageData(const DetailCostDataModel &detail
                     }
                     break;
                 case MillageOverviewUsed:
-                    if (iRowNb == 0)
-                    {
-                        millageRow.append("test");
-                    }
-                    else
-                    {
-                        millageRow.append("test");
-                    }
+                    millageRow.append(QString::number(dMillageYearUsed.at(iRowNb), 'f', 0));
                     break;
                 case MillageOverviewRemaining:
                     if (iRowNb == 0)
                     {
-                        millageRow.append("test");
+                        millageRow.append(" ");
                     }
                     else
                     {
-                        millageRow.append("test");
+                        millageRow.append(QString::number(dMillageYearRemaining.at(iRowNb), 'f', 0));
                     }
                     break;
                 default:
