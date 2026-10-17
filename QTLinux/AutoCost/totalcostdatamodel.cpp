@@ -11,9 +11,9 @@
 //
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
+#include "tabledatamodel.h"
 #include "totalcostdatamodel.h"
 
-#include <QAbstractTableModel>
 #include <QObject>
 
 //---------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@
 //
 //---------------------------------------------------------------------------------------
 TotalCostDataModel::TotalCostDataModel(QObject *parent)
-    : QAbstractTableModel(parent)
+    : TableDataModel(parent)
 {
 
     //-----------------------------------------------------------------------------------
@@ -49,86 +49,13 @@ TotalCostDataModel::TotalCostDataModel(QObject *parent)
 //  TotalCostDataModel class methods
 //
 //---------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------
 //
 //  columnCount
 //
 //---------------------------------------------------------------------------------------
-int TotalCostDataModel::columnCount(const QModelIndex &parent) const
+Qt::Alignment TotalCostDataModel::columnAlignment(int c) const
 {
-    if (parent.isValid()) {
-        return 0;
-    }
-
-    return strHeaders.size();
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  data
-//
-//---------------------------------------------------------------------------------------
-QVariant TotalCostDataModel::data(const QModelIndex &index, int role) const
-{
-    if (!index.isValid())
-    {
-        return QVariant();
-    }
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Set the field alignment of the columns
-    //
-    //-----------------------------------------------------------------------------------
-    if (role == Qt::TextAlignmentRole)
-    {
-        switch (index.column())
-        {
-        case TotalCostViewYear:
-            return Qt::AlignHCenter;
-            break;
-         default:
-            return Qt::AlignRight;
-        }
-    }
-
-    if (role != Qt::DisplayRole) {
-        return QVariant();
-    }
-
-    const int row = index.row();
-    const int col = index.column();
-
-    if (row < 0 || row >= m_rows.size()) {
-        return QVariant();
-    }
-
-    if (col < 0 || col >= strHeaders.size()) {
-        return QVariant();
-    }
-
-    return m_rows.at(row).at(col);
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  headerData
-//
-//---------------------------------------------------------------------------------------
-QVariant TotalCostDataModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    if (role != Qt::DisplayRole) {
-        return QVariant();
-    }
-
-    if (orientation == Qt::Horizontal) {
-        if (section >= 0 && section < strHeaders.size()) {
-            return strHeaders.at(section);
-        }
-        return QVariant();
-    }
-
-    return QAbstractTableModel::headerData(section, orientation, role);
+    return c == TotalCostViewYear ? Qt::AlignHCenter : Qt::AlignRight;
 }
 
 //---------------------------------------------------------------------------------------
@@ -160,72 +87,29 @@ void TotalCostDataModel::loadTotals(const DetailCostDataModel &detailModel)
 
     //-----------------------------------------------------------------------------------
     //
-    //  Reset table view datamodel
+    //  Build the data for the tabledatamodel
     //
-    iTotalRows = years.size();
-    iTotalCol = strHeaders.size();
+    //  Define the layout for the money data values
+    auto money = [](const QVector<double> &v, int r) { return QString::number(v.at(r), 'f', 2); };
 
-    beginResetModel();
-    m_rows.clear();
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Build table view datamodel
-    //
-    for (iRowNb = 0; iRowNb < iTotalRows; iRowNb++)
+    rebuild(years.size(), [&](int r, int c) -> QVariant
     {
-        QVector<QVariant> totalrow;
-        totalrow.reserve(iTotalCol);
-        for (iColNb = 0; iColNb < iTotalCol; iColNb++)
+        switch (c)
         {
-            switch (iColNb)
-            {
-                case TotalCostViewYear:
-                    if (iRowNb == 0)
-                    {
-                        totalrow.append("Total");
-                    }
-                    else
-                    {
-                        totalrow.append(QString::number(years.at(iRowNb)));
-                    }
-                    break;
-                case TotalCostViewTotal:
-                    totalrow.append(QString::number(totalCost.at(iRowNb), 'f', 2));
-                    break;
-                case TotalCostViewPeriodic:
-                    totalrow.append(QString::number(periodic.at(iRowNb), 'f', 2));
-                    break;
-                case TotalCostViewElectricity:
-                    totalrow.append(QString::number(electricity.at(iRowNb), 'f', 2));
-                    break;
-                case TotalCostViewOther:
-                    totalrow.append(QString::number(other.at(iRowNb), 'f', 2));
-                    break;
-                case TotalCostViewAccessory:
-                    totalrow.append(QString::number(accessory.at(iRowNb), 'f', 2));
-                    break;
-                 default:
-                    totalrow.append("Test");
-                    break;
-            }
+            case TotalCostViewYear:
+                return r == 0 ? QString("Total") : QString::number(years.at(r));
+            case TotalCostViewTotal:
+                return money(totalCost, r);
+            case TotalCostViewPeriodic:
+                return money(periodic, r);
+            case TotalCostViewElectricity:
+                return money(electricity, r);
+            case TotalCostViewOther:
+                return money(other, r);
+            case TotalCostViewAccessory:
+                return money(accessory, r);
+            default:
+                return QVariant();
         }
-        m_rows.append(totalrow);
-    }
-
-    endResetModel();
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  rowCount
-//
-//---------------------------------------------------------------------------------------
-int TotalCostDataModel::rowCount(const QModelIndex &parent) const
-{
-    if (parent.isValid()) {
-        return 0;
-    }
-
-    return m_rows.size();
+    });
 }

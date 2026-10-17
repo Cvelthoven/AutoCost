@@ -10,6 +10,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "AutoCost.h"
 #include "electricityoverviewdatamodel.h"
 
 #include <QAbstractTableModel>
@@ -33,18 +34,16 @@ ElectricityOverviewDataModel::ElectricityOverviewDataModel(QObject *parent)
     //
     strHeaders = {
         "Year",
-        "Start",
-        "End/Last",
-        "Limit",
-        "Used",
-        "Rest"
+        "KWh/km",
+        "km/KWh",
+        "Euro/KWh"
     };
 
 }
 
 //---------------------------------------------------------------------------------------
 //
-//  MillageOverview class methods
+//  ElectricityOverviewDataModel class methods
 //
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
@@ -77,17 +76,17 @@ QVariant ElectricityOverviewDataModel::data(const QModelIndex &index, int role) 
     //
     //  Set the field alignment of the columns
     //
-    // if (role == Qt::TextAlignmentRole)
-    // {
-    //     switch (index.column())
-    //     {
-    //     case MillageOverviewYear:
-    //         return Qt::AlignCenter;
-    //         break;
-    //     default:
-    //         return Qt::AlignRight;
-    //     }
-    // }
+    if (role == Qt::TextAlignmentRole)
+    {
+        switch (index.column())
+        {
+        case ElectrictyOverviewYear:
+            return Qt::AlignCenter;
+            break;
+        default:
+            return Qt::AlignRight;
+        }
+    }
 
     if (role != Qt::DisplayRole) {
         return QVariant();

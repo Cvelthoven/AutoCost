@@ -45,6 +45,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         millageoverviewdatamodel.h millageoverviewdatamodel.cpp
         electricityoverviewdatamodel.h electricityoverviewdatamodel.cpp
+        tabledatamodel.h tabledatamodel.cpp
 
 
 

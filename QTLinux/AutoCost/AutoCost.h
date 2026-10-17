@@ -132,6 +132,18 @@ enum DataColumnFields
 //
 //  Descriptive names for the Millage overview
 //
+enum ElectrictyOverviewColumn
+{
+    ElectrictyOverviewYear = 0,
+    ElectrictyOverviewKWhKm,
+    ElectrictyOverviewKmKWh,
+    ElectrictyOverviewEuroKWh
+};
+
+//-----------------------------------------------------------------------------------
+//
+//  Descriptive names for the Millage overview
+//
 enum MillageOverviewColumn
 {
     MillageOverviewYear = 0,

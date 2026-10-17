@@ -12,6 +12,7 @@
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
 #include "millageoverviewdatamodel.h"
+#include "tabledatamodel.h"
 
 #include <QAbstractTableModel>
 #include <QObject>
@@ -26,7 +27,7 @@
 //
 //---------------------------------------------------------------------------------------
 MillageOverviewDataModel::MillageOverviewDataModel(QObject *parent)
-    : QAbstractTableModel(parent)
+    : TableDataModel(parent)
 {
     //-----------------------------------------------------------------------------------
     //
@@ -43,91 +44,14 @@ MillageOverviewDataModel::MillageOverviewDataModel(QObject *parent)
 
 }
 
-
 //---------------------------------------------------------------------------------------
 //
 //  MillageOverview class methods
 //
 //---------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------
-//
-//  columnCount
-//
-//---------------------------------------------------------------------------------------
-int MillageOverviewDataModel::columnCount(const QModelIndex &parent) const
+Qt::Alignment MillageOverviewDataModel::columnAlignment(int c) const
 {
-    if (parent.isValid()) {
-        return 0;
-    }
-
-    return strHeaders.size();
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  data
-//
-//---------------------------------------------------------------------------------------
-QVariant MillageOverviewDataModel::data(const QModelIndex &index, int role) const
-{
-    if (!index.isValid())
-    {
-        return QVariant();
-    }
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Set the field alignment of the columns
-    //
-    if (role == Qt::TextAlignmentRole)
-    {
-        switch (index.column())
-        {
-        case MillageOverviewYear:
-            return Qt::AlignCenter;
-            break;
-        default:
-            return Qt::AlignRight;
-        }
-    }
-
-    if (role != Qt::DisplayRole) {
-        return QVariant();
-    }
-
-    const int row = index.row();
-    const int col = index.column();
-
-    if (row < 0 || row >= m_rows.size()) {
-        return QVariant();
-    }
-
-    if (col < 0 || col >= strHeaders.size()) {
-        return QVariant();
-    }
-
-    return m_rows.at(row).at(col);
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  headerData
-//
-//---------------------------------------------------------------------------------------
-QVariant MillageOverviewDataModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    if (role != Qt::DisplayRole) {
-        return QVariant();
-    }
-
-    if (orientation == Qt::Horizontal) {
-        if (section >= 0 && section < strHeaders.size()) {
-            return strHeaders.at(section);
-        }
-        return QVariant();
-    }
-
-    return QAbstractTableModel::headerData(section, orientation, role);
+    return c == MillageOverviewYear ? Qt::AlignHCenter : Qt::AlignRight;
 }
 
 //---------------------------------------------------------------------------------------
@@ -177,117 +101,51 @@ bool MillageOverviewDataModel::loadMillageData(const DetailCostDataModel &detail
 
     //-----------------------------------------------------------------------------------
     //
-    //  Reset table view datamodel
+    //  Build data for tabledatamodel
     //
-    iTotalRows = years.size();
-    iTotalCol = strHeaders.size();
-    beginResetModel();
-    m_rows.clear();
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Build table view datamodel
-    //
-    for (iRowNb = 0; iRowNb < iTotalRows; iRowNb++)
-    {
-        QVector<QVariant> millageRow;
-        millageRow.reserve(iTotalCol);
-        for (iColNb = 0; iColNb < iTotalCol; iColNb++)
+    auto millage = [](const QVector<double> &v, int r) { return QString::number(v.at(r), 'f', 0); };
+    rebuild(years.size(), [&](int r, int c) -> QVariant {
+        switch (c)
         {
-            switch (iColNb)
-            {
-                case MillageOverviewYear:
-                    if (iRowNb == 0)
-                    {
-                        millageRow.append("Total");
-                    }
-                    else
-                    {
-                        millageRow.append(QString::number(years.at(iRowNb)));
-                    }
-                    break;
-                case MillageOverviewStart:
-                    if (iRowNb == 0)
-                    {
-                        millageRow.append(QString::number(0));
-                    }
-                    else
-                    {
-                        millageRow.append(QString::number(dMillageYearStart.at(iRowNb), 'f', 0));
-                    }
-                    break;
-                case MillageOverviewCurrent:
-                    //-------------------------------------------------------------------
-                    //
-                    //  Overall millage
-                    //
-                    if (iRowNb == 0)
-                    {
-                        millageRow.append(QString::number(dMillageCurrent, 'f', 0));
-                    }
-                    //-------------------------------------------------------------------
-                    //
-                    //  Previous years
-                    //
-                    else if (iRowNb < dMillageYearEnd.size())
-                    {
-                        millageRow.append(QString::number(dMillageYearEnd.at(iRowNb), 'f', 0));
-                    }
-                    //-------------------------------------------------------------------
-                    //
-                    //  Current year
-                    //
-                    else
-                    {
-                        millageRow.append(QString::number(dMillageCurrent, 'f', 0));
-                    }
-                    break;
-                case MillageOverviewLimit:
-                    if (iRowNb == 0)
-                    {
-                        millageRow.append(" ");
-                    }
-                    else
-                    {
-                        millageRow.append(QString::number(iMaxMillageYear));
-                    }
-                    break;
-                case MillageOverviewUsed:
-                    millageRow.append(QString::number(dMillageYearUsed.at(iRowNb), 'f', 0));
-                    break;
-                case MillageOverviewRemaining:
-                    if (iRowNb == 0)
-                    {
-                        millageRow.append(" ");
-                    }
-                    else
-                    {
-                        millageRow.append(QString::number(dMillageYearRemaining.at(iRowNb), 'f', 0));
-                    }
-                    break;
-                default:
-                    millageRow.append("Test");
-                    break;
-            }
+            case MillageOverviewYear:
+                return r == 0 ? QString("Total") : QString::number(years.at(r));
+            case MillageOverviewStart:
+                return r == 0 ? QString::number(0) : millage(dMillageYearStart, r);
+            case MillageOverviewCurrent:
+                //-----------------------------------------------------------------------
+                //
+                //  Overall millage
+                //
+                if (r == 0)
+                {
+                    return QString::number(dMillageYearStart.at(iRowNb), 'f', 0);
+                }
+                //-----------------------------------------------------------------------
+                //
+                //  Millage previous years
+                //
+                else if (r < dMillageYearEnd.size())
+                {
+                    return millage(dMillageYearEnd, r);
+                }
+                //-----------------------------------------------------------------------
+                //
+                //  Current year
+                //
+                else
+                {
+                    return QString::number(dMillageYearStart.at(iRowNb), 'f', 0);
+                }
+            case MillageOverviewLimit:
+                return r == 0 ? QString(" ") : QString::number(iMaxMillageYear);
+            case MillageOverviewUsed:
+                return millage(dMillageYearUsed, r);
+            case MillageOverviewRemaining:
+                return r == 0 ? QString(" ") : millage(dMillageYearRemaining, r);
+            default:
+                return QVariant();
         }
-        m_rows.append(millageRow);
-
-    }
-    endResetModel();
+    });
 
     return true;
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  rowCount
-//
-//---------------------------------------------------------------------------------------
-int MillageOverviewDataModel::rowCount(const QModelIndex &parent) const
-{
-    if (parent.isValid()) {
-        return 0;
-    }
-
-    return m_rows.size();
 }

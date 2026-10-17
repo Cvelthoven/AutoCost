@@ -11,6 +11,7 @@
 #include "millageoverviewdatamodel.h"
 #include "./ui_mainwindow.h"
 #include "postgresqldb.h"
+#include "tabledatamodel.h"
 #include "totalcostdatamodel.h"
 
 #include <QString>
