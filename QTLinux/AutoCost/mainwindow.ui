@@ -131,7 +131,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QTableView" name="tableView">
+    <widget class="QTableView" name="tblElectricityOverview">
      <property name="geometry">
       <rect>
        <x>1530</x>

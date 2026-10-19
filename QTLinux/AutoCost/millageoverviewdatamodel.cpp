@@ -49,6 +49,10 @@ MillageOverviewDataModel::MillageOverviewDataModel(QObject *parent)
 //  MillageOverview class methods
 //
 //---------------------------------------------------------------------------------------
+//
+//  columnAlignment
+//
+//---------------------------------------------------------------------------------------
 Qt::Alignment MillageOverviewDataModel::columnAlignment(int c) const
 {
     return c == MillageOverviewYear ? Qt::AlignHCenter : Qt::AlignRight;

@@ -16,9 +16,7 @@
 //---------------------------------------------------------------------------------------
 #include "detailcostdatamodel.h"
 #include "tabledatamodel.h"
-//#include <QAbstractTableModel>
 #include <QObject>
-//#include <QString>
 #include <QVector>
 
 class MillageOverviewDataModel : public TableDataModel
@@ -32,16 +30,6 @@ public:
     //  Public methods
     //
     bool loadMillageData(const DetailCostDataModel &detailModel);
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Default QAbstractTableModel overrides
-    //
-    // int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-    // QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-    // int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    // QVariant headerData(int section, Qt::Orientation orientation,
-    //                     int role = Qt::DisplayRole) const override;
 
 protected:
     //-----------------------------------------------------------------------------------
@@ -82,10 +70,6 @@ private:
         dMillageYearUsed;
 
     QVector<int> years;
-
-    // QVector<QString> strHeaders;
-
-    // QVector<QVector<QVariant>> m_rows;
 
 };
 

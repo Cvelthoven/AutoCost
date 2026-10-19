@@ -16,6 +16,7 @@
 #include "datainput.h"
 #include "datainputdialog.h"
 #include "detailcostdatamodel.h"
+#include "electricityoverviewdatamodel.h"
 #include "millageoverviewdatamodel.h"
 #include "postgresqldb.h"
 #include "totalcostdatamodel.h"
@@ -70,6 +71,7 @@ private:
     AppConfiguration* ApplicationConfiguration = nullptr;
     DataInput* ManualData = nullptr;
     DetailCostDataModel* DetailCostDataModelTable = nullptr;
+    ElectricityOverviewDataModel* ElectricityDataModelTable = nullptr;
     MillageOverviewDataModel* MillageDataModelTable = nullptr;
     PostGreSQLDB* AppDataDB = nullptr;
     TotalCostDataModel* TotallCostDataModelTable = nullptr;

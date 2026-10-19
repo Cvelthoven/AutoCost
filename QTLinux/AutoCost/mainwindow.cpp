@@ -7,11 +7,11 @@
 //---------------------------------------------------------------------------------------
 #include "AutoCost.h"
 #include "detailcostdatamodel.h"
+#include "electricityoverviewdatamodel.h"
 #include "mainwindow.h"
 #include "millageoverviewdatamodel.h"
 #include "./ui_mainwindow.h"
 #include "postgresqldb.h"
-#include "tabledatamodel.h"
 #include "totalcostdatamodel.h"
 
 #include <QString>
@@ -129,12 +129,32 @@ MainWindow::MainWindow(QWidget *parent)
 
     //-----------------------------------------------------------------------------------
     //
-    //  Set the model for the total cost view (this connects them)
+    //  Set the model for the millage overview (this connects them)
     //  and configure the view
     //
-     ui->tblMillageOverview->setModel(MillageDataModelTable);
+    ui->tblMillageOverview->setModel(MillageDataModelTable);
     MillageOverviewTable();
 
+    //-----------------------------------------------------------------------------------
+    //  - Create
+    //  - Load data
+    //  - set data model
+    //  - configure view
+    //
+    //  Must be after detail cost due to data used from detail cost
+    //
+    //-----------------------------------------------------------------------------------
+    //
+    //  Create and load data
+    //
+    ElectricityDataModelTable = new ElectricityOverviewDataModel(this);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set the model for the electricity overview (this connects them)
+    //  and configure the view
+    //
+    ui->tblElectricityOverview->setModel(ElectricityDataModelTable);
 }
 
 //---------------------------------------------------------------------------------------
