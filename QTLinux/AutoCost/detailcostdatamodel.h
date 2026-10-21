@@ -62,6 +62,8 @@ public:
     bool getBAppDataOpen() const;
     QString getLastError() const;
 
+    QVector<double> getDKWhLoaded() const;
+
 private:
     //-----------------------------------------------------------------------------------
     //
@@ -122,6 +124,7 @@ private:
     QString strLastError;
 
     QVector<double>
+        dKWhLoaded,
         dMillageYearEnd,
         dMillageYearStart,
         dTotalCost,

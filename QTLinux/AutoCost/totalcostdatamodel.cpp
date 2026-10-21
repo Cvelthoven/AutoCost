@@ -67,12 +67,6 @@ Qt::Alignment TotalCostDataModel::columnAlignment(int c) const
 //---------------------------------------------------------------------------------------
 void TotalCostDataModel::loadTotals(const DetailCostDataModel &detailModel)
 {
-    int iRowNb =0,
-        iColNb = 0,
-        iTotalRows = 0,
-        iTotalCol = 0;
-
-
     //-----------------------------------------------------------------------------------
     //
     //  Retrieve the total values from the detailModel

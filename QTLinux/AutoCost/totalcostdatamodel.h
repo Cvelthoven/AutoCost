@@ -16,7 +16,6 @@
 //---------------------------------------------------------------------------------------
 #include "detailcostdatamodel.h"
 #include "tabledatamodel.h"
-//#include <QAbstractTableModel>
 #include <QObject>
 #include <QString>
 #include <QVector>
@@ -27,22 +26,12 @@ class TotalCostDataModel : public TableDataModel
 public:
     TotalCostDataModel(QObject *parent = nullptr);
 
-    // QAbstractTableModel overrides
-//    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-//    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-//    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    // Override to provide custom headers
-//    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-
     void loadTotals(const DetailCostDataModel &detailModel);
 
 protected:
     Qt::Alignment columnAlignment(int column) const override;
 
 private:
-//    QVector<QString> strHeaders;
-//    QVector<QVector<QVariant>> m_rows;
-
     QVector<int> years;
 
     QVector<double> accessory;

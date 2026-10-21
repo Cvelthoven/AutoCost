@@ -38,28 +38,6 @@ protected:
     //
     virtual Qt::Alignment columnAlignment(int column) const;
 
-    //-----------------------------------------------------------------------------------
-    //
-    //  Resets the model and fills m_rows with cell(row, col) for every row/column
-    //
-    //  This method needs to be in the header fill due to CellFn
-    //
-    template <typename CellFn>
-    void rebuild(int rows, CellFn cell)
-    {
-        beginResetModel();
-        m_rows.clear();
-        m_rows.reserve(rows);
-        for (int r = 0; r < rows; ++r) {
-            QVector<QVariant> row;
-            row.reserve(strHeaders.size());
-            for (int c = 0; c < strHeaders.size(); ++c)
-                row.append(cell(r, c));
-            m_rows.append(row);
-        }
-        endResetModel();
-    }
-
 private:
     double dMillageCurrent = -1;
 

@@ -53,3 +53,13 @@ Qt::Alignment ElectricityOverviewDataModel::columnAlignment(int c) const
 {
     return c == ElectrictyOverviewYear ? Qt::AlignHCenter : Qt::AlignRight;
 }
+
+//---------------------------------------------------------------------------------------
+//
+//
+//
+//---------------------------------------------------------------------------------------
+bool ElectricityOverviewDataModel::loadElectricityData(const DetailCostDataModel &detailModel)
+{
+    return true;
+}

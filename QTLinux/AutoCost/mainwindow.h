@@ -59,6 +59,7 @@ private:
     //-----------------------------------------------------------------------------------
     void ConfigureAutoCostDetails();
     void ConfigureAutoTotalCost();
+    void ElectricityOverviewTable();
     void MillageOverviewTable();
     int ConnectApplicationDataDB();
     int ProgramConfigurationLoad();

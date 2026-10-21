@@ -155,6 +155,7 @@ MainWindow::MainWindow(QWidget *parent)
     //  and configure the view
     //
     ui->tblElectricityOverview->setModel(ElectricityDataModelTable);
+    ElectricityOverviewTable();
 }
 
 //---------------------------------------------------------------------------------------
@@ -224,9 +225,34 @@ void MainWindow::ConfigureAutoCostDetails()
 
 //---------------------------------------------------------------------------------------
 //
-//  ConfigureAutoTotalCost
+//  ElectricityOverviewTable
 //
-//  Sets the column width of the total cost table view
+//  Sets the column width of the electricity table view
+//
+//---------------------------------------------------------------------------------------
+void MainWindow::ElectricityOverviewTable()
+{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set row alternating colors
+    //
+    ui->tblMillageOverview->setAlternatingRowColors(true);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set column width
+    //
+    ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewYear, 60);
+    ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewKWhKm, 80);
+    ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewKmKWh, 80);
+    ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewEuroKWh, 80);
+ }
+
+//---------------------------------------------------------------------------------------
+//
+//  MillageOverviewTable
+//
+//  Sets the column width of the millage table view
 //
 //---------------------------------------------------------------------------------------
 void MainWindow::MillageOverviewTable()

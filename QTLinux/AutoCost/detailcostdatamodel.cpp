@@ -119,14 +119,12 @@ QString DetailCostDataModel::buildDetailCostQuery() const
 
 //---------------------------------------------------------------------------------------
 //
-//  getMillageCurrent
-//
-//  Returns the last millage found.
+//  getDKWhLoaded
 //
 //---------------------------------------------------------------------------------------
-double DetailCostDataModel::getMillageCurrent() const
+QVector<double> DetailCostDataModel::getDKWhLoaded() const
 {
-    return dElectricityTotalKM;
+    return dKWhLoaded;
 }
 
 //---------------------------------------------------------------------------------------
@@ -149,6 +147,18 @@ QVector<double> DetailCostDataModel::getDMillageYearEnd() const
 QVector<double> DetailCostDataModel::getDMillageYearStart() const
 {
     return dMillageYearStart;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  getMillageCurrent
+//
+//  Returns the last millage found.
+//
+//---------------------------------------------------------------------------------------
+double DetailCostDataModel::getMillageCurrent() const
+{
+    return dElectricityTotalKM;
 }
 
 //---------------------------------------------------------------------------------------
@@ -234,7 +244,6 @@ bool DetailCostDataModel::loadDetailCostData()
     //
     //  Local variables
     //
-    //-----------------------------------------------------------------------------------
     int
         iDataColumnNb = 0,
         iDataColums = 0,
@@ -247,7 +256,6 @@ bool DetailCostDataModel::loadDetailCostData()
     //
     //  Verify database is open
     //
-    //-----------------------------------------------------------------------------------
     if (!bAppDataOpen)
     {
         strLastError = "Database connection not open";
@@ -259,7 +267,6 @@ bool DetailCostDataModel::loadDetailCostData()
     //
     //  Execute SQL query
     //
-    //-----------------------------------------------------------------------------------
     QSqlQuery query(dbAutoCost);
     if (!query.exec(buildDetailCostQuery())) {
         queryError = query.lastError();
@@ -273,7 +280,6 @@ bool DetailCostDataModel::loadDetailCostData()
     //
     //  Reset table view datamodel
     //
-    //-----------------------------------------------------------------------------------
     beginResetModel();
     m_rows.clear();
 
@@ -281,7 +287,6 @@ bool DetailCostDataModel::loadDetailCostData()
     //
     //  Build Table view datamodel
     //
-    //-----------------------------------------------------------------------------------
     while (query.next())
     {
         QVector<QVariant> row;
@@ -343,14 +348,12 @@ bool DetailCostDataModel::loadDetailCostData()
         //
         //  Calculate the totals
         //
-        //-------------------------------------------------------------------------------
         CostTotals();
 
         //-------------------------------------------------------------------------------
         //
         //  Calculate values of electricity records
         //
-        //-------------------------------------------------------------------------------
         if (iAutoCostType == CostRecElectricity)
         {
             CostElectricityFieldCalc();
@@ -493,7 +496,6 @@ QVariant DetailCostDataModel::data(const QModelIndex &index, int role) const
     //
     //  Set the field alignment of the columns
     //
-    //-----------------------------------------------------------------------------------
     if (role == Qt::TextAlignmentRole)
     {
         switch (index.column())
