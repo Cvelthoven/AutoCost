@@ -148,6 +148,10 @@ MainWindow::MainWindow(QWidget *parent)
     //  Create and load data
     //
     ElectricityDataModelTable = new ElectricityOverviewDataModel(this);
+    if (!ElectricityDataModelTable->loadElectricityData(*DetailCostDataModelTable))
+    {
+        exit(0);
+    }
 
     //-----------------------------------------------------------------------------------
     //
@@ -183,7 +187,7 @@ MainWindow::~MainWindow()
 //
 //  ConfigureAutoCostDetails
 //
-//  Sets the column width of the detail cost table view
+//  Formats the detail cost table view
 //
 //---------------------------------------------------------------------------------------
 void MainWindow::ConfigureAutoCostDetails()
@@ -227,7 +231,7 @@ void MainWindow::ConfigureAutoCostDetails()
 //
 //  ElectricityOverviewTable
 //
-//  Sets the column width of the electricity table view
+//  Formats the electricity table view
 //
 //---------------------------------------------------------------------------------------
 void MainWindow::ElectricityOverviewTable()
@@ -243,16 +247,17 @@ void MainWindow::ElectricityOverviewTable()
     //  Set column width
     //
     ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewYear, 60);
-    ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewKWhKm, 80);
-    ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewKmKWh, 80);
-    ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewEuroKWh, 80);
+    ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewKWh, 60);
+    ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewKWhKm, 70);
+    ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewKmKWh, 70);
+    ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewEuroKWh, 70);
  }
 
 //---------------------------------------------------------------------------------------
 //
 //  MillageOverviewTable
 //
-//  Sets the column width of the millage table view
+//  Formats the millage table view
 //
 //---------------------------------------------------------------------------------------
 void MainWindow::MillageOverviewTable()
@@ -279,7 +284,7 @@ void MainWindow::MillageOverviewTable()
 //
 //  ConfigureAutoTotalCost
 //
-//  Sets the column width of the total cost table view
+//  Formats the total cost table view
 //
 //---------------------------------------------------------------------------------------
 void MainWindow::ConfigureAutoTotalCost()

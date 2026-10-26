@@ -135,6 +135,7 @@ enum DataColumnFields
 enum ElectrictyOverviewColumn
 {
     ElectrictyOverviewYear = 0,
+    ElectrictyOverviewKWh,
     ElectrictyOverviewKWhKm,
     ElectrictyOverviewKmKWh,
     ElectrictyOverviewEuroKWh

@@ -46,6 +46,7 @@ public:
     //  Getters
     //
     double getMillageCurrent() const;
+    QVector<double> getDKWhLoaded() const;
     QVector<double> getDMillageYearEnd() const;
     QVector<double> getDMillageYearStart() const;
     QVector<double> getTotalAccessory() const;
@@ -61,8 +62,6 @@ public:
     //
     bool getBAppDataOpen() const;
     QString getLastError() const;
-
-    QVector<double> getDKWhLoaded() const;
 
 private:
     //-----------------------------------------------------------------------------------

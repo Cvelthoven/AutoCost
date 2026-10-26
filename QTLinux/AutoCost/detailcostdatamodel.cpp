@@ -960,6 +960,7 @@ void DetailCostDataModel::CostTotals()
     if (dTotalCost.size() == 0)
     {
         iYears.append(0);
+        dKWhLoaded.append(0);
         dMillageYearStart.append(0);
         dMillageYearEnd.append(0);
         dTotalCost.append(0);
@@ -995,6 +996,13 @@ void DetailCostDataModel::CostTotals()
     {
         dTotalElectricity[0] += dAutoCostTotalCost;
         dTotalElectricity[iYearCurrentRow] += dAutoCostTotalCost;
+
+        //-------------------------------------------------------------------------------
+        //
+        //  Calculate KWh loaded total and per year
+        //
+        dKWhLoaded[0] += dElectricityKWhLoaded;
+        dKWhLoaded[iYearCurrentRow] += dElectricityKWhLoaded;
 
         //-------------------------------------------------------------------------------
         //
@@ -1054,6 +1062,7 @@ void DetailCostDataModel::YearSwitch()
     dTotalElectricity.append(0);
     dTotalOtherCost.append(0);
     dTotalAccessory.append(0);
+    dKWhLoaded.append(0);
 }
 
 //---------------------------------------------------------------------------------------

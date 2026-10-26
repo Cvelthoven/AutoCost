@@ -40,7 +40,11 @@ protected:
     virtual Qt::Alignment columnAlignment(int column) const;
 
 private:
+    QVector<double>
+        dTotalKWh;
 
+    QVector<int>
+        years;
 
 };
 
