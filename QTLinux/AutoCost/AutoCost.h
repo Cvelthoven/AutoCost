@@ -66,6 +66,19 @@ enum AppConfDatabase
 
 //-----------------------------------------------------------------------------------
 //
+//  Descriptive names for the Millage overview
+//
+enum AverageCostOverviewColumn
+{
+    AverageCostOverviewYear = 0,
+    AverageCostOverviewPeriodic,
+    AverageCostOverviewElectricity,
+    AverageCostOverviewOther,
+    AverageCostOverviewAccessory
+};
+
+//-----------------------------------------------------------------------------------
+//
 //  Enums for Cost overview dialog columns with descriptive names
 //
 enum CostOverViewCol

@@ -13,6 +13,7 @@
 //---------------------------------------------------------------------------------------
 #include "appconfiguration.h"
 #include "appsettingsdialog.h"
+#include "averagecostdatamodel.h"
 #include "datainput.h"
 #include "datainputdialog.h"
 #include "detailcostdatamodel.h"
@@ -57,6 +58,7 @@ private:
     //  Private methods
     //
     //-----------------------------------------------------------------------------------
+    void AverageCostOverviewTable();
     void ConfigureAutoCostDetails();
     void ConfigureAutoTotalCost();
     void ElectricityOverviewTable();
@@ -70,6 +72,7 @@ private:
     //
     //-----------------------------------------------------------------------------------
     AppConfiguration* ApplicationConfiguration = nullptr;
+    AverageCostDataModel* AverageCostDataModelTable = nullptr;
     DataInput* ManualData = nullptr;
     DetailCostDataModel* DetailCostDataModelTable = nullptr;
     ElectricityOverviewDataModel* ElectricityDataModelTable = nullptr;

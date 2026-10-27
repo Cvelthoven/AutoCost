@@ -136,6 +136,8 @@ MainWindow::MainWindow(QWidget *parent)
     MillageOverviewTable();
 
     //-----------------------------------------------------------------------------------
+    //
+    //  ElectricityOverviewDataModel:
     //  - Create
     //  - Load data
     //  - set data model
@@ -160,6 +162,35 @@ MainWindow::MainWindow(QWidget *parent)
     //
     ui->tblElectricityOverview->setModel(ElectricityDataModelTable);
     ElectricityOverviewTable();
+
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  ElectricityOverviewDataModel:
+    //  - Create
+    //  - Load data
+    //  - set data model
+    //  - configure view
+    //
+    //  Must be after detail cost due to data used from detail cost
+    //
+    //-----------------------------------------------------------------------------------
+    //
+    //  Create and load data
+    //
+    AverageCostDataModelTable = new AverageCostDataModel(this);
+    if (!AverageCostDataModelTable->loadCostData(*DetailCostDataModelTable))
+    {
+        exit(0);
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set the model for the electricity overview (this connects them)
+    //  and configure the view
+    //
+    ui->tblAverageCostOverview->setModel(AverageCostDataModelTable);
+
 }
 
 //---------------------------------------------------------------------------------------
@@ -183,6 +214,32 @@ MainWindow::~MainWindow()
 //  MainWindow methodes
 //
 //---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//
+//  AverageCostOverviewTable
+//
+//  Formats the average cost table view
+//
+//---------------------------------------------------------------------------------------
+void MainWindow::AverageCostOverviewTable()
+{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set row alternating colors
+    //
+    ui->tblAverageCostOverview->setAlternatingRowColors(true);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Set column width
+    //
+    ui->tblAverageCostOverview->setColumnWidth(AverageCostOverviewYear, 60);
+    ui->tblAverageCostOverview->setColumnWidth(AverageCostOverviewPeriodic, 70);
+    ui->tblAverageCostOverview->setColumnWidth(AverageCostOverviewElectricity, 70);
+    ui->tblAverageCostOverview->setColumnWidth(AverageCostOverviewOther, 70);
+    ui->tblAverageCostOverview->setColumnWidth(AverageCostOverviewAccessory, 70);
+}
+
 //---------------------------------------------------------------------------------------
 //
 //  ConfigureAutoCostDetails

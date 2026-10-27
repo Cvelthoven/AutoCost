@@ -57,7 +57,7 @@ Qt::Alignment ElectricityOverviewDataModel::columnAlignment(int c) const
 
 //---------------------------------------------------------------------------------------
 //
-//
+//  loadElectricityData
 //
 //---------------------------------------------------------------------------------------
 bool ElectricityOverviewDataModel::loadElectricityData(const DetailCostDataModel &detailModel)
