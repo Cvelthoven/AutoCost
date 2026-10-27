@@ -247,7 +247,7 @@ void MainWindow::ElectricityOverviewTable()
     //  Set column width
     //
     ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewYear, 60);
-    ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewKWh, 60);
+    ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewKWh, 70);
     ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewKWhKm, 70);
     ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewKmKWh, 70);
     ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewEuroKWh, 70);

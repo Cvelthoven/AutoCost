@@ -67,57 +67,83 @@ bool ElectricityOverviewDataModel::loadElectricityData(const DetailCostDataModel
     //  Load data from detail cost overview
     //
     years = detailModel.getYears();
+    dTotalElectricity = detailModel.getTotalElectricity();
     dTotalKWh = detailModel.getDKWhLoaded();
+    dMillageYearStart = detailModel.getDMillageYearStart();
+    dMillageYearEnd = detailModel.getDMillageYearEnd();
 
     //-----------------------------------------------------------------------------------
     //
     //  Build data for tabledatamodel
     //
-    auto KWh = [](const QVector<double> &v, int iRowNb) { return QString::number(v.at(iRowNb), 'f', 0); };
+    auto KWh = [](const QVector<double> &v, int iRowNb)
+        { return QString::number(v.at(iRowNb), 'f', 0); };
     rebuild(years.size(), [&](int iRowNb, int iColNb) -> QVariant {
         switch (iColNb)
         {
         case ElectrictyOverviewYear:
             return iRowNb == 0 ? QString("Total") : QString::number(years.at(iRowNb));
+
+            //---------------------------------------------------------------------------
+            //
+            //  Total used KWh or per year
+            //
         case ElectrictyOverviewKWh:
+                 return QString::number(dTotalKWh.at(iRowNb), 'f', 2);
+
+            //---------------------------------------------------------------------------
+            //
+            //  Average KWh per km
+            //
+        case ElectrictyOverviewKWhKm:
             if (iRowNb == 0)
             {
-                return QString::number(dTotalKWh.at(0), 'f', 2);
+                return QString::number((dTotalKWh.at(iRowNb) /
+                    detailModel.getMillageCurrent()), 'f', 4);
+            }
+            else if (iRowNb == dMillageYearEnd.size())
+            {
+                return QString::number((dTotalKWh.at(iRowNb) /
+                    (detailModel.getMillageCurrent() - dMillageYearStart.at(iRowNb))),
+                    'f', 4);
             }
             else
             {
-                return QString::number(dTotalKWh.at(iRowNb), 'f', 2);
+                return QString::number((dTotalKWh.at(iRowNb) /
+                    dMillageYearEnd.at(iRowNb)), 'f', 4);
             }
-        case ElectrictyOverviewKWhKm:
-            //-----------------------------------------------------------------------
+
+            //---------------------------------------------------------------------------
             //
-            //  Overall millage
-        //     //
-        //     if (iRowNb == 0)
-        //     {
-        //         return QString::number(dMillageYearStart.at(0), 'f', 0);
-        //     }
-        //     //-----------------------------------------------------------------------
-        //     //
-        //     //  Millage previous years
-        //     //
-        //     else if (iRowNb < dMillageYearEnd.size())
-        //     {
-        //         return millage(dMillageYearEnd, iRowNb);
-        //     }
-        //     //-----------------------------------------------------------------------
-        //     //
-        //     //  Current year
-        //     //
-        //     else
-        //     {
-        //         return QString::number(dMillageCurrent, 'f', 0);
-        //     }
-        // case ElectrictyOverviewKmKWh:
-        //     return iRowNb == 0 ? QString(" ") : QString::number(iMaxMillageYear);
-        // case ElectrictyOverviewEuroKWh:
-        //     return millage(dMillageYearUsed, iRowNb);
-         default:
+            //  Average km per KWh
+            //
+        case ElectrictyOverviewKmKWh:
+            if (iRowNb == 0)
+            {
+                return QString::number(detailModel.getMillageCurrent() /
+                    (dTotalKWh.at(iRowNb)), 'f', 4);
+            }
+            else if (iRowNb == dMillageYearEnd.size())
+            {
+                return QString::number(
+                    (detailModel.getMillageCurrent() - dMillageYearStart.at(iRowNb)) /
+                    (dTotalKWh.at(iRowNb)), 'f', 4);
+            }
+            else
+            {
+                return QString::number((dMillageYearEnd.at(iRowNb)) /
+                    (dTotalKWh.at(iRowNb)), 'f', 4);
+            }
+
+            //---------------------------------------------------------------------------
+            //
+            //  Average price per KWh
+            //
+        case ElectrictyOverviewEuroKWh:
+            return QString::number(
+                (dTotalElectricity.at(iRowNb) / dTotalKWh.at(iRowNb)), 'f', 4);
+
+        default:
             return QVariant();
         }
     });

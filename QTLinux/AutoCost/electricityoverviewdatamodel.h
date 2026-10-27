@@ -41,6 +41,9 @@ protected:
 
 private:
     QVector<double>
+        dTotalElectricity,
+        dMillageYearEnd,
+        dMillageYearStart,
         dTotalKWh;
 
     QVector<int>
