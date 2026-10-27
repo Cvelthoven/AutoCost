@@ -26,9 +26,17 @@ class TotalCostDataModel : public TableDataModel
 public:
     TotalCostDataModel(QObject *parent = nullptr);
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Public methods
+    //
     void loadTotals(const DetailCostDataModel &detailModel);
 
 protected:
+    //-----------------------------------------------------------------------------------
+    //
+    //  Subclasses override to customise alignment (default: right aligned)
+    //
     Qt::Alignment columnAlignment(int column) const override;
 
 private:

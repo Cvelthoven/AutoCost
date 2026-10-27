@@ -31,7 +31,7 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>1675</width>
+       <width>1794</width>
        <height>20</height>
       </rect>
      </property>
@@ -52,9 +52,9 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>340</y>
+       <y>270</y>
        <width>1675</width>
-       <height>20</height>
+       <height>22</height>
       </rect>
      </property>
      <property name="font">
@@ -74,9 +74,9 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>415</y>
+       <y>315</y>
        <width>2050</width>
-       <height>650</height>
+       <height>770</height>
       </rect>
      </property>
     </widget>
@@ -86,7 +86,7 @@
        <x>0</x>
        <y>50</y>
        <width>475</width>
-       <height>250</height>
+       <height>200</height>
       </rect>
      </property>
     </widget>
@@ -114,39 +114,39 @@
     <widget class="QTableView" name="tblAverageCostOverview">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>490</x>
        <y>50</y>
-       <width>475</width>
-       <height>250</height>
+       <width>445</width>
+       <height>200</height>
       </rect>
      </property>
     </widget>
     <widget class="QTableView" name="tblMillageOverview">
      <property name="geometry">
       <rect>
-       <x>1020</x>
+       <x>950</x>
        <y>50</y>
        <width>475</width>
-       <height>250</height>
+       <height>200</height>
       </rect>
      </property>
     </widget>
     <widget class="QTableView" name="tblElectricityOverview">
      <property name="geometry">
       <rect>
-       <x>1530</x>
+       <x>1440</x>
        <y>50</y>
        <width>354</width>
-       <height>250</height>
+       <height>200</height>
       </rect>
      </property>
     </widget>
     <widget class="QLabel" name="lblAverageCostOVerview">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>490</x>
        <y>27</y>
-       <width>475</width>
+       <width>445</width>
        <height>22</height>
       </rect>
      </property>
@@ -165,7 +165,7 @@
     <widget class="QLabel" name="lblMillageOverview">
      <property name="geometry">
       <rect>
-       <x>1020</x>
+       <x>950</x>
        <y>27</y>
        <width>475</width>
        <height>22</height>
@@ -186,9 +186,9 @@
     <widget class="QLabel" name="lblElectricityOVerview">
      <property name="geometry">
       <rect>
-       <x>1530</x>
+       <x>1440</x>
        <y>27</y>
-       <width>360</width>
+       <width>354</width>
        <height>22</height>
       </rect>
      </property>

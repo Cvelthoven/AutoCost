@@ -122,10 +122,7 @@ MainWindow::MainWindow(QWidget *parent)
     //  Create and load data
     //
     MillageDataModelTable = new MillageOverviewDataModel(this);
-    if (!MillageDataModelTable->loadMillageData(*DetailCostDataModelTable))
-    {
-        exit(0);
-    }
+    MillageDataModelTable->loadMillageData(*DetailCostDataModelTable);
 
     //-----------------------------------------------------------------------------------
     //
@@ -150,10 +147,7 @@ MainWindow::MainWindow(QWidget *parent)
     //  Create and load data
     //
     ElectricityDataModelTable = new ElectricityOverviewDataModel(this);
-    if (!ElectricityDataModelTable->loadElectricityData(*DetailCostDataModelTable))
-    {
-        exit(0);
-    }
+    ElectricityDataModelTable->loadElectricityData(*DetailCostDataModelTable);
 
     //-----------------------------------------------------------------------------------
     //
@@ -166,7 +160,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //-----------------------------------------------------------------------------------
     //
-    //  ElectricityOverviewDataModel:
+    //  AverageCostDataModelTable:
     //  - Create
     //  - Load data
     //  - set data model
@@ -179,17 +173,15 @@ MainWindow::MainWindow(QWidget *parent)
     //  Create and load data
     //
     AverageCostDataModelTable = new AverageCostDataModel(this);
-    if (!AverageCostDataModelTable->loadCostData(*DetailCostDataModelTable))
-    {
-        exit(0);
-    }
+    AverageCostDataModelTable->loadCostData(*DetailCostDataModelTable);
 
     //-----------------------------------------------------------------------------------
     //
-    //  Set the model for the electricity overview (this connects them)
+    //  Set the model for the average overview (this connects them)
     //  and configure the view
     //
     ui->tblAverageCostOverview->setModel(AverageCostDataModelTable);
+    AverageCostOverviewTable();
 
 }
 
@@ -203,8 +195,15 @@ MainWindow::~MainWindow()
     AppDataDB->close();
     delete ui;
 //    delete ManualDataInput; // cause crash needs further investigation
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Delete data models of the table in the main GUI
+    //
     delete TotallCostDataModelTable;
     delete MillageDataModelTable;
+    delete ElectricityDataModelTable;
+    delete AverageCostDataModelTable;
     // Must be last contains data used by other classes
     delete DetailCostDataModelTable;
 }
@@ -233,11 +232,12 @@ void MainWindow::AverageCostOverviewTable()
     //
     //  Set column width
     //
-    ui->tblAverageCostOverview->setColumnWidth(AverageCostOverviewYear, 60);
-    ui->tblAverageCostOverview->setColumnWidth(AverageCostOverviewPeriodic, 70);
-    ui->tblAverageCostOverview->setColumnWidth(AverageCostOverviewElectricity, 70);
-    ui->tblAverageCostOverview->setColumnWidth(AverageCostOverviewOther, 70);
-    ui->tblAverageCostOverview->setColumnWidth(AverageCostOverviewAccessory, 70);
+    ui->tblAverageCostOverview->setColumnWidth(AverageCostOverviewYear, 55);
+    ui->tblAverageCostOverview->setColumnWidth(AverageCostOverviewTotal, 75);
+    ui->tblAverageCostOverview->setColumnWidth(AverageCostOverviewPeriodic, 75);
+    ui->tblAverageCostOverview->setColumnWidth(AverageCostOverviewElectricity, 75);
+    ui->tblAverageCostOverview->setColumnWidth(AverageCostOverviewOther, 75);
+    ui->tblAverageCostOverview->setColumnWidth(AverageCostOverviewAccessory, 75);
 }
 
 //---------------------------------------------------------------------------------------
@@ -303,7 +303,7 @@ void MainWindow::ElectricityOverviewTable()
     //
     //  Set column width
     //
-    ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewYear, 60);
+    ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewYear, 55);
     ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewKWh, 70);
     ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewKWhKm, 70);
     ui->tblElectricityOverview->setColumnWidth(ElectrictyOverviewKmKWh, 70);
@@ -329,7 +329,7 @@ void MainWindow::MillageOverviewTable()
     //
     //  Set column width
     //
-    ui->tblMillageOverview->setColumnWidth(MillageOverviewYear, 60);
+    ui->tblMillageOverview->setColumnWidth(MillageOverviewYear, 55);
     ui->tblMillageOverview->setColumnWidth(MillageOverviewStart, 80);
     ui->tblMillageOverview->setColumnWidth(MillageOverviewCurrent, 80);
     ui->tblMillageOverview->setColumnWidth(MillageOverviewLimit, 80);
@@ -356,7 +356,7 @@ void MainWindow::ConfigureAutoTotalCost()
     //
     //  Set column width
     //
-    ui->tblYearTotalOverview->setColumnWidth(TotalCostViewYear, 60);
+    ui->tblYearTotalOverview->setColumnWidth(TotalCostViewYear, 55);
     ui->tblYearTotalOverview->setColumnWidth(TotalCostViewTotal, 80);
     ui->tblYearTotalOverview->setColumnWidth(TotalCostViewPeriodic, 80);
     ui->tblYearTotalOverview->setColumnWidth(TotalCostViewElectricity, 80);

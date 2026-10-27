@@ -63,7 +63,7 @@ Qt::Alignment MillageOverviewDataModel::columnAlignment(int c) const
 //  loadMillageData
 //
 //---------------------------------------------------------------------------------------
-bool MillageOverviewDataModel::loadMillageData(const DetailCostDataModel &detailModel)
+void MillageOverviewDataModel::loadMillageData(const DetailCostDataModel &detailModel)
 {
     int iCnt1;
 
@@ -104,7 +104,8 @@ bool MillageOverviewDataModel::loadMillageData(const DetailCostDataModel &detail
     //  Build data for tabledatamodel
     //
     auto millage = [](const QVector<double> &v, int iRowNb) { return QString::number(v.at(iRowNb), 'f', 0); };
-    rebuild(years.size(), [&](int iRowNb, int iColNb) -> QVariant {
+    rebuild(years.size(), [&](int iRowNb, int iColNb) -> QVariant
+    {
         switch (iColNb)
         {
             case MillageOverviewYear:
@@ -147,5 +148,4 @@ bool MillageOverviewDataModel::loadMillageData(const DetailCostDataModel &detail
         }
     });
 
-    return true;
 }

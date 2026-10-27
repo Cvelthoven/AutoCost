@@ -60,7 +60,7 @@ Qt::Alignment ElectricityOverviewDataModel::columnAlignment(int c) const
 //  loadElectricityData
 //
 //---------------------------------------------------------------------------------------
-bool ElectricityOverviewDataModel::loadElectricityData(const DetailCostDataModel &detailModel)
+void ElectricityOverviewDataModel::loadElectricityData(const DetailCostDataModel &detailModel)
 {
     //-----------------------------------------------------------------------------------
     //
@@ -76,9 +76,8 @@ bool ElectricityOverviewDataModel::loadElectricityData(const DetailCostDataModel
     //
     //  Build data for tabledatamodel
     //
-    auto KWh = [](const QVector<double> &v, int iRowNb)
-        { return QString::number(v.at(iRowNb), 'f', 0); };
-    rebuild(years.size(), [&](int iRowNb, int iColNb) -> QVariant {
+    rebuild(years.size(), [&](int iRowNb, int iColNb) -> QVariant
+    {
         switch (iColNb)
         {
         case ElectrictyOverviewYear:
@@ -148,5 +147,5 @@ bool ElectricityOverviewDataModel::loadElectricityData(const DetailCostDataModel
         }
     });
 
-    return true;
+//    return true;
 }

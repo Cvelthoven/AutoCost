@@ -30,7 +30,7 @@ public:
     //
     //  Public methods
     //
-    bool loadCostData(const DetailCostDataModel &detailModel);
+    void loadCostData(const DetailCostDataModel &detailModel);
 
 protected:
     //-----------------------------------------------------------------------------------
@@ -43,6 +43,14 @@ private:
     QVector<int>
         years;
 
+    QVector<double>
+        dCostAssesory,
+        dCostElectricity,
+        dCostOther,
+        dCostPeriodic,
+        dCostTotal,
+        dMillageYearEnd,
+        dMillageYearStart;
 
 };
 

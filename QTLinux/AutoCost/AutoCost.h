@@ -71,6 +71,7 @@ enum AppConfDatabase
 enum AverageCostOverviewColumn
 {
     AverageCostOverviewYear = 0,
+    AverageCostOverviewTotal,
     AverageCostOverviewPeriodic,
     AverageCostOverviewElectricity,
     AverageCostOverviewOther,

@@ -29,7 +29,7 @@ public:
     //
     //  Public methods
     //
-    bool loadMillageData(const DetailCostDataModel &detailModel);
+    void loadMillageData(const DetailCostDataModel &detailModel);
 
 protected:
     //-----------------------------------------------------------------------------------

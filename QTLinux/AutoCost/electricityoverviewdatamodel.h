@@ -30,7 +30,7 @@ public:
     //
     //  Public methods
     //
-    bool loadElectricityData(const DetailCostDataModel &detailModel);
+    void loadElectricityData(const DetailCostDataModel &detailModel);
 
 protected:
     //-----------------------------------------------------------------------------------
