@@ -26,10 +26,6 @@
 DataInputDialog::DataInputDialog(QWidget *parent)
     : QDialog(parent),
     ui(new Ui::DataInputDialog)
-// DataInputDialog::DataInputDialog(AppSettings *appSettings, QWidget *parent)
-//     : QDialog(parent),
-//     ApplicationConfig(appSettings),
-//     ui(new Ui::DataInputDialog)
 {
 
     qDebug() << "DataInputDialog constructor called";
@@ -158,6 +154,36 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
 
 //---------------------------------------------------------------------------------------
 //
+//  onKWhEdited
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::onKWhEdited(int i)
+{
+    dKWhPeriod[i] = KWhEdits[i]->text().toDouble();
+    if (!bPublicLoadSession)
+    {
+        calcNonPublicLoadPerSession(i);
+        calcCostNonPublicElectricity();
+        showNonPublicLoadSession();
+    }
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  onPriceEdited
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::onPriceEdited(int i)
+{
+    dKWhPrice[i] = priceEdits[i]->text().toDouble();
+    if (i == 0)
+        bFirstLoadPeriodChanged = true;
+    if (!bPublicLoadSession)
+        calcCostNonPublicElectricity();   // once, not twice
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  Retrieve input data from dialog
 //  Except the electricity data
 //
@@ -208,25 +234,45 @@ void DataInputDialog::storeData()
 
 //---------------------------------------------------------------------------------------
 //
-//  Handle radiobuttons cost type
+//  setupPeriodWidgets
 //
 //---------------------------------------------------------------------------------------
-//
-//  Handle periodic type
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::on_rbPeriodic_toggled(bool checked)
+void DataInputDialog::setupPeriodWidgets()
 {
-    if (checked)
-    {
-        iCostType = CostRecPeriodic;
-     }
-    else
-    {
-        iCostType = 0;
+    KWhEdits   = { ui->lnKWh1, ui->lnKWh2, ui->lnKWh3, ui->lnKWh4, ui->lnKWh5,
+                ui->lnKWh6, ui->lnKWh7, ui->lnKWh8, ui->lnKWh9, ui->lnKWh10 };
+    priceEdits = { ui->lnPriceKWh1, ui->lnPriceKWh2, ui->lnPriceKWh3, ui->lnPriceKWh4,
+                  ui->lnPriceKWh5, ui->lnPriceKWh6, ui->lnPriceKWh7, ui->lnPriceKWh8,
+                  ui->lnPriceKWh9, ui->lnPriceKWh10 };
+    timeLabels = { nullptr, ui->lblKWhTime2, ui->lblKWhTime3, ui->lblKWhTime4,
+                  ui->lblKWhTime5, ui->lblKWhTime6, ui->lblKWhTime7, ui->lblKWhTime8,
+                  ui->lblKWhTime9, ui->lblKWhTime10 };
+
+    for (int i = 0; i < iMaxNbElectricityPeriods; ++i) {
+        connect(KWhEdits[i],   &QLineEdit::editingFinished, this, [this, i]{ onKWhEdited(i); });
+        connect(priceEdits[i], &QLineEdit::editingFinished, this, [this, i]{ onPriceEdited(i); });
     }
+
+    // cost type radio buttons (ids are already set in the constructor)
+    connect(ui->CostButtonGroup, &QButtonGroup::idToggled, this, [this](int id, bool on)
+    {
+        connect(ui->CostButtonGroup, &QButtonGroup::idToggled, this, [this](int id, bool on)
+        {
+            static const int map[] = {0, CostRecPeriodic, CostRecElectricity, CostRecOther, CostRecAccessory};
+            if (id == 2)
+            {
+                on_rbElectricity_toggled(on);
+                return;
+            }   // keeps default/clear behaviour
+            iCostType = on ? map[id] : 0;
+        });   //     ...   // see section 5
+    });
 }
 
+//---------------------------------------------------------------------------------------
+//
+//  Handle radiobuttons cost type
+//
 //---------------------------------------------------------------------------------------
 //
 //  Handle electricity type
@@ -243,40 +289,6 @@ void DataInputDialog::on_rbElectricity_toggled(bool checked)
     {
         iCostType = 0;
         clearElectricityInput();
-    }
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Handle other type
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::on_rbOther_toggled(bool checked)
-{
-    if (checked)
-    {
-        iCostType = CostRecOther;
-    }
-    else
-    {
-        iCostType = 0;
-    }
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Handle accessoires type
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::on_rbAccessoires_toggled(bool checked)
-{
-    if (checked)
-    {
-        iCostType = CostRecAccessory;
-    }
-    else
-    {
-        iCostType = 0;
     }
 }
 
@@ -347,218 +359,6 @@ void DataInputDialog::on_rbPublicLoadSession_toggled(bool checked)
     else
     {
         bPublicLoadSession = false;
-    }
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Slots to retrieve the KWH amount per hour
-//  And set, if needed, the next hour ready
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::on_lnKWh1_editingFinished()
-{
-    dKWhPeriod[0] = ui->lnKWh1->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcNonPublicLoadPerSession(0);
-        calcCostNonPublicElectricity();
-        showNonPublicLoadSession();
-    }
-}
-
-void DataInputDialog::on_lnKWh2_editingFinished()
-{
-    dKWhPeriod[1] = ui->lnKWh2->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcNonPublicLoadPerSession(1);
-        calcCostNonPublicElectricity();
-        showNonPublicLoadSession();
-    }
-}
-
-void DataInputDialog::on_lnKWh3_editingFinished()
-{
-    dKWhPeriod[2] = ui->lnKWh3->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcNonPublicLoadPerSession(2);
-        calcCostNonPublicElectricity();
-        showNonPublicLoadSession();
-    }
-}
-
-void DataInputDialog::on_lnKWh4_editingFinished()
-{
-    dKWhPeriod[3] = ui->lnKWh4->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcNonPublicLoadPerSession(3);
-        calcCostNonPublicElectricity();
-        showNonPublicLoadSession();
-    }
-}
-
-void DataInputDialog::on_lnKWh5_editingFinished()
-{
-    dKWhPeriod[4] = ui->lnKWh5->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcNonPublicLoadPerSession(4);
-        calcCostNonPublicElectricity();
-        showNonPublicLoadSession();
-    }
-}
-
-void DataInputDialog::on_lnKWh6_editingFinished()
-{
-    dKWhPeriod[5] = ui->lnKWh6->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcNonPublicLoadPerSession(5);
-        calcCostNonPublicElectricity();
-        showNonPublicLoadSession();
-    }
-}
-
-void DataInputDialog::on_lnKWh7_editingFinished()
-{
-    dKWhPeriod[6] = ui->lnKWh7->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcNonPublicLoadPerSession(6);
-        calcCostNonPublicElectricity();
-        showNonPublicLoadSession();
-    }
-}
-
-void DataInputDialog::on_lnKWh8_editingFinished()
-{
-    dKWhPeriod[7] = ui->lnKWh8->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcNonPublicLoadPerSession(7);
-        calcCostNonPublicElectricity();
-        showNonPublicLoadSession();
-    }
-}
-
-void DataInputDialog::on_lnKWh9_editingFinished()
-{
-    dKWhPeriod[8] = ui->lnKWh9->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcNonPublicLoadPerSession(8);
-        calcCostNonPublicElectricity();
-        showNonPublicLoadSession();
-    }
-}
-
-void DataInputDialog::on_lnKWh10_editingFinished()
-{
-    dKWhPeriod[9] = ui->lnKWh10->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcNonPublicLoadPerSession(9);
-        calcCostNonPublicElectricity();
-        showNonPublicLoadSession();
-    }
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Slots to retrieve the price KWh
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::on_lnPriceKWh1_editingFinished()
-{
-    dKWhPrice[0] = ui->lnPriceKWh1->text().toDouble();
-    bFirstLoadPeriodChanged = true;
-    if (!bPublicLoadSession)
-    {
-        calcCostNonPublicElectricity();
-    }
-}
-
-void DataInputDialog::on_lnPriceKWh2_editingFinished()
-{
-    dKWhPrice[1] = ui->lnPriceKWh2->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcCostNonPublicElectricity();
-    }
-}
-
-void DataInputDialog::on_lnPriceKWh3_editingFinished()
-{
-    dKWhPrice[2] = ui->lnPriceKWh3->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcCostNonPublicElectricity();
-    }
-}
-
-void DataInputDialog::on_lnPriceKWh4_editingFinished()
-{
-    dKWhPrice[3] = ui->lnPriceKWh4->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcCostNonPublicElectricity();
-    }
-}
-
-void DataInputDialog::on_lnPriceKWh5_editingFinished()
-{
-    dKWhPrice[4] = ui->lnPriceKWh5->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcCostNonPublicElectricity();
-    }
-}
-
-void DataInputDialog::on_lnPriceKWh6_editingFinished()
-{
-    dKWhPrice[5] = ui->lnPriceKWh6->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcCostNonPublicElectricity();
-    }
-}
-
-void DataInputDialog::on_lnPriceKWh7_editingFinished()
-{
-    dKWhPrice[6] = ui->lnPriceKWh7->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcCostNonPublicElectricity();
-    }
-}
-
-void DataInputDialog::on_lnPriceKWh8_editingFinished()
-{
-    dKWhPrice[7] = ui->lnPriceKWh8->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcCostNonPublicElectricity();
-    }
-}
-
-void DataInputDialog::on_lnPriceKWh9_editingFinished()
-{
-    dKWhPrice[8] = ui->lnPriceKWh9->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcCostNonPublicElectricity();
-    }
-}
-
-void DataInputDialog::on_lnPriceKWh10_editingFinished()
-{
-    dKWhPrice[9] = ui->lnPriceKWh10->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcCostNonPublicElectricity();
     }
 }
 
@@ -730,40 +530,55 @@ void DataInputDialog::calcNonPublicLoadPerSession(int iColNbChanged)
 //---------------------------------------------------------------------------------------
 void DataInputDialog::clearElectricityInput()
 {
-    ui->lnKWh1->clear();
-    ui->lnKWh2->clear();
-    ui->lnKWh3->clear();
-    ui->lnKWh4->clear();
-    ui->lnKWh5->clear();
-    ui->lnKWh6->clear();
-    ui->lnKWh7->clear();
-    ui->lnKWh8->clear();
-    ui->lnKWh9->clear();
+    for (QLineEdit *e : std::as_const(KWhEdits))
+        e->clear();     // now also clears *10
+    for (QLineEdit *e : std::as_const(priceEdits))
+        e->clear();
+    for (QLabel *l : std::as_const(timeLabels))
+        if (l)
+            l->setText("");
     ui->lnKWhMax->clear();
-    ui->lnPriceKWh1->clear();
-    ui->lnPriceKWh2->clear();
-    ui->lnPriceKWh3->clear();
-    ui->lnPriceKWh4->clear();
-    ui->lnPriceKWh5->clear();
-    ui->lnPriceKWh6->clear();
-    ui->lnPriceKWh7->clear();
-    ui->lnPriceKWh8->clear();
-    ui->lnPriceKWh9->clear();
     ui->lnTotalKWh->clear();
-    ui->lblKWhTime2->setText("");
-    ui->lblKWhTime3->setText("");
-    ui->lblKWhTime4->setText("");
-    ui->lblKWhTime5->setText("");
-    ui->lblKWhTime6->setText("");
-    ui->lblKWhTime7->setText("");
-    ui->lblKWhTime8->setText("");
-    ui->lblKWhTime9->setText("");
-    ui->lblKWhTime10->setText("");
-    for (int iCnt1 = 0; iCnt1 < iMaxNbElectricityPeriods; iCnt1++)
+    for (int i = 0; i < iMaxNbElectricityPeriods; ++i)
     {
-        dKWhPeriod[iCnt1] = 0;
-        dKWhPrice[iCnt1] = 0;
+        dKWhPeriod[i] = 0;
+        dKWhPrice[i] = 0;
     }
+
+    // ui->lnKWh1->clear();
+    // ui->lnKWh2->clear();
+    // ui->lnKWh3->clear();
+    // ui->lnKWh4->clear();
+    // ui->lnKWh5->clear();
+    // ui->lnKWh6->clear();
+    // ui->lnKWh7->clear();
+    // ui->lnKWh8->clear();
+    // ui->lnKWh9->clear();
+    // ui->lnKWhMax->clear();
+    // ui->lnPriceKWh1->clear();
+    // ui->lnPriceKWh2->clear();
+    // ui->lnPriceKWh3->clear();
+    // ui->lnPriceKWh4->clear();
+    // ui->lnPriceKWh5->clear();
+    // ui->lnPriceKWh6->clear();
+    // ui->lnPriceKWh7->clear();
+    // ui->lnPriceKWh8->clear();
+    // ui->lnPriceKWh9->clear();
+    // ui->lnTotalKWh->clear();
+    // ui->lblKWhTime2->setText("");
+    // ui->lblKWhTime3->setText("");
+    // ui->lblKWhTime4->setText("");
+    // ui->lblKWhTime5->setText("");
+    // ui->lblKWhTime6->setText("");
+    // ui->lblKWhTime7->setText("");
+    // ui->lblKWhTime8->setText("");
+    // ui->lblKWhTime9->setText("");
+    // ui->lblKWhTime10->setText("");
+    // for (int iCnt1 = 0; iCnt1 < iMaxNbElectricityPeriods; iCnt1++)
+    // {
+    //     dKWhPeriod[iCnt1] = 0;
+    //     dKWhPrice[iCnt1] = 0;
+    // }
 }
 
 //---------------------------------------------------------------------------------------
@@ -840,72 +655,340 @@ void DataInputDialog::setElectricityDefaultNonPublic()
 //---------------------------------------------------------------------------------------
 void DataInputDialog::showNonPublicLoadSession()
 {
-    int iCnt1 = 0;
-    QString strHour;
-    while ((dKWhPeriod[iCnt1] > 0)&&(iCnt1 < iMaxNbElectricityPeriods))
-    {
-        switch (iCnt1) {
-        case 0:
-            ui->lnKWh1->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
-            ui->lnPriceKWh1->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
-            break;
-        case 1:
-            ui->lnKWh2->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
-            ui->lnPriceKWh2->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
-            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
-            ui->lblKWhTime2->setText(strHour);
-            break;
-        case 2:
-            ui->lnKWh3->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
-            ui->lnPriceKWh3->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
-            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
-            ui->lblKWhTime3->setText(strHour);
-            break;
-        case 3:
-            ui->lnKWh4->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
-            ui->lnPriceKWh4->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
-            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
-            ui->lblKWhTime4->setText(strHour);
-            break;
-        case 4:
-            ui->lnKWh5->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
-            ui->lnPriceKWh5->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
-            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
-            ui->lblKWhTime5->setText(strHour);
-            break;
-        case 5:
-            ui->lnKWh6->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
-            ui->lnPriceKWh6->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
-            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
-            ui->lblKWhTime6->setText(strHour);
-            break;
-        case 6:
-            ui->lnKWh7->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
-            ui->lnPriceKWh7->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
-            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
-            ui->lblKWhTime7->setText(strHour);
-            break;
-        case 7:
-            ui->lnKWh8->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
-            ui->lnPriceKWh8->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
-            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
-            ui->lblKWhTime8->setText(strHour);
-            break;
-        case 8:
-            ui->lnKWh9->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
-            ui->lnPriceKWh9->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
-            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
-            ui->lblKWhTime9->setText(strHour);
-            break;
-        case 9:
-            ui->lnKWh10->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
-            ui->lnPriceKWh10->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
-            strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
-            ui->lblKWhTime10->setText(strHour);
-            break;
-        default:
-            break;
-        }
-        iCnt1++;
+    for (int i = 0; i < iMaxNbElectricityPeriods && dKWhPeriod[i] > 0; ++i) {   // bound checked first
+        KWhEdits[i]->setText(QString::number(dKWhPeriod[i], 'f', 3));
+        priceEdits[i]->setText(QString::number(dKWhPrice[i], 'f', 2));
+        if (timeLabels[i])
+            timeLabels[i]->setText(QTime(iStartHour + i, 0).toString("hh:mm"));
     }
+
+    // int iCnt1 = 0;
+    // QString strHour;
+    // while ((dKWhPeriod[iCnt1] > 0)&&(iCnt1 < iMaxNbElectricityPeriods))
+    // {
+    //     switch (iCnt1) {
+    //     case 0:
+    //         ui->lnKWh1->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
+    //         ui->lnPriceKWh1->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
+    //         break;
+    //     case 1:
+    //         ui->lnKWh2->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
+    //         ui->lnPriceKWh2->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
+    //         strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+    //         ui->lblKWhTime2->setText(strHour);
+    //         break;
+    //     case 2:
+    //         ui->lnKWh3->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
+    //         ui->lnPriceKWh3->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
+    //         strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+    //         ui->lblKWhTime3->setText(strHour);
+    //         break;
+    //     case 3:
+    //         ui->lnKWh4->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
+    //         ui->lnPriceKWh4->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
+    //         strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+    //         ui->lblKWhTime4->setText(strHour);
+    //         break;
+    //     case 4:
+    //         ui->lnKWh5->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
+    //         ui->lnPriceKWh5->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
+    //         strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+    //         ui->lblKWhTime5->setText(strHour);
+    //         break;
+    //     case 5:
+    //         ui->lnKWh6->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
+    //         ui->lnPriceKWh6->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
+    //         strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+    //         ui->lblKWhTime6->setText(strHour);
+    //         break;
+    //     case 6:
+    //         ui->lnKWh7->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
+    //         ui->lnPriceKWh7->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
+    //         strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+    //         ui->lblKWhTime7->setText(strHour);
+    //         break;
+    //     case 7:
+    //         ui->lnKWh8->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
+    //         ui->lnPriceKWh8->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
+    //         strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+    //         ui->lblKWhTime8->setText(strHour);
+    //         break;
+    //     case 8:
+    //         ui->lnKWh9->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
+    //         ui->lnPriceKWh9->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
+    //         strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+    //         ui->lblKWhTime9->setText(strHour);
+    //         break;
+    //     case 9:
+    //         ui->lnKWh10->setText(QString::number(dKWhPeriod[iCnt1],'f', 3));
+    //         ui->lnPriceKWh10->setText(QString::number(dKWhPrice[iCnt1], 'f',2));
+    //         strHour = QTime((iStartHour + iCnt1), 0).toString("hh:mm");
+    //         ui->lblKWhTime10->setText(strHour);
+    //         break;
+    //     default:
+    //         break;
+    //     }
+    //     iCnt1++;
+    // }
 }
+
+//
+//  Handle periodic type
+//
+//---------------------------------------------------------------------------------------
+// void DataInputDialog::on_rbPeriodic_toggled(bool checked)
+// {
+//     if (checked)
+//     {
+//         iCostType = CostRecPeriodic;
+//      }
+//     else
+//     {
+//         iCostType = 0;
+//     }
+// }
+
+//---------------------------------------------------------------------------------------
+//
+//  Handle other type
+//
+//---------------------------------------------------------------------------------------
+// void DataInputDialog::on_rbOther_toggled(bool checked)
+// {
+//     if (checked)
+//     {
+//         iCostType = CostRecOther;
+//     }
+//     else
+//     {
+//         iCostType = 0;
+//     }
+// }
+
+//---------------------------------------------------------------------------------------
+//
+//  Handle accessoires type
+//
+//---------------------------------------------------------------------------------------
+// void DataInputDialog::on_rbAccessoires_toggled(bool checked)
+// {
+//     if (checked)
+//     {
+//         iCostType = CostRecAccessory;
+//     }
+//     else
+//     {
+//         iCostType = 0;
+//     }
+// }
+//---------------------------------------------------------------------------------------
+//
+//  Slots to retrieve the KWH amount per hour
+//  And set, if needed, the next hour ready
+//
+//---------------------------------------------------------------------------------------
+// void DataInputDialog::on_lnKWh1_editingFinished()
+// {
+//     dKWhPeriod[0] = ui->lnKWh1->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcNonPublicLoadPerSession(0);
+//         calcCostNonPublicElectricity();
+//         showNonPublicLoadSession();
+//     }
+// }
+
+// void DataInputDialog::on_lnKWh2_editingFinished()
+// {
+//     dKWhPeriod[1] = ui->lnKWh2->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcNonPublicLoadPerSession(1);
+//         calcCostNonPublicElectricity();
+//         showNonPublicLoadSession();
+//     }
+// }
+
+// void DataInputDialog::on_lnKWh3_editingFinished()
+// {
+//     dKWhPeriod[2] = ui->lnKWh3->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcNonPublicLoadPerSession(2);
+//         calcCostNonPublicElectricity();
+//         showNonPublicLoadSession();
+//     }
+// }
+
+// void DataInputDialog::on_lnKWh4_editingFinished()
+// {
+//     dKWhPeriod[3] = ui->lnKWh4->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcNonPublicLoadPerSession(3);
+//         calcCostNonPublicElectricity();
+//         showNonPublicLoadSession();
+//     }
+// }
+
+// void DataInputDialog::on_lnKWh5_editingFinished()
+// {
+//     dKWhPeriod[4] = ui->lnKWh5->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcNonPublicLoadPerSession(4);
+//         calcCostNonPublicElectricity();
+//         showNonPublicLoadSession();
+//     }
+// }
+
+// void DataInputDialog::on_lnKWh6_editingFinished()
+// {
+//     dKWhPeriod[5] = ui->lnKWh6->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcNonPublicLoadPerSession(5);
+//         calcCostNonPublicElectricity();
+//         showNonPublicLoadSession();
+//     }
+// }
+
+// void DataInputDialog::on_lnKWh7_editingFinished()
+// {
+//     dKWhPeriod[6] = ui->lnKWh7->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcNonPublicLoadPerSession(6);
+//         calcCostNonPublicElectricity();
+//         showNonPublicLoadSession();
+//     }
+// }
+
+// void DataInputDialog::on_lnKWh8_editingFinished()
+// {
+//     dKWhPeriod[7] = ui->lnKWh8->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcNonPublicLoadPerSession(7);
+//         calcCostNonPublicElectricity();
+//         showNonPublicLoadSession();
+//     }
+// }
+
+// void DataInputDialog::on_lnKWh9_editingFinished()
+// {
+//     dKWhPeriod[8] = ui->lnKWh9->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcNonPublicLoadPerSession(8);
+//         calcCostNonPublicElectricity();
+//         showNonPublicLoadSession();
+//     }
+// }
+
+// void DataInputDialog::on_lnKWh10_editingFinished()
+// {
+//     dKWhPeriod[9] = ui->lnKWh10->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcNonPublicLoadPerSession(9);
+//         calcCostNonPublicElectricity();
+//         showNonPublicLoadSession();
+//     }
+// }
+
+//---------------------------------------------------------------------------------------
+//
+//  Slots to retrieve the price KWh
+//
+//---------------------------------------------------------------------------------------
+// void DataInputDialog::on_lnPriceKWh1_editingFinished()
+// {
+//     dKWhPrice[0] = ui->lnPriceKWh1->text().toDouble();
+//     bFirstLoadPeriodChanged = true;
+//     if (!bPublicLoadSession)
+//     {
+//         calcCostNonPublicElectricity();
+//     }
+// }
+
+// void DataInputDialog::on_lnPriceKWh2_editingFinished()
+// {
+//     dKWhPrice[1] = ui->lnPriceKWh2->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcCostNonPublicElectricity();
+//     }
+// }
+
+// void DataInputDialog::on_lnPriceKWh3_editingFinished()
+// {
+//     dKWhPrice[2] = ui->lnPriceKWh3->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcCostNonPublicElectricity();
+//     }
+// }
+
+// void DataInputDialog::on_lnPriceKWh4_editingFinished()
+// {
+//     dKWhPrice[3] = ui->lnPriceKWh4->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcCostNonPublicElectricity();
+//     }
+// }
+
+// void DataInputDialog::on_lnPriceKWh5_editingFinished()
+// {
+//     dKWhPrice[4] = ui->lnPriceKWh5->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcCostNonPublicElectricity();
+//     }
+// }
+
+// void DataInputDialog::on_lnPriceKWh6_editingFinished()
+// {
+//     dKWhPrice[5] = ui->lnPriceKWh6->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcCostNonPublicElectricity();
+//     }
+// }
+
+// void DataInputDialog::on_lnPriceKWh7_editingFinished()
+// {
+//     dKWhPrice[6] = ui->lnPriceKWh7->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcCostNonPublicElectricity();
+//     }
+// }
+
+// void DataInputDialog::on_lnPriceKWh8_editingFinished()
+// {
+//     dKWhPrice[7] = ui->lnPriceKWh8->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcCostNonPublicElectricity();
+//     }
+// }
+
+// void DataInputDialog::on_lnPriceKWh9_editingFinished()
+// {
+//     dKWhPrice[8] = ui->lnPriceKWh9->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcCostNonPublicElectricity();
+//     }
+// }
+
+// void DataInputDialog::on_lnPriceKWh10_editingFinished()
+// {
+//     dKWhPrice[9] = ui->lnPriceKWh10->text().toDouble();
+//     if (!bPublicLoadSession)
+//     {
+//         calcCostNonPublicElectricity();
+//     }
+// }
