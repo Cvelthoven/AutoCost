@@ -157,36 +157,6 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
 
 //---------------------------------------------------------------------------------------
 //
-//  onKWhEdited
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::onKWhEdited(int i)
-{
-    dKWhPeriod[i] = KWhEdits[i]->text().toDouble();
-    if (!bPublicLoadSession)
-    {
-        calcNonPublicLoadPerSession(i);
-        calcCostNonPublicElectricity();
-        showNonPublicLoadSession();
-    }
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  onPriceEdited
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::onPriceEdited(int i)
-{
-    dKWhPrice[i] = priceEdits[i]->text().toDouble();
-    if (i == 0)
-        bFirstLoadPeriodChanged = true;
-    if (!bPublicLoadSession)
-        calcCostNonPublicElectricity();   // once, not twice
-}
-
-//---------------------------------------------------------------------------------------
-//
 //  Retrieve input data from dialog
 //  Except the electricity data
 //
@@ -263,7 +233,6 @@ void DataInputDialog::on_rbElectricity_toggled(bool checked)
     else
     {
         iCostType = 0;
-        clearElectricityInput();
     }
 }
 
@@ -346,7 +315,6 @@ void DataInputDialog::on_lnKWhMax_editingFinished()
 {
     dDefaultKWh = ui->lnKWhMax->text().toDouble();
     calcNonPublicLoadPerSession(0);
-    showNonPublicLoadSession();
     calcCostNonPublicElectricity();
 }
 
@@ -399,7 +367,6 @@ void DataInputDialog::on_teStartTime_userTimeChanged(const QTime &time)
         bFirstLoadPeriodChanged = true;
         getStartTime();
         calcNonPublicLoadPerSession(0);
-        showNonPublicLoadSession();
         calcCostNonPublicElectricity();
     }
 }
@@ -424,7 +391,6 @@ void DataInputDialog::calcCostNonPublicElectricity()
         dAmount = dAmount + (dKWhPeriod[iCnt1] * dKWhPrice[iCnt1]);
     }
     ui->lnAmount->setText(QString::number(dAmount,'f', 2));
-    showNonPublicLoadSession();
 }
 
 //---------------------------------------------------------------------------------------
@@ -504,31 +470,6 @@ void DataInputDialog::calcNonPublicLoadPerSession(int iColNbChanged)
 
 //---------------------------------------------------------------------------------------
 //
-//  clearElectricityInput
-//
-//  Clear electricity input when switching cost type
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::clearElectricityInput()
-{
-    for (QLineEdit *e : std::as_const(KWhEdits))
-        e->clear();     // now also clears *10
-    for (QLineEdit *e : std::as_const(priceEdits))
-        e->clear();
-    for (QLabel *l : std::as_const(timeLabels))
-        if (l)
-            l->setText("");
-    ui->lnKWhMax->clear();
-    ui->lnTotalKWh->clear();
-    for (int i = 0; i < iMaxNbElectricityPeriods; ++i)
-    {
-        dKWhPeriod[i] = 0;
-        dKWhPrice[i] = 0;
-    }
-}
-
-//---------------------------------------------------------------------------------------
-//
 //  getStartTime
 //
 //  Load start time from the dialog box and set the first hour label
@@ -564,7 +505,6 @@ void DataInputDialog::resetDialog()
     iStartHour = 0;
     iStartMinute = 0;
 
-    clearElectricityInput();
     dDefaultKWh = 7.7000;   // default amount load during 1 hour
     dTotalKWh = 0.0;        // total amount of KWh loaded during load session
     iAccuEndPercentage = 90;    // default value for a load session
@@ -595,24 +535,4 @@ void DataInputDialog::setElectricityDefaultNonPublic()
     ui->teStartTime->setTime(QTime::fromString("00:00"));
     ui->lnKWhMax->setText(QString::number(dDefaultKWh,'f', 1));
     ui->lnAccuPercentageEnd->setText(QString::number(iAccuEndPercentage));
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  showNonPublicLoadSession
-//
-//  Display loadsession period data of non public load session
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::showNonPublicLoadSession()
-{
-    for (int iPeriodNb = 0;
-         ((iPeriodNb < iMaxNbElectricityPeriods) && (dKWhPeriod[iPeriodNb] > 0));
-         ++iPeriodNb)
-    {   // bound checked first
-        KWhEdits[iPeriodNb]->setText(QString::number(dKWhPeriod[iPeriodNb], 'f', 3));
-        priceEdits[iPeriodNb]->setText(QString::number(dKWhPrice[iPeriodNb], 'f', 2));
-        if (timeLabels[iPeriodNb])
-            timeLabels[iPeriodNb]->setText(QTime(iStartHour + iPeriodNb, 0).toString("hh:mm"));
-    }
 }

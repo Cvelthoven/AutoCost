@@ -387,18 +387,8 @@
     <rect>
      <x>40</x>
      <y>330</y>
-     <width>481</width>
-     <height>192</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QTableView" name="tblElectricityCostInput">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>530</y>
-     <width>680</width>
-     <height>280</height>
+     <width>551</width>
+     <height>331</height>
     </rect>
    </property>
   </widget>

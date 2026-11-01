@@ -46,7 +46,6 @@ class DataInputDialog : public QDialog
 
 public:
     explicit DataInputDialog(QWidget *parent = nullptr);
- //   explicit DataInputDialog(AppSettings *appSettings, QWidget *parent = nullptr);
     ~DataInputDialog();
 
     //---------------------------------------------------------------------------------------
@@ -86,9 +85,6 @@ private slots:
 
 private:
     Ui::DataInputDialog *ui;
-//    AppSettings *ApplicationConfig = nullptr;
-    DataInput *dbData;
-    ElectricityCostInputModel *ElectricityCostModel = nullptr;
 
     //-----------------------------------------------------------------------------------
     //
@@ -96,16 +92,12 @@ private:
     //
     void calcCostNonPublicElectricity();
     void calcNonPublicLoadPerSession(int iColNbChanged);
-    void clearElectricityInput();
     void getStartTime();
     void retrieveData();
     void setElectricityDefaultNonPublic();
-    void showNonPublicLoadSession();
     void storeData();
 
-    void onKWhEdited(int idx);
-    void onPriceEdited(int inx);
-    void setupPeriodWidgets();
+     void setupPeriodWidgets();
 
     //-----------------------------------------------------------------------------------
     //
@@ -145,9 +137,9 @@ private:
     QTime
         tiStartTime;
 
-    QVector<QLineEdit*> KWhEdits;   // size iMaxNbElectricityPeriods
-    QVector<QLineEdit*> priceEdits;
-    QVector<QLabel*> timeLabels;    // [0] == nullptr (there is no lblKWhTime1)
+    DataInput *dbData;
+
+    ElectricityCostInputModel *ElectricityCostModel = nullptr;
 
 };
 
