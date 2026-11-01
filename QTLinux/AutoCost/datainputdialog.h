@@ -14,6 +14,7 @@
 //#include "appsettings.h"
 #include "AutoCost.h"
 #include "datainput.h"
+#include "electricitycostinputmodel.h"
 
 #include <QDialog>
 #include <QString>
@@ -75,6 +76,7 @@ private slots:
     void on_lnMillage_editingFinished();
 
     void on_rbElectricity_toggled(bool checked);
+    void on_deRecordDate_dateChanged(const QDate &date);
 
     void on_rbPublicLoadSession_toggled(bool checked);
     void on_teStartTime_userTimeChanged(const QTime &time);
@@ -86,6 +88,7 @@ private:
     Ui::DataInputDialog *ui;
 //    AppSettings *ApplicationConfig = nullptr;
     DataInput *dbData;
+    ElectricityCostInputModel *ElectricityCostModel = nullptr;
 
     //-----------------------------------------------------------------------------------
     //

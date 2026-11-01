@@ -56,6 +56,28 @@ DataInputDialog::DataInputDialog(QWidget *parent)
     //
     setupPeriodWidgets();
     resetDialog();
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Electricity price/KWh and KWh loaded per 15 minutes for the selected date
+    //
+    ElectricityCostModel = new ElectricityCostInputModel(this);
+    ElectricityCostModel->loadDay(ui->deRecordDate->date());
+    ui->tblElectricityCostInput->setModel(ElectricityCostModel);
+    ui->tblElectricityCostInput->setColumnWidth(ElectricityCostInputTime, 150);
+    ui->tblElectricityCostInput->setColumnWidth(ElectricityCostInputPrice, 110);
+    ui->tblElectricityCostInput->setColumnWidth(ElectricityCostInputKWh, 110);
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Reload the 15 minute electricity input when the date changes
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_deRecordDate_dateChanged(const QDate &date)
+{
+    if (ElectricityCostModel)
+        ElectricityCostModel->loadDay(date);
 }
 
 //---------------------------------------------------------------------------------------
