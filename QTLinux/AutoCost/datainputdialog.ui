@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>700</width>
-    <height>450</height>
+    <height>577</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>400</y>
+     <y>540</y>
      <width>680</width>
      <height>32</height>
     </rect>
@@ -229,292 +229,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>Time: </string>
+    <string>Start time: </string>
    </property>
    <property name="alignment">
     <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblKWh">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>328</y>
-     <width>70</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>KW / hour</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblEuroKwh">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>356</y>
-     <width>70</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Price KWh</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnKWh1">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>326</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnPriceKWh1">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>354</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnKWh2">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>326</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnPriceKWh2">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>354</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnKWh3">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>326</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnPriceKWh3">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>354</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnKWh4">
-   <property name="geometry">
-    <rect>
-     <x>270</x>
-     <y>326</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnPriceKWh4">
-   <property name="geometry">
-    <rect>
-     <x>270</x>
-     <y>354</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnKWh5">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>326</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnPriceKWh5">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>354</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnKWh6">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>326</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnPriceKWh6">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>354</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnKWh7">
-   <property name="geometry">
-    <rect>
-     <x>450</x>
-     <y>326</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnPriceKWh7">
-   <property name="geometry">
-    <rect>
-     <x>450</x>
-     <y>354</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnKWh8">
-   <property name="geometry">
-    <rect>
-     <x>510</x>
-     <y>326</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnPriceKWh8">
-   <property name="geometry">
-    <rect>
-     <x>510</x>
-     <y>354</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnKWh9">
-   <property name="geometry">
-    <rect>
-     <x>570</x>
-     <y>326</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnPriceKWh9">
-   <property name="geometry">
-    <rect>
-     <x>570</x>
-     <y>354</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblKWhTime2">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>303</y>
-     <width>60</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="lblTotalKWh">
@@ -563,118 +281,6 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="lblKWhTime3">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>303</y>
-     <width>60</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblKWhTime4">
-   <property name="geometry">
-    <rect>
-     <x>270</x>
-     <y>303</y>
-     <width>60</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblKWhTime5">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>303</y>
-     <width>60</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblKWhTime6">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>303</y>
-     <width>60</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblKWhTime7">
-   <property name="geometry">
-    <rect>
-     <x>450</x>
-     <y>303</y>
-     <width>60</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblKWhTime8">
-   <property name="geometry">
-    <rect>
-     <x>510</x>
-     <y>303</y>
-     <width>60</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblKWhTime9">
-   <property name="geometry">
-    <rect>
-     <x>570</x>
-     <y>303</y>
-     <width>60</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QRadioButton" name="rbPublicLoadSession">
    <property name="geometry">
     <rect>
@@ -689,48 +295,6 @@
    </property>
    <property name="text">
     <string> Public load session</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnKWh10">
-   <property name="geometry">
-    <rect>
-     <x>630</x>
-     <y>326</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lnPriceKWh10">
-   <property name="geometry">
-    <rect>
-     <x>630</x>
-     <y>354</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblKWhTime10">
-   <property name="geometry">
-    <rect>
-     <x>630</x>
-     <y>303</y>
-     <width>60</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="lblMillage">
@@ -818,6 +382,16 @@
     </rect>
    </property>
   </widget>
+  <widget class="QTableView" name="tblElectricityCostInput">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>330</y>
+     <width>481</width>
+     <height>192</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>rbPeriodic</tabstop>
@@ -834,26 +408,6 @@
   <tabstop>lnAccuPercentageStart</tabstop>
   <tabstop>lnAccuPercentageEnd</tabstop>
   <tabstop>teStartTime</tabstop>
-  <tabstop>lnKWh1</tabstop>
-  <tabstop>lnKWh2</tabstop>
-  <tabstop>lnKWh3</tabstop>
-  <tabstop>lnKWh4</tabstop>
-  <tabstop>lnKWh5</tabstop>
-  <tabstop>lnKWh6</tabstop>
-  <tabstop>lnKWh7</tabstop>
-  <tabstop>lnKWh8</tabstop>
-  <tabstop>lnKWh9</tabstop>
-  <tabstop>lnKWh10</tabstop>
-  <tabstop>lnPriceKWh1</tabstop>
-  <tabstop>lnPriceKWh2</tabstop>
-  <tabstop>lnPriceKWh3</tabstop>
-  <tabstop>lnPriceKWh4</tabstop>
-  <tabstop>lnPriceKWh5</tabstop>
-  <tabstop>lnPriceKWh6</tabstop>
-  <tabstop>lnPriceKWh7</tabstop>
-  <tabstop>lnPriceKWh8</tabstop>
-  <tabstop>lnPriceKWh9</tabstop>
-  <tabstop>lnPriceKWh10</tabstop>
  </tabstops>
  <resources/>
  <connections/>

@@ -74,37 +74,12 @@ private slots:
     void on_lnAccuPercentageEnd_editingFinished();
     void on_lnMillage_editingFinished();
 
-    // void on_rbPeriodic_toggled(bool checked);
     void on_rbElectricity_toggled(bool checked);
-    // void on_rbOther_toggled(bool checked);
-    // void on_rbAccessoires_toggled(bool checked);
 
     void on_rbPublicLoadSession_toggled(bool checked);
     void on_teStartTime_userTimeChanged(const QTime &time);
     void on_lnKWhMax_editingFinished();     //  Default/Max KWh changed
     void on_lnTotalKWh_editingFinished();   // Total KWh changed
-
-    // void on_lnKWh1_editingFinished();
-    // void on_lnKWh2_editingFinished();
-    // void on_lnKWh3_editingFinished();
-    // void on_lnKWh4_editingFinished();
-    // void on_lnKWh5_editingFinished();
-    // void on_lnKWh6_editingFinished();
-    // void on_lnKWh7_editingFinished();
-    // void on_lnKWh8_editingFinished();
-    // void on_lnKWh9_editingFinished();
-    // void on_lnKWh10_editingFinished();
-
-    // void on_lnPriceKWh1_editingFinished();
-    // void on_lnPriceKWh2_editingFinished();
-    // void on_lnPriceKWh3_editingFinished();
-    // void on_lnPriceKWh4_editingFinished();
-    // void on_lnPriceKWh5_editingFinished();
-    // void on_lnPriceKWh6_editingFinished();
-    // void on_lnPriceKWh7_editingFinished();
-    // void on_lnPriceKWh8_editingFinished();
-    // void on_lnPriceKWh9_editingFinished();
-    // void on_lnPriceKWh10_editingFinished();
 
 
 private:
