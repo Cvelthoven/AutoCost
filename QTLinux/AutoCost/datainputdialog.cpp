@@ -71,17 +71,6 @@ DataInputDialog::DataInputDialog(QWidget *parent)
 
 //---------------------------------------------------------------------------------------
 //
-//  Reload the 15 minute electricity input when the date changes
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::on_deRecordDate_dateChanged(const QDate &date)
-{
-    if (ElectricityCostModel)
-        ElectricityCostModel->loadDay(date);
-}
-
-//---------------------------------------------------------------------------------------
-//
 //  DataInputDialog default destructor
 //
 //---------------------------------------------------------------------------------------
@@ -89,6 +78,23 @@ DataInputDialog::~DataInputDialog()
 {
     delete ui;
     qDebug() << "DataInputDialog destructor called";
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Class methods
+//
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//
+//  Reload the 15 minute electricity input when the date changes
+//
+//  Not needed because no data is stored in database
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_deRecordDate_dateChanged(const QDate &date)
+{
+    if (ElectricityCostModel)
+        ElectricityCostModel->loadDay(date);
 }
 
 //---------------------------------------------------------------------------------------
