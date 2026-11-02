@@ -54,7 +54,6 @@ DataInputDialog::DataInputDialog(QWidget *parent)
     //
     //  Fill the dialog with the default values
     //
-    setupPeriodWidgets();
     resetDialog();
 
     //-----------------------------------------------------------------------------------
@@ -84,304 +83,6 @@ DataInputDialog::~DataInputDialog()
 //
 //  Class methods
 //
-//---------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------
-//
-//  Reload the 15 minute electricity input when the date changes
-//
-//  Not needed because no data is stored in database
-//---------------------------------------------------------------------------------------
-void DataInputDialog::on_deRecordDate_dateChanged(const QDate &date)
-{
-    if (ElectricityCostModel)
-        ElectricityCostModel->loadDay(date);
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Handle different responses on DataInputDialog
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
-{
-    //-----------------------------------------------------------------------------------
-    //
-    //  Select action based on which button is clicked
-    //
-    //-----------------------------------------------------------------------------------
-    QDialogButtonBox::StandardButton which = ui->buttonBox->standardButton(button);
-    switch (which)
-    {
-    //-----------------------------------------------------------------------------------
-    //
-    //  Retrieve the input data and store it in the database
-    //  And reset the dialog to the default again
-    //
-    //-----------------------------------------------------------------------------------
-    case QDialogButtonBox::Apply:
-        retrieveData();
-        storeData();
-        accept();
-        break;
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Close the dialog without saving possible input
-    //
-    //-----------------------------------------------------------------------------------
-    case QDialogButtonBox::Cancel:
-        reject();
-        break;
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Retrieve the input data and store it in the database
-    //  And close the dialog
-    //
-    //-----------------------------------------------------------------------------------
-    case QDialogButtonBox::Close:
-        bClosePressed = true;
-        retrieveData();
-        storeData();
-        accept();
-        break;
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Discard possible input data
-    //  And reset the dialog to the default again
-    //
-    //-----------------------------------------------------------------------------------
-    case QDialogButtonBox::Discard:
-        resetDialog();
-        break;
-
-    default:
-        break;
-    }
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Retrieve input data from dialog
-//  Except the electricity data
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::retrieveData()
-{
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Retrieve data
-    //
-    daRecordDate = ui->deRecordDate->date();
-    strDescription = ui->lnDescription->text();
-    dAmount = ui->lnAmount->text().toFloat();
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Store the data to the database
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::storeData()
-{
-    dbData = new DataInput();
-    dbData->setIRecordType(iCostType);
-    dbData->setDaDate(daRecordDate);
-    dbData->setStrDescription(strDescription);
-    dbData->setDTotalCost(dAmount);
-    if (dbData->addAcAutoCostRecord() == 0)
-    {
-        if (iCostType == CostRecElectricity)
-        {
-            dbData->setBPublicLoadSession(bPublicLoadSession);
-            dbData->setIKmTotal(iMillage);
-            dbData->setDKWhLoaded(dTotalKWh);
-            dbData->setICapBatteryStart(iAccuStartPercentage);
-            dbData->setICapBatteryEnd(iAccuEndPercentage);
-            dbData->setTiStartTime(tiStartTime);
-            if (dbData->addAcElectricityRecord() != 0)
-            {
-                // If insert of acElectricity record fails, a rollback or delete of the
-                // corresponding insert of acAutoCost is required
-            }
-        }
-    }
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  setupPeriodWidgets
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::setupPeriodWidgets()
-{
-
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Handle radiobuttons cost type
-//
-//---------------------------------------------------------------------------------------
-//
-//  Handle electricity type
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::on_rbElectricity_toggled(bool checked)
-{
-    if (checked)
-    {
-        iCostType = CostRecElectricity;
-        setElectricityDefaultNonPublic();
-    }
-    else
-    {
-        iCostType = 0;
-    }
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Getter and Setter Methods
-//
-//---------------------------------------------------------------------------------------
-//
-//  Getters for other properties
-//
-//---------------------------------------------------------------------------------------
-bool DataInputDialog::getBClosePressed() const
-{
-    return bClosePressed;
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Slots that handle input from dialog fields
-//
-//---------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------
-//
-//  on_lnAccuPercentageStart_editingFinished
-//  Slot to handle the start percentage af the accu of the loading session
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::on_lnAccuPercentageStart_editingFinished()
-{
-    iAccuStartPercentage = ui->lnAccuPercentageStart->text().toInt();
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  on_lnAccuPercentageEnd_editingFinished
-//  Slot to handle the end percentage af the accu of the loading session
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::on_lnAccuPercentageEnd_editingFinished()
-{
-    iAccuEndPercentage = ui->lnAccuPercentageEnd->text().toInt();
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  on_lnMillage_editingFinished
-//  Slot to handle the millage at the start of a load session
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::on_lnMillage_editingFinished()
-{
-    iMillage = ui->lnMillage->text().toInt();
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Handle the switch between a non-public and public load session
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::on_rbPublicLoadSession_toggled(bool checked)
-{
-    if (checked)
-    {
-        bPublicLoadSession = true;
-        setElectricityDefaultNonPublic();
-    }
-    else
-    {
-        bPublicLoadSession = false;
-    }
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Default/Max KWh load session changed
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::on_lnKWhMax_editingFinished()
-{
-    dDefaultKWh = ui->lnKWhMax->text().toDouble();
-    calcNonPublicLoadPerSession(0);
-    calcCostNonPublicElectricity();
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Loads total amount loaded and the start time set at that moment to ensure that also
-//  the default time is loaded in case this is the correct time.
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::on_lnTotalKWh_editingFinished()
-{
-    getStartTime();
-    dTotalKWh = ui->lnTotalKWh->text().toDouble();
-    //-----------------------------------------------------------------------------------
-    //
-    //  Load the defaults for a non-public load session
-    //
-    //-----------------------------------------------------------------------------------
-    if (!bPublicLoadSession)
-    {
-        calcNonPublicLoadPerSession(-1);    // no values set yet
-        calcCostNonPublicElectricity();
-    }
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Load the defaults for a public load session
-    //
-    //-----------------------------------------------------------------------------------
-    else
-    {
-
-    }
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Retrieve time set by user
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::on_teStartTime_userTimeChanged(const QTime &time)
-{
-    //-----------------------------------------------------------------------------------
-    //
-    //  Only retrieve time when cost type is electricity otherwise ignore or discard
-    //
-    //-----------------------------------------------------------------------------------
-    if (iCostType == 2)
-    {
-        bFirstLoadPeriodChanged = true;
-        getStartTime();
-        calcNonPublicLoadPerSession(0);
-        calcCostNonPublicElectricity();
-    }
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  Other methods
-//
-//---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //
 //  calcCostNonPublicElectricity
@@ -416,7 +117,6 @@ void DataInputDialog::calcNonPublicLoadPerSession(int iColNbChanged)
     //
     //  local variables
     //
-    //-----------------------------------------------------------------------------------
     double dSubTotalKWh = 0.0,
         dRestKWh = 0.0;
 
@@ -426,7 +126,6 @@ void DataInputDialog::calcNonPublicLoadPerSession(int iColNbChanged)
     //
     //  (Re)calc amount from start untill and including period that is changed
     //
-    //-----------------------------------------------------------------------------------
     iCnt1 = 0;
     while (iCnt1 <= iColNbChanged)
     {
@@ -439,7 +138,6 @@ void DataInputDialog::calcNonPublicLoadPerSession(int iColNbChanged)
     //  Calc the amount of the first period
     //  If the first period is set manually then no action
     //
-    //-----------------------------------------------------------------------------------
     if (iColNbChanged == 0)
     {
         if ((bFirstLoadPeriodChanged)||(bStartLoadTimeChanged))
@@ -458,7 +156,6 @@ void DataInputDialog::calcNonPublicLoadPerSession(int iColNbChanged)
     //
     //  (Re)calc the remaining periods, overwrite value with default
     //
-    //-----------------------------------------------------------------------------------
     while ((dRestKWh >= dDefaultKWh) && (iCnt1 < (iMaxNbElectricityPeriods -1)))
     {
         dKWhPeriod[iCnt1] = dDefaultKWh;
@@ -470,8 +167,17 @@ void DataInputDialog::calcNonPublicLoadPerSession(int iColNbChanged)
     //
     //  (Re)calc the last period, and if needed add an extra period
     //
-    //-----------------------------------------------------------------------------------
-        dKWhPeriod[iCnt1] = dRestKWh;
+    dKWhPeriod[iCnt1] = dRestKWh;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  getBClosePressed
+//
+//---------------------------------------------------------------------------------------
+bool DataInputDialog::getBClosePressed() const
+{
+    return bClosePressed;
 }
 
 //---------------------------------------------------------------------------------------
@@ -488,6 +194,207 @@ void DataInputDialog::getStartTime()
     iStartMinute = tiStartTime.minute();
     strStartTime = tiStartTime.toString("hh:mm");
 
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Handle different responses on DataInputDialog
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
+{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Select action based on which button is clicked
+    //
+    QDialogButtonBox::StandardButton which = ui->buttonBox->standardButton(button);
+    switch (which)
+    {
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieve the input data and store it in the database
+    //  And reset the dialog to the default again
+    //
+    case QDialogButtonBox::Apply:
+        retrieveData();
+        storeData();
+        accept();
+        break;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Close the dialog without saving possible input
+    //
+    case QDialogButtonBox::Cancel:
+        reject();
+        break;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieve the input data and store it in the database
+    //  And close the dialog
+    //
+    case QDialogButtonBox::Close:
+        bClosePressed = true;
+        retrieveData();
+        storeData();
+        accept();
+        break;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Discard possible input data
+    //  And reset the dialog to the default again
+    //
+    case QDialogButtonBox::Discard:
+        resetDialog();
+        break;
+
+    default:
+        break;
+    }
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Reset the in-memory electricity input
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_deRecordDate_dateChanged(const QDate &date)
+{
+    if (ElectricityCostModel)
+        ElectricityCostModel->loadDay(date);
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  on_lnAccuPercentageEnd_editingFinished
+//  Slot to handle the end percentage af the accu of the loading session
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_lnAccuPercentageEnd_editingFinished()
+{
+    iAccuEndPercentage = ui->lnAccuPercentageEnd->text().toInt();
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  on_lnAccuPercentageStart_editingFinished
+//  Slot to handle the start percentage af the accu of the loading session
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_lnAccuPercentageStart_editingFinished()
+{
+    iAccuStartPercentage = ui->lnAccuPercentageStart->text().toInt();
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Default/Max KWh load session changed
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_lnKWhMax_editingFinished()
+{
+    dDefaultKWh = ui->lnKWhMax->text().toDouble();
+    calcNonPublicLoadPerSession(0);
+    calcCostNonPublicElectricity();
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  on_lnMillage_editingFinished
+//  Slot to handle the millage at the start of a load session
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_lnMillage_editingFinished()
+{
+    iMillage = ui->lnMillage->text().toInt();
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Loads total amount loaded and the start time set at that moment to ensure that also
+//  the default time is loaded in case this is the correct time.
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_lnTotalKWh_editingFinished()
+{
+    getStartTime();
+    dTotalKWh = ui->lnTotalKWh->text().toDouble();
+    //-----------------------------------------------------------------------------------
+    //
+    //  Load the defaults for a non-public load session
+    //
+    if (!bPublicLoadSession)
+    {
+        calcNonPublicLoadPerSession(-1);    // no values set yet
+        calcCostNonPublicElectricity();
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Load the defaults for a public load session
+    //
+    else
+    {
+
+    }
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Handle electricity radio button
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_rbElectricity_toggled(bool checked)
+{
+    if (checked)
+    {
+        iCostType = CostRecElectricity;
+        setElectricityDefaultNonPublic();
+    }
+    else
+    {
+        iCostType = 0;
+    }
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Handle the switch between a non-public and public load session
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_rbPublicLoadSession_toggled(bool checked)
+{
+    if (checked)
+    {
+        bPublicLoadSession = true;
+        setElectricityDefaultNonPublic();
+    }
+    else
+    {
+        bPublicLoadSession = false;
+    }
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Retrieve time set by user
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::on_teStartTime_userTimeChanged(const QTime &time)
+{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Only retrieve time when cost type is electricity otherwise ignore or discard
+    //
+    if (iCostType == 2)
+    {
+        bFirstLoadPeriodChanged = true;
+        getStartTime();
+        calcNonPublicLoadPerSession(0);
+        calcCostNonPublicElectricity();
+    }
 }
 
 //---------------------------------------------------------------------------------------
@@ -529,6 +436,24 @@ void DataInputDialog::resetDialog()
 
 //---------------------------------------------------------------------------------------
 //
+//  Retrieve input data from dialog
+//  Except the electricity data
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::retrieveData()
+{
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieve data
+    //
+    daRecordDate = ui->deRecordDate->date();
+    strDescription = ui->lnDescription->text();
+    dAmount = ui->lnAmount->text().toFloat();
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  setElectricityDefaultNonPublic
 //
 //  Set default electricity input in dialog for non-public load session
@@ -541,4 +466,35 @@ void DataInputDialog::setElectricityDefaultNonPublic()
     ui->teStartTime->setTime(QTime::fromString("00:00"));
     ui->lnKWhMax->setText(QString::number(dDefaultKWh,'f', 1));
     ui->lnAccuPercentageEnd->setText(QString::number(iAccuEndPercentage));
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  Store the data to the database
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::storeData()
+{
+    dbData = new DataInput();
+    dbData->setIRecordType(iCostType);
+    dbData->setDaDate(daRecordDate);
+    dbData->setStrDescription(strDescription);
+    dbData->setDTotalCost(dAmount);
+    if (dbData->addAcAutoCostRecord() == 0)
+    {
+        if (iCostType == CostRecElectricity)
+        {
+            dbData->setBPublicLoadSession(bPublicLoadSession);
+            dbData->setIKmTotal(iMillage);
+            dbData->setDKWhLoaded(dTotalKWh);
+            dbData->setICapBatteryStart(iAccuStartPercentage);
+            dbData->setICapBatteryEnd(iAccuEndPercentage);
+            dbData->setTiStartTime(tiStartTime);
+            if (dbData->addAcElectricityRecord() != 0)
+            {
+                // If insert of acElectricity record fails, a rollback or delete of the
+                // corresponding insert of acAutoCost is required
+            }
+        }
+    }
 }

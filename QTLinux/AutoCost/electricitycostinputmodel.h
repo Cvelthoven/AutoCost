@@ -3,8 +3,8 @@
 //  Module: electricitycostinputmodel.h
 //
 //  Class ElectricityCostInputModel manages the electricity price and KWh loaded per
-//  15 minutes for one day. Price/KWh and KWh loaded are editable and stored in the
-//  database table acElectricityCost.
+//  15 minutes for one day.
+//
 //  The default QT class QTableView handles the presentation (tblElectricityCostInput)
 //
 //---------------------------------------------------------------------------------------
@@ -41,14 +41,14 @@ public:
                         int role = Qt::DisplayRole) const override;
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
-    //  Loads the 96 slots of the given day from the database
+    //  Initializes the 96 in-memory slots for the given day
     bool loadDay(const QDate &date);
     QDate day() const { return dDay; }
 
 private:
-    bool ensureTable() const;
-    bool storeSlot(int row);
-    QDateTime slotStart(int row) const;
+    // bool ensureTable() const;
+    // bool storeSlot(int row);
+    // QDateTime slotStart(int row) const;
 
     QDate dDay;
     QVector<QVariant> vPrice;   // null = not entered

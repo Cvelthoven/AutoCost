@@ -97,8 +97,6 @@ private:
     void setElectricityDefaultNonPublic();
     void storeData();
 
-     void setupPeriodWidgets();
-
     //-----------------------------------------------------------------------------------
     //
     //  Private class wide variables

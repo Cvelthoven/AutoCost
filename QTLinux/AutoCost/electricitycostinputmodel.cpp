@@ -6,12 +6,12 @@
 #include "AutoCost.h"
 #include "electricitycostinputmodel.h"
 
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QSqlQuery>
+// #include <QSqlDatabase>
+// #include <QSqlError>
+// #include <QSqlQuery>
 #include <QTime>
 
-#include <QDebug>
+// #include <QDebug>
 
 ElectricityCostInputModel::ElectricityCostInputModel(QObject *parent)
     : QAbstractTableModel(parent),
@@ -30,10 +30,10 @@ int ElectricityCostInputModel::columnCount(const QModelIndex &parent) const
     return parent.isValid() ? 0 : ElectricityCostInputNbColumns;
 }
 
-QDateTime ElectricityCostInputModel::slotStart(int row) const
-{
-    return QDateTime(dDay, QTime(0, 0).addSecs(row * iSlotMinutes * 60));
-}
+// QDateTime ElectricityCostInputModel::slotStart(int row) const
+// {
+//     return QDateTime(dDay, QTime(0, 0).addSecs(row * iSlotMinutes * 60));
+// }
 
 QVariant ElectricityCostInputModel::data(const QModelIndex &index, int role) const
 {
@@ -71,7 +71,10 @@ QVariant ElectricityCostInputModel::data(const QModelIndex &index, int role) con
 bool ElectricityCostInputModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (role != Qt::EditRole || !index.isValid() || !dDay.isValid() ||
-        index.column() == ElectricityCostInputTime)
+//        index.column() == ElectricityCostInputTime)
+        index.row() < 0 || index.row() >= iSlotsPerDay ||
+        index.column() <= ElectricityCostInputTime ||
+        index.column() >= ElectricityCostInputNbColumns)
         return false;
 
     QVariant newValue;
@@ -86,13 +89,13 @@ bool ElectricityCostInputModel::setData(const QModelIndex &index, const QVariant
     }
 
     QVector<QVariant> &target = (index.column() == ElectricityCostInputPrice) ? vPrice : vKWh;
-    const QVariant oldValue = target[index.row()];
+    // const QVariant oldValue = target[index.row()];
     target[index.row()] = newValue;
-    if (!storeSlot(index.row()))
-    {
-        target[index.row()] = oldValue;
-        return false;
-    }
+    // if (!storeSlot(index.row()))
+    // {
+    //     target[index.row()] = oldValue;
+    //     return false;
+    // }
     emit dataChanged(index, index);
     return true;
 }
@@ -123,29 +126,29 @@ Qt::ItemFlags ElectricityCostInputModel::flags(const QModelIndex &index) const
     return f;
 }
 
-//---------------------------------------------------------------------------------------
-//
-//  ensureTable: creates the table when it does not exist yet
-//
-//---------------------------------------------------------------------------------------
-bool ElectricityCostInputModel::ensureTable() const
-{
-    QSqlDatabase db = QSqlDatabase::database(strApplicationDatabaseConnectionName, false);
-    if (!db.isValid() || !db.isOpen())
-        return false;
+// //---------------------------------------------------------------------------------------
+// //
+// //  ensureTable: creates the table when it does not exist yet
+// //
+// //---------------------------------------------------------------------------------------
+// bool ElectricityCostInputModel::ensureTable() const
+// {
+//     QSqlDatabase db = QSqlDatabase::database(strApplicationDatabaseConnectionName, false);
+//     if (!db.isValid() || !db.isOpen())
+//         return false;
 
-    QSqlQuery query(db);
-    if (!query.exec("CREATE TABLE IF NOT EXISTS public.\"acElectricityCost\" ("
-                    "\"SlotStart\" timestamp without time zone NOT NULL, "
-                    "\"PricePerKWh\" real, "
-                    "\"KWhLoaded\" real, "
-                    "CONSTRAINT \"acElectricityCost_pkey\" PRIMARY KEY (\"SlotStart\"))"))
-    {
-        qDebug() << "Create acElectricityCost failed:" << query.lastError().text();
-        return false;
-    }
-    return true;
-}
+//     QSqlQuery query(db);
+//     if (!query.exec("CREATE TABLE IF NOT EXISTS public.\"acElectricityCost\" ("
+//                     "\"SlotStart\" timestamp without time zone NOT NULL, "
+//                     "\"PricePerKWh\" real, "
+//                     "\"KWhLoaded\" real, "
+//                     "CONSTRAINT \"acElectricityCost_pkey\" PRIMARY KEY (\"SlotStart\"))"))
+//     {
+//         qDebug() << "Create acElectricityCost failed:" << query.lastError().text();
+//         return false;
+//     }
+//     return true;
+// }
 
 bool ElectricityCostInputModel::loadDay(const QDate &date)
 {
@@ -154,67 +157,68 @@ bool ElectricityCostInputModel::loadDay(const QDate &date)
     vPrice = QVector<QVariant>(iSlotsPerDay);
     vKWh = QVector<QVariant>(iSlotsPerDay);
 
-    bool bOk = ensureTable();
-    if (bOk && dDay.isValid())
-    {
-        QSqlQuery query(QSqlDatabase::database(strApplicationDatabaseConnectionName, false));
-        query.prepare("SELECT \"SlotStart\", \"PricePerKWh\", \"KWhLoaded\" "
-                      "FROM public.\"acElectricityCost\" "
-                      "WHERE \"SlotStart\" >= :from AND \"SlotStart\" < :to");
-        query.bindValue(":from", QDateTime(dDay, QTime(0, 0)));
-        query.bindValue(":to", QDateTime(dDay.addDays(1), QTime(0, 0)));
-        bOk = query.exec();
-        while (bOk && query.next())
-        {
-            const QTime t = query.value(0).toDateTime().time();
-            const int row = (t.hour() * 60 + t.minute()) / iSlotMinutes;
-            if (row >= 0 && row < iSlotsPerDay)
-            {
-                vPrice[row] = query.value(1);
-                vKWh[row] = query.value(2);
-            }
-        }
-        if (!bOk)
-            qDebug() << "Load acElectricityCost failed:" << query.lastError().text();
-    }
+    // bool bOk = ensureTable();
+    // if (bOk && dDay.isValid())
+    // {
+    //     QSqlQuery query(QSqlDatabase::database(strApplicationDatabaseConnectionName, false));
+    //     query.prepare("SELECT \"SlotStart\", \"PricePerKWh\", \"KWhLoaded\" "
+    //                   "FROM public.\"acElectricityCost\" "
+    //                   "WHERE \"SlotStart\" >= :from AND \"SlotStart\" < :to");
+    //     query.bindValue(":from", QDateTime(dDay, QTime(0, 0)));
+    //     query.bindValue(":to", QDateTime(dDay.addDays(1), QTime(0, 0)));
+    //     bOk = query.exec();
+    //     while (bOk && query.next())
+    //     {
+    //         const QTime t = query.value(0).toDateTime().time();
+    //         const int row = (t.hour() * 60 + t.minute()) / iSlotMinutes;
+    //         if (row >= 0 && row < iSlotsPerDay)
+    //         {
+    //             vPrice[row] = query.value(1);
+    //             vKWh[row] = query.value(2);
+    //         }
+    //     }
+    //     if (!bOk)
+    //         qDebug() << "Load acElectricityCost failed:" << query.lastError().text();
+    // }
     endResetModel();
-    return bOk;
+    // return bOk;
+    return dDay.isValid();
 }
 
-//---------------------------------------------------------------------------------------
-//
-//  storeSlot: upserts the slot, removes the record when both values are empty
-//
-//---------------------------------------------------------------------------------------
-bool ElectricityCostInputModel::storeSlot(int row)
-{
-    if (!ensureTable())
-        return false;
+// //---------------------------------------------------------------------------------------
+// //
+// //  storeSlot: upserts the slot, removes the record when both values are empty
+// //
+// //---------------------------------------------------------------------------------------
+// bool ElectricityCostInputModel::storeSlot(int row)
+// {
+//     if (!ensureTable())
+//         return false;
 
-    QSqlQuery query(QSqlDatabase::database(strApplicationDatabaseConnectionName, false));
-    if (vPrice[row].isNull() && vKWh[row].isNull())
-    {
-        query.prepare("DELETE FROM public.\"acElectricityCost\" WHERE \"SlotStart\" = :slot");
-        query.bindValue(":slot", slotStart(row));
-    }
-    else
-    {
-        query.prepare("INSERT INTO public.\"acElectricityCost\" "
-                      "(\"SlotStart\", \"PricePerKWh\", \"KWhLoaded\") "
-                      "VALUES (:slot, :price, :kwh) "
-                      "ON CONFLICT (\"SlotStart\") DO UPDATE SET "
-                      "\"PricePerKWh\" = EXCLUDED.\"PricePerKWh\", "
-                      "\"KWhLoaded\" = EXCLUDED.\"KWhLoaded\"");
-        query.bindValue(":slot", slotStart(row));
-        query.bindValue(":price", vPrice[row].isNull() ? QVariant(QMetaType(QMetaType::Double))
-                                                       : vPrice[row]);
-        query.bindValue(":kwh", vKWh[row].isNull() ? QVariant(QMetaType(QMetaType::Double))
-                                                   : vKWh[row]);
-    }
-    if (!query.exec())
-    {
-        qDebug() << "Store acElectricityCost failed:" << query.lastError().text();
-        return false;
-    }
-    return true;
-}
+//     QSqlQuery query(QSqlDatabase::database(strApplicationDatabaseConnectionName, false));
+//     if (vPrice[row].isNull() && vKWh[row].isNull())
+//     {
+//         query.prepare("DELETE FROM public.\"acElectricityCost\" WHERE \"SlotStart\" = :slot");
+//         query.bindValue(":slot", slotStart(row));
+//     }
+//     else
+//     {
+//         query.prepare("INSERT INTO public.\"acElectricityCost\" "
+//                       "(\"SlotStart\", \"PricePerKWh\", \"KWhLoaded\") "
+//                       "VALUES (:slot, :price, :kwh) "
+//                       "ON CONFLICT (\"SlotStart\") DO UPDATE SET "
+//                       "\"PricePerKWh\" = EXCLUDED.\"PricePerKWh\", "
+//                       "\"KWhLoaded\" = EXCLUDED.\"KWhLoaded\"");
+//         query.bindValue(":slot", slotStart(row));
+//         query.bindValue(":price", vPrice[row].isNull() ? QVariant(QMetaType(QMetaType::Double))
+//                                                        : vPrice[row]);
+//         query.bindValue(":kwh", vKWh[row].isNull() ? QVariant(QMetaType(QMetaType::Double))
+//                                                    : vKWh[row]);
+//     }
+//     if (!query.exec())
+//     {
+//         qDebug() << "Store acElectricityCost failed:" << query.lastError().text();
+//         return false;
+//     }
+//     return true;
+// }
