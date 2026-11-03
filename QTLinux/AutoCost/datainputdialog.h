@@ -62,8 +62,12 @@ public:
     //-----------------------------------------------------------------------------------
     void resetDialog();
 
+signals:
+    void defaultKWhChanged(double dKWh);    //  Default/Max KWh needs to be shown
+
 
 private slots:
+    void loadDefaultKWh(double dKWh);       //  Show default/Max KWh in lnKWhMax
     void on_buttonBox_clicked(QAbstractButton *button);
 
     //-----------------------------------------------------------------------------------

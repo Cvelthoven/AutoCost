@@ -30,6 +30,9 @@ DataInputDialog::DataInputDialog(QWidget *parent)
 
     ui->setupUi(this);
 
+    connect(this, &DataInputDialog::defaultKWhChanged,
+            this, &DataInputDialog::loadDefaultKWh);
+
     //-----------------------------------------------------------------------------------
     //
     //  Preload fields
@@ -476,8 +479,20 @@ void DataInputDialog::setElectricityDefaultNonPublic()
     ui->lnDescription->setText("Laden");
     ui->teStartTime->setDisplayFormat(strStartTimeFormat);
     ui->teStartTime->setTime(QTime::fromString("00:00"));
-    ui->lnKWhMax->setText(QString::number(dDefaultKWh,'f', 1));
+    emit defaultKWhChanged(dDefaultKWh);
     ui->lnAccuPercentageEnd->setText(QString::number(iAccuEndPercentage));
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  loadDefaultKWh
+//
+//  Slot: show the default/max KWh in the lnKWhMax field
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::loadDefaultKWh(double dKWh)
+{
+    ui->lnKWhMax->setText(QString::number(dKWh,'f', 1));
 }
 
 //---------------------------------------------------------------------------------------
