@@ -19,6 +19,11 @@
 #include <QObject>
 #include <QVector>
 
+//---------------------------------------------------------------------------------------
+//
+//  Class MillageOverviewDataModel definitions
+//
+//---------------------------------------------------------------------------------------
 class MillageOverviewDataModel : public TableDataModel
 {
     Q_OBJECT
@@ -49,6 +54,20 @@ private:
 
     QVector<int> years;
 
+};
+
+//-----------------------------------------------------------------------------------
+//
+//  Descriptive names for the Millage overview
+//
+enum MillageOverviewColumn
+{
+    MillageOverviewYear = 0,
+    MillageOverviewStart,
+    MillageOverviewCurrent,
+    MillageOverviewLimit,
+    MillageOverviewUsed,
+    MillageOverviewRemaining
 };
 
 #endif // MILLAGEOVERVIEWDATAMODEL_H

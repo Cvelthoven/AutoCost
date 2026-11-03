@@ -161,5 +161,36 @@ private:
         tmElectricityStartTime;
 
 };
+//-----------------------------------------------------------------------------------
+//
+//  Enums for Cost overview dialog columns with descriptive names
+//
+enum CostOverViewCol
+{
+    CostOverViewDate = 0,
+    CostOverViewDescription,
+    CostOverViewPeriodic,
+    CostOverViewElectricity,
+    CostOverViewOther,
+    CostOverViewAccessory,
+    CostOverViewMillage,
+    CostOverViewMillageTrip,
+    CostOverViewKWhTrip,
+    CostOverViewKWhLoaded,
+    CostOverViewKWhperKM,
+    CostOverViewAvgEuroPerKWh,
+    CostOverViewKWhPerPercentage,
+    CostOverViewKMPerPercentage,
+    CostOverViewAccuStartPercentage,
+    CostOverViewAccuEndPercentage,
+    CostOverViewAccuUsagePercentage,
+    CostOverViewAccuLoadDeltaPercentage,
+    CostOverViewLoadStartTime,
+    CostOverViewRecID,
+    CostOverViewElecRecId,
+    CostOverViewRecType,
+    CostOverViewPeriod
+
+};
 
 #endif // DETAILCOSTDATAMODEL_H

@@ -7,7 +7,6 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "AutoCost.h"
 #include "electricitycostinputmodel.h"
 #include "tabledatamodel.h"
 
@@ -67,7 +66,7 @@ Qt::ItemFlags ElectricityCostInputModel::flags(const QModelIndex &index) const
     return f;
 }
 
-bool ElectricityCostInputModel::loadDay()
+bool ElectricityCostInputModel::loadDataDefault()
 {
     beginResetModel();
 //    dDay = date;

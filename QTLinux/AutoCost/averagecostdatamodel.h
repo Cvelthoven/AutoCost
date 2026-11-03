@@ -54,4 +54,18 @@ private:
 
 };
 
+//-----------------------------------------------------------------------------------
+//
+//  Descriptive names for the Millage overview
+//
+enum AverageCostOverviewColumn
+{
+    AverageCostOverviewYear = 0,
+    AverageCostOverviewTotal,
+    AverageCostOverviewPeriodic,
+    AverageCostOverviewElectricity,
+    AverageCostOverviewOther,
+    AverageCostOverviewAccessory
+};
+
 #endif // AVERAGECOSTDATAMODEL_H

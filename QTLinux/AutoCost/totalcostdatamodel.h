@@ -51,4 +51,19 @@ private:
 
 };
 
+//-----------------------------------------------------------------------------------
+//
+//  Descriptive names for the total Cost overview
+//
+enum TotalCostColumn
+{
+    TotalCostViewYear = 0,
+    TotalCostViewTotal,
+    TotalCostViewPeriodic,
+    TotalCostViewElectricity,
+    TotalCostViewOther,
+    TotalCostViewAccessory
+};
+
+
 #endif // TOTALCOSTDATAMODEL_H

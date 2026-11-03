@@ -63,11 +63,11 @@ public:
     void resetDialog();
 
 signals:
-    void defaultKWhChanged(double dKWh);    //  Default/Max KWh needs to be shown
+    void signLoadElectricityDefaults();//  Signal show default electricity input
 
 
 private slots:
-    void loadDefaultKWh(double dKWh);       //  Show default/Max KWh in lnKWhMax
+    void loadElectricityDefaults(); //  Show defaults electricity input
     void on_buttonBox_clicked(QAbstractButton *button);
 
     //-----------------------------------------------------------------------------------
@@ -98,7 +98,6 @@ private:
     void calcNonPublicLoadPerSession(int iColNbChanged);
     void getStartTime();
     void retrieveData();
-    void setElectricityDefaultNonPublic();
     void storeData();
 
     //-----------------------------------------------------------------------------------
@@ -113,13 +112,13 @@ private:
 
     double
         dAmount = 0.0,          // Amount of the record
-        dDefaultKWh = 7.7000,   // default amount load during 1 hour
+        dDefaultKWh = dKWhMaxDefault,   // default amount load during 1 hour
         dKWhPeriod[iMaxNbElectricityPeriods],   // KWh loaded during a given period
         dKWhPrice[iMaxNbElectricityPeriods],    // Price of KWh during given period
         dTotalKWh = 0.0;        // total amount of KWh loaded during load session
 
     int
-        iAccuEndPercentage = 90,    // default value for a load session
+        iAccuEndPercentage = iAccuEndPercentageDefault,    // default value for a load session
         iAccuStartPercentage = 0,
         iCostType = 0,
         iMillage = 0,

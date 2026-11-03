@@ -7,7 +7,6 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "AutoCost.h"
 #include "datainputdialog.h"
 #include "ui_datainputdialog.h"
 
@@ -30,8 +29,12 @@ DataInputDialog::DataInputDialog(QWidget *parent)
 
     ui->setupUi(this);
 
-    connect(this, &DataInputDialog::defaultKWhChanged,
-            this, &DataInputDialog::loadDefaultKWh);
+    //-----------------------------------------------------------------------------------
+    //
+    //  Setup signal slot configuration
+    //
+    connect(this, &DataInputDialog::signLoadElectricityDefaults,
+            this, &DataInputDialog::loadElectricityDefaults);
 
     //-----------------------------------------------------------------------------------
     //
@@ -213,6 +216,25 @@ void DataInputDialog::getStartTime()
 
 //---------------------------------------------------------------------------------------
 //
+//  loadElectricityDefaults
+//
+//  Slot: show the default default values of the electricity input:
+//      - default start time of load session
+//      - default max KWh
+//      - default end load session accu percentage
+//
+//---------------------------------------------------------------------------------------
+void DataInputDialog::loadElectricityDefaults()
+{
+    ui->lnDescription->setText("Laden");
+    ui->teStartTime->setDisplayFormat(strStartTimeFormat);
+    ui->teStartTime->setTime(QTime::fromString("00:00"));
+    ui->lnKWhMax->setText(QString::number(dKWhMaxDefault,'f', 1));
+    ui->lnAccuPercentageEnd->setText(QString::number(iAccuEndPercentageDefault));
+}
+
+//---------------------------------------------------------------------------------------
+//
 //  Handle different responses on DataInputDialog
 //
 //---------------------------------------------------------------------------------------
@@ -278,7 +300,7 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
 void DataInputDialog::on_deRecordDate_dateChanged(const QDate &date)
 {
     if (ElectricityCostModel)
-        ElectricityCostModel->loadDay();
+        ElectricityCostModel->loadDataDefault();
 }
 
 //---------------------------------------------------------------------------------------
@@ -366,7 +388,9 @@ void DataInputDialog::on_rbElectricity_toggled(bool checked)
     if (checked)
     {
         iCostType = CostRecElectricity;
-        setElectricityDefaultNonPublic();
+        emit signLoadElectricityDefaults();
+
+//        setElectricityDefaultNonPublic();
     }
     else
     {
@@ -384,7 +408,9 @@ void DataInputDialog::on_rbPublicLoadSession_toggled(bool checked)
     if (checked)
     {
         bPublicLoadSession = true;
-        setElectricityDefaultNonPublic();
+        emit signLoadElectricityDefaults();
+
+//        setElectricityDefaultNonPublic();
     }
     else
     {
@@ -433,9 +459,9 @@ void DataInputDialog::resetDialog()
     iStartHour = 0;
     iStartMinute = 0;
 
-    dDefaultKWh = 7.7000;   // default amount load during 1 hour
+    dDefaultKWh = dKWhMaxDefault;// default amount load during 1 hour
     dTotalKWh = 0.0;        // total amount of KWh loaded during load session
-    iAccuEndPercentage = 90;    // default value for a load session
+    iAccuEndPercentage = iAccuEndPercentageDefault;// default value for a load session
     iAccuStartPercentage = 0;
     iCostType = 0;
     iMillage = 0;
@@ -465,34 +491,6 @@ void DataInputDialog::retrieveData()
     daRecordDate = ui->deRecordDate->date();
     strDescription = ui->lnDescription->text();
     dAmount = ui->lnAmount->text().toFloat();
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  setElectricityDefaultNonPublic
-//
-//  Set default electricity input in dialog for non-public load session
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::setElectricityDefaultNonPublic()
-{
-    ui->lnDescription->setText("Laden");
-    ui->teStartTime->setDisplayFormat(strStartTimeFormat);
-    ui->teStartTime->setTime(QTime::fromString("00:00"));
-    emit defaultKWhChanged(dDefaultKWh);
-    ui->lnAccuPercentageEnd->setText(QString::number(iAccuEndPercentage));
-}
-
-//---------------------------------------------------------------------------------------
-//
-//  loadDefaultKWh
-//
-//  Slot: show the default/max KWh in the lnKWhMax field
-//
-//---------------------------------------------------------------------------------------
-void DataInputDialog::loadDefaultKWh(double dKWh)
-{
-    ui->lnKWhMax->setText(QString::number(dKWh,'f', 1));
 }
 
 //---------------------------------------------------------------------------------------

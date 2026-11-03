@@ -10,7 +10,6 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "AutoCost.h"
 #include "averagecostdatamodel.h"
 #include "tabledatamodel.h"
 #include <QObject>
@@ -52,7 +51,7 @@ AverageCostDataModel::AverageCostDataModel(QObject *parent)
 //---------------------------------------------------------------------------------------
 Qt::Alignment AverageCostDataModel::columnAlignment(int c) const
 {
-    return c == ElectrictyOverviewYear ? Qt::AlignHCenter : Qt::AlignRight;
+    return c == AverageCostOverviewYear ? Qt::AlignHCenter : Qt::AlignRight;
 }
 
 //---------------------------------------------------------------------------------------
@@ -83,7 +82,7 @@ void AverageCostDataModel::loadCostData(const DetailCostDataModel &detailModel)
     {
         switch (iColNb)
         {
-        case ElectrictyOverviewYear:
+        case AverageCostOverviewYear:
             return iRowNb == 0 ? QString("Total") : QString::number(years.at(iRowNb));
         case AverageCostOverviewTotal:
             if (iRowNb == 0)

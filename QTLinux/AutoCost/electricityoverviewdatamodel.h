@@ -51,4 +51,17 @@ private:
 
 };
 
+//-----------------------------------------------------------------------------------
+//
+//  Descriptive names for the Millage overview
+//
+enum ElectrictyOverviewColumn
+{
+    ElectrictyOverviewYear = 0,
+    ElectrictyOverviewKWh,
+    ElectrictyOverviewKWhKm,
+    ElectrictyOverviewKmKWh,
+    ElectrictyOverviewEuroKWh
+};
+
 #endif // ELECTRICITYOVERVIEWDATAMODEL_H

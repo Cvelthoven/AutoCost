@@ -10,7 +10,6 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "AutoCost.h"
 #include "tabledatamodel.h"
 #include "totalcostdatamodel.h"
 

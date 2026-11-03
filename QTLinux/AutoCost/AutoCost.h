@@ -20,8 +20,12 @@
 //
 //---------------------------------------------------------------------------------------
 const int
-    iMaxMillageYear = 10000,    // -> App settings, and per year adjustable
-    iMaxNbElectricityPeriods = 10;// -> App settings or dynamic
+    iAccuEndPercentageDefault = 90, // -> App settings
+    iMaxMillageYear = 10000,        // -> App settings, and per year adjustable
+    iMaxNbElectricityPeriods = 10;  // -> App settings or dynamic
+
+const double
+    dKWhMaxDefault = 7.7000;//  -> App settings,
 
 const QString
     strApplicationName = "AutoCost",
@@ -64,52 +68,6 @@ enum AppConfDatabase
     DBAppPassword
 };
 
-//-----------------------------------------------------------------------------------
-//
-//  Descriptive names for the Millage overview
-//
-enum AverageCostOverviewColumn
-{
-    AverageCostOverviewYear = 0,
-    AverageCostOverviewTotal,
-    AverageCostOverviewPeriodic,
-    AverageCostOverviewElectricity,
-    AverageCostOverviewOther,
-    AverageCostOverviewAccessory
-};
-
-//-----------------------------------------------------------------------------------
-//
-//  Enums for Cost overview dialog columns with descriptive names
-//
-enum CostOverViewCol
-{
-    CostOverViewDate = 0,
-    CostOverViewDescription,
-    CostOverViewPeriodic,
-    CostOverViewElectricity,
-    CostOverViewOther,
-    CostOverViewAccessory,
-    CostOverViewMillage,
-    CostOverViewMillageTrip,
-    CostOverViewKWhTrip,
-    CostOverViewKWhLoaded,
-    CostOverViewKWhperKM,
-    CostOverViewAvgEuroPerKWh,
-    CostOverViewKWhPerPercentage,
-    CostOverViewKMPerPercentage,
-    CostOverViewAccuStartPercentage,
-    CostOverViewAccuEndPercentage,
-    CostOverViewAccuUsagePercentage,
-    CostOverViewAccuLoadDeltaPercentage,
-    CostOverViewLoadStartTime,
-    CostOverViewRecID,
-    CostOverViewElecRecId,
-    CostOverViewRecType,
-    CostOverViewPeriod
-
-};
-
 //---------------------------------------------------------------------------------------
 //
 //  Descriptove names for the record types
@@ -141,47 +99,5 @@ enum DataColumnFields
     DataColElectricityCapBatteryEnd,
     DataColElectricityStartTime
 };
-
-//-----------------------------------------------------------------------------------
-//
-//  Descriptive names for the Millage overview
-//
-enum ElectrictyOverviewColumn
-{
-    ElectrictyOverviewYear = 0,
-    ElectrictyOverviewKWh,
-    ElectrictyOverviewKWhKm,
-    ElectrictyOverviewKmKWh,
-    ElectrictyOverviewEuroKWh
-};
-
-//-----------------------------------------------------------------------------------
-//
-//  Descriptive names for the Millage overview
-//
-enum MillageOverviewColumn
-{
-    MillageOverviewYear = 0,
-    MillageOverviewStart,
-    MillageOverviewCurrent,
-    MillageOverviewLimit,
-    MillageOverviewUsed,
-    MillageOverviewRemaining
-};
-
-//-----------------------------------------------------------------------------------
-//
-//  Descriptive names for the total Cost overview
-//
-enum TotalCostColumn
-{
-    TotalCostViewYear = 0,
-    TotalCostViewTotal,
-    TotalCostViewPeriodic,
-    TotalCostViewElectricity,
-    TotalCostViewOther,
-    TotalCostViewAccessory
-};
-
 
 #endif // AUTOCOST_H

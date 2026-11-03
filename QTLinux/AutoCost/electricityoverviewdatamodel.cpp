@@ -10,7 +10,6 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "AutoCost.h"
 #include "electricityoverviewdatamodel.h"
 #include "tabledatamodel.h"
 #include <QObject>
