@@ -58,14 +58,26 @@ DataInputDialog::DataInputDialog(QWidget *parent)
 
     //-----------------------------------------------------------------------------------
     //
-    //  Electricity price/KWh and KWh loaded per 15 minutes for the selected date
+    //  Create tablemodel
     //
     ElectricityCostModel = new ElectricityCostInputModel(this);
-    ElectricityCostModel->loadDay(ui->deRecordDate->date());
+//    ElectricityCostModel->loadDay(ui->deRecordDate->date());
     ui->tblElectricityCostInput->setModel(ElectricityCostModel);
-    ui->tblElectricityCostInput->setColumnWidth(ElectricityCostInputTime, 150);
-    ui->tblElectricityCostInput->setColumnWidth(ElectricityCostInputPrice, 110);
-    ui->tblElectricityCostInput->setColumnWidth(ElectricityCostInputKWh, 110);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Format table
+    //
+    ui->tblElectricityCostInput->setAlternatingRowColors(true);
+    ui->tblElectricityCostInput->setColumnWidth(ElectricityCostInputHour, 55);
+    ui->tblElectricityCostInput->setColumnWidth(ElectricityCostInputHour00, 55);
+    ui->tblElectricityCostInput->setColumnWidth(ElectricityCostInputKWh00, 55);
+    ui->tblElectricityCostInput->setColumnWidth(ElectricityCostInputHour15, 55);
+    ui->tblElectricityCostInput->setColumnWidth(ElectricityCostInputKWh15, 55);
+    ui->tblElectricityCostInput->setColumnWidth(ElectricityCostInputHour30, 55);
+    ui->tblElectricityCostInput->setColumnWidth(ElectricityCostInputKWh30, 55);
+    ui->tblElectricityCostInput->setColumnWidth(ElectricityCostInputHour45, 55);
+    ui->tblElectricityCostInput->setColumnWidth(ElectricityCostInputKWh45, 55);
 }
 
 //---------------------------------------------------------------------------------------
@@ -263,7 +275,7 @@ void DataInputDialog::on_buttonBox_clicked(QAbstractButton *button)
 void DataInputDialog::on_deRecordDate_dateChanged(const QDate &date)
 {
     if (ElectricityCostModel)
-        ElectricityCostModel->loadDay(date);
+        ElectricityCostModel->loadDay();
 }
 
 //---------------------------------------------------------------------------------------

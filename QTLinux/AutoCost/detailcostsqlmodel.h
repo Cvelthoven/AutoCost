@@ -20,7 +20,6 @@
 //---------------------------------------------------------------------------------------
 #include <QObject>
 #include <QSqlRelationalTableModel>
-#include <QString>
 
 //---------------------------------------------------------------------------------------
 //
@@ -36,91 +35,9 @@ public:
 
     ~DetailCostSqlModel();
 
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Public class variables
-    //
-    //-----------------------------------------------------------------------------------
-
 private:
-    //-----------------------------------------------------------------------------------
-    //
-    //  Private class methods
-    //
-    //-----------------------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Private class variables
-    //
-    //-----------------------------------------------------------------------------------
     bool
         bAppDataOpen = false;
 };
-
-//------------------------------------------------
-// Old code
-//-------------------------------------------------
-// class DetailCostSqlModel
-//     : public QSqlRelationalTableModel
-// {
-//     Q_OBJECT
-// public:
-//     DetailCostSqlModel(QObject *parent = nullptr);
-
-//     ~DetailCostSqlModel();
-
-//     int LoadDetailCostData();
-
-//     // void GetRecordData(const int iRecordNb,
-//     //                   int* iRecID,
-//     //                   int* iRecordType,
-//     //                   QString* strDate,
-//     //                   QString* strDescription,
-//     //                   double* dTotalCost,
-//     //                   int* iFrequency);
-
-//     //-----------------------------------------------------------------------------------
-//     //
-//     //  Public class variables
-//     //
-//     //-----------------------------------------------------------------------------------
-//     QSqlQuery quDetailCostOverview;
-
-//     //    QSqlTableModel *tmSqlDetailCostRecords;
-
-//     bool bAppDataOpen = false;
-
-//     int
-//         iNbRows = 0;
-
-// private:
-//     //-----------------------------------------------------------------------------------
-//     //
-//     //  Private class methods
-//     //
-//     //-----------------------------------------------------------------------------------
-
-//     //-----------------------------------------------------------------------------------
-//     //
-//     //  Private class variables
-//     //
-//     //-----------------------------------------------------------------------------------
-//     PostGreSQLDB* acAutoCostTblData;
-
-//     bool bEncrypted = false;
-
-//     enum acAutoCostFields
-//     {
-//         RecordID = 0,
-//         RecordType,
-//         Date,
-//         Description,
-//         Amount,
-//         Frequency
-//     };
-
-// };
 
 #endif // DETAILCOSTSQLMODEL_H
