@@ -35,7 +35,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         postgresqldb.h postgresqldb.cpp
 
 
-        detailcostsqlmodel.h detailcostsqlmodel.cpp
+
 
         datainputdialog.h datainputdialog.cpp datainputdialog.ui
         datainput.h datainput.cpp
