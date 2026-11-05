@@ -193,4 +193,24 @@ enum CostOverViewCol
 
 };
 
+//---------------------------------------------------------------------------------------
+//
+//  Descriptive column names of DetailCostDataModel query
+//
+enum DataColumnFields
+{
+    DataColAutoCostRecID = 0,
+    DataColAutoCostRecType,
+    DataColAutoCostDate,
+    DataColAutoCostDescription,
+    DataColAutoCostTotalCost,
+    DataColAutoCostFrequency,
+    DataColElectricityRecID,
+    DataColElectricityKmTotal,
+    DataColElectricityKWhLoaded,
+    DataColElectricityCapBattteryStart,
+    DataColElectricityCapBatteryEnd,
+    DataColElectricityStartTime
+};
+
 #endif // DETAILCOSTDATAMODEL_H

@@ -48,6 +48,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         electricitycostinputmodel.h electricitycostinputmodel.cpp
         tabledatamodel.h tabledatamodel.cpp
         averagecostdatamodel.h averagecostdatamodel.cpp
+        appsettingdatamodel.h appsettingdatamodel.cpp
 
 
 

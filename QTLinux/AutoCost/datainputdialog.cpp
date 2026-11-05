@@ -65,10 +65,11 @@ DataInputDialog::DataInputDialog(QWidget *parent)
     //-----------------------------------------------------------------------------------
     //
     //  Create tablemodel
+    //  Move to the signal slot loadElectricityDefaults
     //
-    ElectricityCostModel = new ElectricityCostInputModel(this);
-//    ElectricityCostModel->loadDay(ui->deRecordDate->date());
-    ui->tblElectricityCostInput->setModel(ElectricityCostModel);
+    // ElectricityCostModel = new ElectricityCostInputModel(this);
+    // ElectricityCostModel->loadDataDefault();
+    // ui->tblElectricityCostInput->setModel(ElectricityCostModel);
 
     //-----------------------------------------------------------------------------------
     //
@@ -231,6 +232,15 @@ void DataInputDialog::loadElectricityDefaults()
     ui->teStartTime->setTime(QTime::fromString("00:00"));
     ui->lnKWhMax->setText(QString::number(dKWhMaxDefault,'f', 1));
     ui->lnAccuPercentageEnd->setText(QString::number(iAccuEndPercentageDefault));
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Create tablemodel
+    //
+    ElectricityCostModel = new ElectricityCostInputModel(this);
+    ElectricityCostModel->loadDataDefault();
+    ui->tblElectricityCostInput->setModel(ElectricityCostModel);
+
 }
 
 //---------------------------------------------------------------------------------------

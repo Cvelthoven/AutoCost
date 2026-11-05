@@ -33,32 +33,15 @@ const QString
     strApplicationOrganization = "CVelthoven",
     //-----------------------------------------------------------------------------------
     //
-    //  Configuration General section key names
-    //
-    strSectionNameGeneral = "General",//!!!!1!!!! No longer used
-    strGeneralSSHKeyKey = "SSHKey",//!!!!!!!!!!!! No longer used
-    strGeneralSSHIVKey = "SSHIV",//!!!!!!!!!!!!!! No longer used
-    //-----------------------------------------------------------------------------------
-    //
-    //  Configuraton Application Database section key names
-    //
-    strSectionNameAppDB = "Application database",
-    strAppDBServerIPKey = "ServerIP",
-    strAppDBServerPortKey = "ServerPort",
-    strAppDBNameKey = "AppDBName",
-    strAppDBUserIDKey = "AppDBUserID",
-    strAppDBUserPasswordKey = "AppDBUserPassword",
-    //-----------------------------------------------------------------------------------
-    //
     //  Other QString values
     //
     strApplicationDatabaseConnectionName = "AppDataDBConnection";
-
 
 //---------------------------------------------------------------------------------------
 //
 //  Enums for the application settings in configuration file
 //
+//  Used in mainwindow needs to be removed
 enum AppConfDatabase
 {
     DBServerIP = 0,
@@ -72,32 +55,13 @@ enum AppConfDatabase
 //
 //  Descriptove names for the record types
 //
+//  Used in detailcosdatamodel and datainputdialog needs to be removed
 enum CostRecordTypes
 {
     CostRecPeriodic = 1,
     CostRecElectricity,
     CostRecOther,
     CostRecAccessory
-};
-
-//---------------------------------------------------------------------------------------
-//
-//  Descriptive column names of DetailCostDataModel query
-//
-enum DataColumnFields
-{
-    DataColAutoCostRecID = 0,
-    DataColAutoCostRecType,
-    DataColAutoCostDate,
-    DataColAutoCostDescription,
-    DataColAutoCostTotalCost,
-    DataColAutoCostFrequency,
-    DataColElectricityRecID,
-    DataColElectricityKmTotal,
-    DataColElectricityKWhLoaded,
-    DataColElectricityCapBattteryStart,
-    DataColElectricityCapBatteryEnd,
-    DataColElectricityStartTime
 };
 
 #endif // AUTOCOST_H

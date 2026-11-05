@@ -55,32 +55,32 @@ AppSettingsDialog::AppSettingsDialog(QWidget *parent)
     //  General Options
     //
     //-----------------------------------------------------------------------------------
-    strTempSectionName = strSectionNameGeneral;
-    for (int iCnt1 = AppOptionSSHKey; iCnt1 <= AppOptionSSHIV; iCnt1++)
-    {
-        switch (iCnt1)
-        {
-        case AppOptionSSHKey:
-            strTempKeyName = strGeneralSSHKeyKey;
-            bEncrypted = false;
-            break;
-        case AppOptionSSHIV:
-            strTempKeyName = strGeneralSSHIVKey;
-            bEncrypted = false;
-            break;
-        default:
-            break;
-        }
-        if (AppConfiguration->GetAppSettings(strTempSectionName,strTempKeyName,strTempKeyValue, bEncrypted) == 0)
-        {
-            lsGeneralOptions.append(strTempKeyValue);
-            strTempKeyValue = "";
-        }
-        else
-        {
-            lsGeneralOptions.append("");
-        }
-    }
+   // strTempSectionName = strSectionNameGeneral;
+    // for (int iCnt1 = AppOptionSSHKey; iCnt1 <= AppOptionSSHIV; iCnt1++)
+    // {
+    //     switch (iCnt1)
+    //     {
+    //     case AppOptionSSHKey:
+    //         strTempKeyName = strGeneralSSHKeyKey;
+    //         bEncrypted = false;
+    //         break;
+    //     case AppOptionSSHIV:
+    //         strTempKeyName = strGeneralSSHIVKey;
+    //         bEncrypted = false;
+    //         break;
+    //     default:
+    //         break;
+    //     }
+    //     if (AppConfiguration->GetAppSettings(strTempSectionName,strTempKeyName,strTempKeyValue, bEncrypted) == 0)
+    //     {
+    //         lsGeneralOptions.append(strTempKeyValue);
+    //         strTempKeyValue = "";
+    //     }
+    //     else
+    //     {
+    //         lsGeneralOptions.append("");
+    //     }
+    // }
 
     //-----------------------------------------------------------------------------------
     //
@@ -135,20 +135,20 @@ AppSettingsDialog::AppSettingsDialog(QWidget *parent)
     //  General Options
     //
     //-----------------------------------------------------------------------------------
-    for (int iCnt1 = AppOptionSSHKey; iCnt1 <= AppOptionSSHIV; iCnt1++)
-    {
-        switch (iCnt1)
-        {
-        case AppOptionSSHKey:
-            ui->lneSSHKey->setText(lsGeneralOptions[iCnt1]);
-            break;
-        case AppOptionSSHIV:
-            ui->lneSSHIV->setText(lsGeneralOptions[iCnt1]);
-            break;
-        default:
-            break;
-        }
-    }
+//     for (int iCnt1 = AppOptionSSHKey; iCnt1 <= AppOptionSSHIV; iCnt1++)
+//     {
+//         switch (iCnt1)
+//         {
+//         case AppOptionSSHKey:
+// //            ui->lneSSHKey->setText(lsGeneralOptions[iCnt1]);
+//             break;
+//         case AppOptionSSHIV:
+// //            ui->lneSSHIV->setText(lsGeneralOptions[iCnt1]);
+//             break;
+//         default:
+//             break;
+//         }
+//     }
 
     //-----------------------------------------------------------------------------------
     //
@@ -234,36 +234,36 @@ void AppSettingsDialog::on_buttonBox_accepted()
     //  General options
     //
     //-----------------------------------------------------------------------------------
-    strSectionName = strSectionNameGeneral;
-    for (iCnt1 = AppOptionSSHKey; iCnt1 <= AppOptionSSHIV; iCnt1++)
-    {
-        switch (iCnt1)
-        {
-        case AppOptionSSHKey:
-            strTempKeyValue = ui->lneSSHKey->text();
-            strKeyName = strGeneralSSHKeyKey;
-            bEncrypted = false;
-            break;
-        case AppOptionSSHIV:
-            strTempKeyValue = ui->lneSSHIV->text();
-            strKeyName = strGeneralSSHIVKey;
-            bEncrypted = false;
-            break;
-        default:
-            break;
-        }
-        //-------------------------------------------------------------------------------
+    // strSectionName = strSectionNameGeneral;
+    // for (iCnt1 = AppOptionSSHKey; iCnt1 <= AppOptionSSHIV; iCnt1++)
+    // {
+    //     switch (iCnt1)
+    //     {
+    //     case AppOptionSSHKey:
+    //         // strTempKeyValue = ui->lneSSHKey->text();
+    //         // strKeyName = strGeneralSSHKeyKey;
+    //         // bEncrypted = false;
+    //         break;
+    //     case AppOptionSSHIV:
+    //         // strTempKeyValue = ui->lneSSHIV->text();
+    //         // strKeyName = strGeneralSSHIVKey;
+    //         // bEncrypted = false;
+    //         break;
+    //     default:
+    //         break;
+    //     }
+    //     //-------------------------------------------------------------------------------
         //
         //  Compare value with value in memory
         //  Update is changed in memory and file
         //
         //-------------------------------------------------------------------------------
-        if (lsGeneralOptions[iCnt1] != strTempKeyValue)
-        {
-            lsGeneralOptions[iCnt1] = strTempKeyValue;
-            AppConfiguration->SetAppSettings(strSectionName,strKeyName,lsGeneralOptions[iCnt1], bEncrypted);
-        }
-    }
+    //     if (lsGeneralOptions[iCnt1] != strTempKeyValue)
+    //     {
+    //         lsGeneralOptions[iCnt1] = strTempKeyValue;
+    //         AppConfiguration->SetAppSettings(strSectionName,strKeyName,lsGeneralOptions[iCnt1], bEncrypted);
+    //     }
+    // }
 
     //-----------------------------------------------------------------------------------
     //

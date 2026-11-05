@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>544</width>
-    <height>378</height>
+    <width>1070</width>
+    <height>303</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>330</y>
+     <x>270</x>
+     <y>250</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -29,211 +29,311 @@
     <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lneSSHIV">
+  <widget class="QGroupBox" name="gbAppDatabase">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>90</y>
-     <width>400</width>
-     <height>26</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblGeneralOptionsTitle">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>30</y>
-     <width>460</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>11</pointsize>
-     <bold>true</bold>
-     <underline>true</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>General Options</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblSSHKey">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>60</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>SSH Key:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblSSHIV">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>90</y>
-     <width>60</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>SSH IV:</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lneSSHKey">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>60</y>
-     <width>400</width>
-     <height>26</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblAppDBOptionsTitle">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>130</y>
-     <width>460</width>
-     <height>18</height>
+     <x>20</x>
+     <y>50</y>
+     <width>330</width>
+     <height>190</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <bold>true</bold>
+    </font>
+   </property>
+   <property name="title">
+    <string>Application Database configuration</string>
+   </property>
+   <widget class="QLineEdit" name="lneAppDBPassword">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>150</y>
+      <width>200</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <bold>false</bold>
+     </font>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lneAppDBName">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>90</y>
+      <width>200</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <bold>false</bold>
+     </font>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lneAppServerIP">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>30</y>
+      <width>200</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <bold>false</bold>
+     </font>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblAppServerPort">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>60</y>
+      <width>105</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Server port:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblAppDBUserID">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>120</y>
+      <width>105</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>DB userID:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblAppDBName">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>90</y>
+      <width>105</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Database name:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lneAppDBUserID">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>120</y>
+      <width>200</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <bold>false</bold>
+     </font>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblAppServerIP">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>30</y>
+      <width>105</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Server IP:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblAppDBPassword">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>150</y>
+      <width>105</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Password:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lneAppServerPort">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>60</y>
+      <width>200</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <bold>false</bold>
+     </font>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>1030</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+     <bold>true</bold>
      <underline>true</underline>
     </font>
    </property>
    <property name="text">
-    <string>AutoCost database Options</string>
+    <string>Application configuration</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lblAppServerIP">
+  <widget class="QGroupBox" name="gbLoadSessionDefaults">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>170</y>
-     <width>100</width>
-     <height>26</height>
+     <x>370</x>
+     <y>50</y>
+     <width>330</width>
+     <height>190</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Server IP:</string>
+   <property name="font">
+    <font>
+     <bold>true</bold>
+    </font>
    </property>
+   <property name="title">
+    <string>Load session defaults</string>
+   </property>
+   <widget class="QLabel" name="lbLoadSesDefKWh">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>30</y>
+      <width>140</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>KWh:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbLoadSesDefAccuEnd">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>60</y>
+      <width>140</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Accu end percentage:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lnLoadSesDefKWh">
+    <property name="geometry">
+     <rect>
+      <x>145</x>
+      <y>30</y>
+      <width>50</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <bold>false</bold>
+     </font>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lnLoadSesDefAccuEnd">
+    <property name="geometry">
+     <rect>
+      <x>145</x>
+      <y>60</y>
+      <width>50</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <bold>false</bold>
+     </font>
+    </property>
+   </widget>
   </widget>
-  <widget class="QLabel" name="lblAppServerPort">
+  <widget class="QGroupBox" name="gbMiscSettings">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>200</y>
-     <width>100</width>
-     <height>26</height>
+     <x>720</x>
+     <y>50</y>
+     <width>330</width>
+     <height>190</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Server port:</string>
+   <property name="font">
+    <font>
+     <bold>true</bold>
+    </font>
    </property>
-  </widget>
-  <widget class="QLabel" name="lblAppDBName">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>230</y>
-     <width>100</width>
-     <height>26</height>
-    </rect>
+   <property name="title">
+    <string>Miscellaneous settings</string>
    </property>
-   <property name="text">
-    <string>Database name:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblAppDBUserID">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>260</y>
-     <width>100</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>DB userID:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblAppDBPassword">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>290</y>
-     <width>91</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Password:</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lneAppServerIP">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>170</y>
-     <width>200</width>
-     <height>26</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lneAppServerPort">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>200</y>
-     <width>200</width>
-     <height>26</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lneAppDBName">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>230</y>
-     <width>200</width>
-     <height>26</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lneAppDBUserID">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>260</y>
-     <width>200</width>
-     <height>26</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lneAppDBPassword">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>290</y>
-     <width>200</width>
-     <height>26</height>
-    </rect>
-   </property>
+   <widget class="QLabel" name="lbMiscMillageYear">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>30</y>
+      <width>85</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Millage/year:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lnMiscMillageYear">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>30</y>
+      <width>100</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <bold>false</bold>
+     </font>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

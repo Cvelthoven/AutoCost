@@ -66,15 +66,25 @@ Qt::ItemFlags ElectricityCostInputModel::flags(const QModelIndex &index) const
     return f;
 }
 
+//---------------------------------------------------------------------------------------
+//
+//  loadDataDefault
+//
+//  Fill the electricity cost table with the default values:
+//  - default KWh per 15 minutes, sufficient fields to accomodated the complete session
+//  - set euro/Kwh to 0.00
+//  - create enough rows for each expected hour of the load session
+//  - set the hour at the beginning of each row
+//
+//---------------------------------------------------------------------------------------
 bool ElectricityCostInputModel::loadDataDefault()
 {
     beginResetModel();
-//    dDay = date;
     vPrice = QVector<QVariant>(iSlotsPerDay);
     vKWh = QVector<QVariant>(iSlotsPerDay);
 
     endResetModel();
-    return dDay.isValid();
+    return true;
 }
 
 //-------------- Old code remove -----------------

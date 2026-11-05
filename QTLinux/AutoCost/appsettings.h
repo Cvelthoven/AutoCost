@@ -2,6 +2,9 @@
 //
 //  Module: appsettings.h
 //
+//  Class AppSettings contains the methodes that read and write the application
+//  configuration file, including decription or encryption.
+//
 //---------------------------------------------------------------------------------------
 #ifndef APPSETTINGS_H
 #define APPSETTINGS_H

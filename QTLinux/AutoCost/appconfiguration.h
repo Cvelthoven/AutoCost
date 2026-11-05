@@ -5,6 +5,8 @@
 //  This class contains the application settings during the run of the application.
 //  It uses the class AppSettings for retrieval and maintenance on file
 //
+//  Will be replaced by AppSettingDataModel
+//
 //---------------------------------------------------------------------------------------
 #ifndef APPCONFIGURATION_H
 #define APPCONFIGURATION_H

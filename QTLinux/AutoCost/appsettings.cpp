@@ -2,6 +2,9 @@
 //
 //  Module: appsettings.cpp
 //
+//  Class AppSettings contains the methodes that read and write the application
+//  configuration file, including decription or encryption.
+//
 //---------------------------------------------------------------------------------------
 //
 //  Header files
@@ -88,7 +91,6 @@ AppSettings::AppSettings(const QString &strApplicationDomain,
     QCoreApplication::setApplicationName(strApplicationName);
     QCoreApplication::setOrganizationName(strApplicationOrganization);
 
-
 }
 
 //---------------------------------------------------------------------------------------
@@ -145,7 +147,6 @@ int AppSettings::GetAppSettings(const QString &strKeySection,
         {
             const QString stored = temp.toString();
 
-    //        QSettings programConfig; // or reuse the one you already created above if you prefer
             const QByteArray key32 = ensureCryptoKey32(programConfig);
 
             if (!key32.isEmpty() && isProbablyEncryptedPayloadV2(stored))
