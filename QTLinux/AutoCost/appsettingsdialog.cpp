@@ -8,6 +8,7 @@
 //
 //---------------------------------------------------------------------------------------
 #include "appsettings.h"
+#include "appsettingdatamodel.h"
 #include "appsettingsdialog.h"
 #include "ui_appsettingsdialog.h"
 #include "AutoCost.h"

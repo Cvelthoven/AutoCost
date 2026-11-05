@@ -72,15 +72,6 @@ private:
         lsGeneralOptions,
         lsAppDBOptions;
 
-    enum AppAppDBOptions
-    {
-        AppOptionServerIP = 0,
-        AppOptionServerPort,
-        AppOptionAppDBName,
-        AppOptionAppDBUserID,
-        AppOptionAppDBPassword
-    };
-
     enum AppLoadSessionDefault
     {
         AppLoadSessionWKhDef = 0,

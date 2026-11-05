@@ -20,7 +20,7 @@
 
 //---------------------------------------------------------------------------------------
 //
-//  AppSettings default constructor
+//  AppConfiguration default constructor
 //
 //---------------------------------------------------------------------------------------
 AppConfiguration::AppConfiguration()

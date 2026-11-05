@@ -19,9 +19,10 @@
 #include "AutoCost.h"
 #include "appsettings.h"
 #include <QString>
+
 //---------------------------------------------------------------------------------------
 //
-//  Clsass AppSettings definitions
+//  Class AppConfiguration definitions
 //
 //---------------------------------------------------------------------------------------
 class AppConfiguration

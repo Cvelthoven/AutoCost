@@ -20,17 +20,21 @@
 //
 //---------------------------------------------------------------------------------------
 const int
+    // must be removed used in millageoverviewdatamodel and datainput dialog
     iAccuEndPercentageDefault = 90, // -> App settings
     iMaxMillageYear = 10000,        // -> App settings, and per year adjustable
     iMaxNbElectricityPeriods = 10;  // -> App settings or dynamic
 
 const double
+    // must be removed used in millageoverviewdatamodel and datainput dialog
     dKWhMaxDefault = 7.7000;//  -> App settings,
 
 const QString
+    // still use in appconfiguration must be removed
     strApplicationName = "AutoCost",
     strApplicationDomain = "CVelthoven.com",
     strApplicationOrganization = "CVelthoven",
+
     //-----------------------------------------------------------------------------------
     //
     //  Other QString values
