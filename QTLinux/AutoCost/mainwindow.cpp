@@ -5,6 +5,11 @@
 //  Main module the handles the GUI of the application
 //
 //---------------------------------------------------------------------------------------
+//
+//  Header files
+//
+//---------------------------------------------------------------------------------------
+#include "appsettingdatamodel.h"
 #include "AutoCost.h"
 #include "detailcostdatamodel.h"
 #include "electricityoverviewdatamodel.h"
@@ -14,6 +19,7 @@
 #include "postgresqldb.h"
 #include "totalcostdatamodel.h"
 
+#include <QMainWindow>
 #include <QString>
 #include <QTableView>
 
@@ -372,6 +378,13 @@ void MainWindow::ConfigureAutoTotalCost()
 int MainWindow::ConnectApplicationDataDB()
 {
     int iRC = 0;
+    QVector<QString> svDBConfig;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Retrieve Application DB config
+    //
+    svDBConfig = ApplicationConf->getStvAppDBConf();
 
     //-----------------------------------------------------------------------------------
     //
@@ -384,11 +397,11 @@ int MainWindow::ConnectApplicationDataDB()
     //  Configure the database connection
     //
     AppDataDB->configure(
-        ApplicationConfiguration->ApplicationDBConfig[DBServerIP],
-        ApplicationConfiguration->ApplicationDBConfig[DBServerPort].toInt(),
-        ApplicationConfiguration->ApplicationDBConfig[DBName],
-        ApplicationConfiguration->ApplicationDBConfig[DBAppUserId],
-        ApplicationConfiguration->ApplicationDBConfig[DBAppPassword],
+        svDBConfig[AppOptionServerIP],
+        svDBConfig[AppOptionServerPort].toInt(),
+        svDBConfig[AppOptionAppDBName],
+        svDBConfig[AppOptionAppDBUserID],
+        svDBConfig[AppOptionAppDBPassword],
         strApplicationDatabaseConnectionName);
 
     //-----------------------------------------------------------------------------------
@@ -417,8 +430,7 @@ int MainWindow::ProgramConfigurationLoad()
     //
     //  Retrieve the application configuration available at startup of application
     //
-    //-----------------------------------------------------------------------------------
-    ApplicationConfiguration = new AppConfiguration();
+    ApplicationConf = new AppSettingDataModel();
     return 0;
 }
 

@@ -45,14 +45,19 @@ const QString
 //
 //  Enums for the application settings in configuration file
 //
-//  Used in mainwindow needs to be removed
-enum AppConfDatabase
+//---------------------------------------------------------------------------------------
+//
+//  Descriptive names for the Application database configuration values
+//
+//  Use in MainWindow and AppSettingsDataModel
+//
+enum AppAppDBOptions
 {
-    DBServerIP = 0,
-    DBServerPort,
-    DBName,
-    DBAppUserId,
-    DBAppPassword
+    AppOptionServerIP = 0,
+    AppOptionServerPort,
+    AppOptionAppDBName,
+    AppOptionAppDBUserID,
+    AppOptionAppDBPassword
 };
 
 //---------------------------------------------------------------------------------------

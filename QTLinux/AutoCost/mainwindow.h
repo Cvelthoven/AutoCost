@@ -12,6 +12,7 @@
 //
 //---------------------------------------------------------------------------------------
 #include "appconfiguration.h"
+#include "appsettingdatamodel.h"
 #include "appsettingsdialog.h"
 #include "averagecostdatamodel.h"
 #include "datainput.h"
@@ -57,7 +58,6 @@ private:
     //
     //  Private methods
     //
-    //-----------------------------------------------------------------------------------
     void AverageCostOverviewTable();
     void ConfigureAutoCostDetails();
     void ConfigureAutoTotalCost();
@@ -70,8 +70,7 @@ private:
     //
     //  Private variables
     //
-    //-----------------------------------------------------------------------------------
-    AppConfiguration* ApplicationConfiguration = nullptr;
+    AppSettingDataModel* ApplicationConf =nullptr;
     AverageCostDataModel* AverageCostDataModelTable = nullptr;
     DataInput* ManualData = nullptr;
     DetailCostDataModel* DetailCostDataModelTable = nullptr;

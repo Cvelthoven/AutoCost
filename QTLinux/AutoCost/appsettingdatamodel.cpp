@@ -8,6 +8,7 @@
 //---------------------------------------------------------------------------------------
 #include "appsettingdatamodel.h"
 #include "appsettings.h"
+#include "AutoCost.h"
 
 #include <QString>
 #include <QVector>
@@ -23,7 +24,7 @@ AppSettingDataModel::AppSettingDataModel()
     //
     //  Initialize values
     //
-    for (int iCnt1 = 0; iCnt1 < AppOptionAppDBPassword; iCnt1++)
+    for (int iCnt1 = 0; iCnt1 <= AppOptionAppDBPassword; iCnt1++)
     {
         stvAppDBConf.append("");
     }
@@ -98,6 +99,79 @@ QVector<QString> AppSettingDataModel::getStvAppDBConf() const
 //---------------------------------------------------------------------------------------
 void AppSettingDataModel::ReadAutoCostConf()
 {
+
+    ReadAutoCostConfAppDB();
+    ReadAutoCostConfLoadSessionDefaults();
+    ReadAutoCostConfMiscellaneous();
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  ReadAutoCostConfAppDB
+//
+//---------------------------------------------------------------------------------------
+void AppSettingDataModel::ReadAutoCostConfAppDB()
+{
+    ApplicationConfiguration->GetAppSettings(strSectionNameAppDB,
+                                             strAppDBServerIPKey,
+                                             stvAppDBConf[AppOptionServerIP],
+                                             false);
+    ApplicationConfiguration->GetAppSettings(strSectionNameAppDB,
+                                             strAppDBServerPortKey,
+                                             stvAppDBConf[AppOptionServerPort],
+                                             false);
+    ApplicationConfiguration->GetAppSettings(strSectionNameAppDB,
+                                             strAppDBNameKey,
+                                             stvAppDBConf[AppOptionAppDBName],
+                                             false);
+    ApplicationConfiguration->GetAppSettings(strSectionNameAppDB,
+                                             strAppDBUserIDKey,
+                                             stvAppDBConf[AppOptionAppDBUserID],
+                                             false);
+    ApplicationConfiguration->GetAppSettings(strSectionNameAppDB,
+                                             strAppDBUserPasswordKey,
+                                             stvAppDBConf[AppOptionAppDBPassword],
+                                             true);
+
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  ReadAutoCostConfLoadSessionDefaults
+//
+//---------------------------------------------------------------------------------------
+void AppSettingDataModel::ReadAutoCostConfLoadSessionDefaults()
+{
+    QString strKeyValueTemp;
+
+    ApplicationConfiguration->GetAppSettings(strSectionNameLoadSession,
+                                             strLoadSessionKWh,
+                                             strKeyValueTemp,
+                                             false);
+    dKWhDef = strKeyValueTemp.toDouble();
+
+    ApplicationConfiguration->GetAppSettings(strSectionNameLoadSession,
+                                             strLoadSessionAcceEndPercentage,
+                                             strKeyValueTemp,
+                                             false);
+    iAccuDefEndPercentage = strKeyValueTemp.toInt();
+
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  ReadAutoCostConfMiscellaneous
+//
+//---------------------------------------------------------------------------------------
+void AppSettingDataModel::ReadAutoCostConfMiscellaneous()
+{
+    QString strKeyValueTemp;
+
+    ApplicationConfiguration->GetAppSettings(strSectionNameMiscellaneous,
+                                             strMiscellaneousMillageYear,
+                                             strKeyValueTemp,
+                                             false);
+    iMillageYear = strKeyValueTemp.toInt();
 
 }
 

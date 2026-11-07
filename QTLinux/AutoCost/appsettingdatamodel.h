@@ -46,6 +46,9 @@ private:
     //  Methodes
     //
     void ReadAutoCostConf();
+    void ReadAutoCostConfAppDB();
+    void ReadAutoCostConfLoadSessionDefaults();
+    void ReadAutoCostConfMiscellaneous();
 
     //-----------------------------------------------------------------------------------
     //
@@ -95,19 +98,6 @@ private:
         stvAppDBConf;
 
      AppSettings* ApplicationConfiguration = nullptr;
-};
-
-//---------------------------------------------------------------------------------------
-//
-//  Descriptive names for the Application database configuration values
-//
-enum AppAppDBOptions
-{
-    AppOptionServerIP = 0,
-    AppOptionServerPort,
-    AppOptionAppDBName,
-    AppOptionAppDBUserID,
-    AppOptionAppDBPassword
 };
 
 #endif // APPSETTINGDATAMODEL_H
