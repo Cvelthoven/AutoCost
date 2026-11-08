@@ -40,28 +40,7 @@ public:
     int getIMillageYear() const;
     void setIMillageYear(int newIMillageYear);
 
-private:
-    //-----------------------------------------------------------------------------------
-    //
-    //  Methodes
-    //
-    void ReadAutoCostConf();
-    void ReadAutoCostConfAppDB();
-    void ReadAutoCostConfLoadSessionDefaults();
-    void ReadAutoCostConfMiscellaneous();
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Values
-    //
-    double
-        dKWhDef;
-
-    int
-        iAccuDefEndPercentage,
-        iMillageYear;
-
-     const QString
+    const QString
         //-------------------------------------------------------------------------------
         //
         //  Configuration for AppSettings
@@ -93,6 +72,27 @@ private:
         //
         strSectionNameMiscellaneous = "Miscellaneous",
         strMiscellaneousMillageYear = "MillageYear";
+
+private:
+    //-----------------------------------------------------------------------------------
+    //
+    //  Methodes
+    //
+    void ReadAutoCostConf();
+    void ReadAutoCostConfAppDB();
+    void ReadAutoCostConfLoadSessionDefaults();
+    void ReadAutoCostConfMiscellaneous();
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Values
+    //
+    double
+        dKWhDef;
+
+    int
+        iAccuDefEndPercentage,
+        iMillageYear;
 
     QVector<QString>
         stvAppDBConf;

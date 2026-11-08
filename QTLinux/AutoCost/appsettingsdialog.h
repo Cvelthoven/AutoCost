@@ -11,7 +11,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "appsettings.h"
+#include "appsettingdatamodel.h"
 
 #include <QDialog>
 
@@ -24,12 +24,14 @@ namespace Ui {
 class AppSettingsDialog;
 }
 
-class AppSettingsDialog : public QDialog
+class AppSettingsDialog : public QDialog,
+                          public AppSettingDataModel
 {
     Q_OBJECT
 
 public:
-    explicit AppSettingsDialog(QWidget *parent = nullptr);
+    AppSettingsDialog(QWidget *parent = nullptr,
+                      AppSettingDataModel *AppConfig = nullptr);
     ~AppSettingsDialog();
 
 private slots:
@@ -38,50 +40,20 @@ private slots:
 private:
     Ui::AppSettingsDialog *ui;
 
-    AppSettings *AppConfiguration;
+    AppSettingDataModel* ApplicationConfiguration = nullptr;
 
     bool
-        bEncrypted = false;
+        bOptionChanged = false;
 
-    //-----------------------------------------------------------------------------------
-    //
-    //  Configuraton Application Database section key names
-    //
-    const QString
-        strSectionNameAppDB = "ApplicationDatabase",
-        strAppDBServerIPKey = "ServerIP",
-        strAppDBServerPortKey = "ServerPort",
-        strAppDBNameKey = "AppDBName",
-        strAppDBUserIDKey = "AppDBUserID",
-        strAppDBUserPasswordKey = "AppDBUserPassword",
-    //-----------------------------------------------------------------------------------
-    //
-    //  Configuraton Application Load Session section key names
-    //
-        strSectionNameLoadSession = "LoadSessionDefaults",
-        strLoadSessionKWh = "DefaultKWh",
-        strLoadSessionAcceEndPercentage = "DefaultAccuEnd",
-    //-----------------------------------------------------------------------------------
-    //
-    //  Configuraton Application Miscellaneous section key names
-    //
-        strSectionNameMiscellaneous = "Miscellaneous",
-        strMiscellaneousMillageYear = "MillageYear";
+    double
+        dKWhDef;
 
-    QList<QString>
-        lsGeneralOptions,
-        lsAppDBOptions;
+    int
+        iLoadSessionEndPercentage,
+        iMillageYear;
 
-    enum AppLoadSessionDefault
-    {
-        AppLoadSessionWKhDef = 0,
-        AppLoadSessionAccuEndPercentDef
-    };
-
-    enum AppMiscellaneous
-    {
-        AppMiscellaneousMillageYear = 0
-    };
+    QVector<QString>
+        stvDBOptions;
 
  };
 

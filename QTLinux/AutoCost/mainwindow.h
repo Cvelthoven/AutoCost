@@ -11,7 +11,6 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "appconfiguration.h"
 #include "appsettingdatamodel.h"
 #include "appsettingsdialog.h"
 #include "averagecostdatamodel.h"

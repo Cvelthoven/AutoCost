@@ -446,7 +446,7 @@ int MainWindow::ProgramConfigurationLoad()
 //---------------------------------------------------------------------------------------
 void MainWindow::on_actionOptions_triggered()
 {
-    ApplicationSettings = new AppSettingsDialog;
+    ApplicationSettings = new AppSettingsDialog(this, ApplicationConf);
 
 }
 
