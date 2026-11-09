@@ -40,6 +40,8 @@ public:
     int getIMillageYear() const;
     void setIMillageYear(int newIMillageYear);
 
+    int WriteOptionsToFile();
+
     const QString
         //-------------------------------------------------------------------------------
         //

@@ -42,9 +42,6 @@ private:
 
     AppSettingDataModel* ApplicationConfiguration = nullptr;
 
-    bool
-        bOptionChanged = false;
-
     double
         dKWhDef;
 

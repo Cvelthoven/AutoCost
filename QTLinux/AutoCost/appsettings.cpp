@@ -25,12 +25,21 @@
 //  These need to be at the beginning of the code (calls are not in header file)
 //
 //---------------------------------------------------------------------------------------
+//
+//  cryptoKeySettingsPath
+//
+//---------------------------------------------------------------------------------------
 static QString cryptoKeySettingsPath()
 {
     // Where the Base64URL key is stored in QSettings
     return "Crypto/Key32";
 }
 
+//---------------------------------------------------------------------------------------
+//
+//  ensureCryptoKey32
+//
+//---------------------------------------------------------------------------------------
 static QByteArray ensureCryptoKey32(QSettings& settings)
 {
     // Try load
@@ -55,6 +64,11 @@ static QByteArray ensureCryptoKey32(QSettings& settings)
     return key32;
 }
 
+//---------------------------------------------------------------------------------------
+//
+//  isProbablyEncryptedPayloadV2
+//
+//---------------------------------------------------------------------------------------
 static bool isProbablyEncryptedPayloadV2(const QString& s)
 {
     // Decode and look for "v2" prefix described in QStringCrypto header
@@ -67,7 +81,10 @@ static bool isProbablyEncryptedPayloadV2(const QString& s)
 //  AppSettings default constructor
 //
 //---------------------------------------------------------------------------------------
-AppSettings::AppSettings() {}
+AppSettings::AppSettings()
+{
+
+}
 
 //---------------------------------------------------------------------------------------
 //
@@ -86,7 +103,6 @@ AppSettings::AppSettings(const QString &strApplicationDomain,
     //
     //  Set application enviroment definitions
     //
-    //-----------------------------------------------------------------------------------
     QCoreApplication::setOrganizationDomain(strApplicationDomain);
     QCoreApplication::setApplicationName(strApplicationName);
     QCoreApplication::setOrganizationName(strApplicationOrganization);
@@ -111,7 +127,6 @@ int AppSettings::GetAppSettings(const QString &strKeySection,
     //
     //  Ensure keyname is defined
     //
-    //-----------------------------------------------------------------------------------
     if (strKeyName.size() == 0)
     {
         return 1;
@@ -121,7 +136,6 @@ int AppSettings::GetAppSettings(const QString &strKeySection,
     //
     //  Build full path to application key
     //
-    //-----------------------------------------------------------------------------------
     if (strKeySection.size() !=0)
     {
         strFullKeyPath = strKeySection + "/" + strKeyName;
@@ -135,7 +149,6 @@ int AppSettings::GetAppSettings(const QString &strKeySection,
     //
     //  Retrieve the value of the application key
     //
-    //-----------------------------------------------------------------------------------
     QSettings programConfig;
     QVariant temp = programConfig.value(strFullKeyPath);
     if (temp.isValid())
@@ -143,6 +156,7 @@ int AppSettings::GetAppSettings(const QString &strKeySection,
         //-------------------------------------------------------------------------------
         //
         //  Check if the value is encrypted
+        //
         if (bEncrypt)
         {
             const QString stored = temp.toString();
@@ -165,6 +179,7 @@ int AppSettings::GetAppSettings(const QString &strKeySection,
         //-------------------------------------------------------------------------------
         //
         //  Value is not encrypted
+        //
         else
         {
             strKeyValue = temp.toString();
@@ -251,7 +266,6 @@ int AppSettings::SetAppSettings(const QString &strKeySection,
     //
     //  Ensure keyname is defined
     //
-    //-----------------------------------------------------------------------------------
     if (strKeyName.size() == 0)
     {
         return 1;
@@ -261,7 +275,6 @@ int AppSettings::SetAppSettings(const QString &strKeySection,
     //
     //  Build full path to application key
     //
-    //-----------------------------------------------------------------------------------
     if (strKeySection.size() !=0)
     {
         strFullKeyPath = strKeySection + "/" + strKeyName;
@@ -275,7 +288,6 @@ int AppSettings::SetAppSettings(const QString &strKeySection,
     //
     //  Set and force write of the application key
     //
-    //-----------------------------------------------------------------------------------
     QSettings programConfig;
 
     if (bEncrypt)

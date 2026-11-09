@@ -214,3 +214,104 @@ void AppSettingDataModel::setStvAppDBConf(const QVector<QString> &newStvAppDBCon
 {
     stvAppDBConf = newStvAppDBConf;
 }
+
+//---------------------------------------------------------------------------------------
+//
+//  WriteOptionsToFile
+//
+//---------------------------------------------------------------------------------------
+int AppSettingDataModel::WriteOptionsToFile()
+{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Local variables
+    //
+    bool bWiteStatus = true;
+
+    QString strTemp = "";
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Write all options to file
+    //
+    if (ApplicationConfiguration->SetAppSettings(strSectionNameAppDB,
+                                             strAppDBServerIPKey,
+                                             stvAppDBConf[AppOptionServerIP],
+                                                 false))
+    {
+        bWiteStatus = false;
+    }
+
+    if (ApplicationConfiguration->SetAppSettings(strSectionNameAppDB,
+                                             strAppDBServerPortKey,
+                                             stvAppDBConf[AppOptionServerPort],
+                                                 false))
+    {
+        bWiteStatus = false;
+    }
+
+    if (ApplicationConfiguration->SetAppSettings(strSectionNameAppDB,
+                                             strAppDBNameKey,
+                                             stvAppDBConf[AppOptionAppDBName],
+                                                 false))
+    {
+        bWiteStatus = false;
+    }
+
+    if (ApplicationConfiguration->SetAppSettings(strSectionNameAppDB,
+                                             strAppDBUserIDKey,
+                                             stvAppDBConf[AppOptionAppDBUserID],
+                                                 false))
+    {
+        bWiteStatus = false;
+    }
+
+    if (ApplicationConfiguration->SetAppSettings(strSectionNameAppDB,
+                                             strAppDBUserPasswordKey,
+                                             stvAppDBConf[AppOptionAppDBPassword],
+                                                 true))
+    {
+        bWiteStatus = false;
+    }
+
+    strTemp = QString::number(dKWhDef, 'f', 2);
+    if (ApplicationConfiguration->GetAppSettings(strSectionNameLoadSession,
+                                             strLoadSessionKWh,
+                                             strTemp,
+                                                 false))
+    {
+        bWiteStatus = false;
+    }
+
+    strTemp = QString::number(iAccuDefEndPercentage);
+    if (ApplicationConfiguration->GetAppSettings(strSectionNameLoadSession,
+                                             strLoadSessionAcceEndPercentage,
+                                             strTemp,
+                                                 false))
+    {
+        bWiteStatus = false;
+    }
+
+    strTemp = QString::number(iMillageYear);
+    if (ApplicationConfiguration->GetAppSettings(strSectionNameLoadSession,
+                                             strLoadSessionAcceEndPercentage,
+                                             strTemp,
+                                                 false))
+    {
+        bWiteStatus = false;
+    }
+
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Return status code
+    //
+    if (bWiteStatus)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}

@@ -34,7 +34,6 @@ public:
     //
     //  Public methods
     //
-    //-----------------------------------------------------------------------------------
     int GetAppSettings(const QString &strKeySection,
                        const QString &strKeyName,
                        QString &strKeyValue,
@@ -49,7 +48,6 @@ public:
 
 private:
     QString strFullKeyPath;
-
 
 };
 

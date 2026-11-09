@@ -14,6 +14,8 @@
 
 #include <QString>
 
+#include <QDebug>
+
 //---------------------------------------------------------------------------------------
 //
 //  AppSettings default constructor
@@ -121,6 +123,9 @@ void AppSettingsDialog::on_buttonBox_accepted()
     //  Local variables
     //
     //----------------------------------------------------------------------------------
+    bool
+        bOptionChanged = false;
+
     int iCnt1;
 
     QString
@@ -181,22 +186,36 @@ void AppSettingsDialog::on_buttonBox_accepted()
     if (dKWhDef != ApplicationConfiguration->getDKWhDef())
     {
         ApplicationConfiguration->setDKWhDef(dKWhDef);
+        bOptionChanged = true;
     }
     iLoadSessionEndPercentage = ui->lnLoadSesDefAccuEnd->text().toInt();
     if (iLoadSessionEndPercentage != ApplicationConfiguration->getIAccuDefEndPercentage())
     {
         ApplicationConfiguration->setIAccuDefEndPercentage(iLoadSessionEndPercentage);
+        bOptionChanged = true;
     }
 
     //-----------------------------------------------------------------------------------
     //
     //  Miscellaneous options
     //
-    iMillageYear = ui->lnLoadSesDefAccuEnd->text().toInt();
+    iMillageYear = ui->lnMiscMillageYear->text().toInt();
     if (iMillageYear != ApplicationConfiguration->getIMillageYear())
     {
         ApplicationConfiguration->setIMillageYear(iMillageYear);
+        bOptionChanged = true;
     }
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Write change configuration to file
+    //
+    if (bOptionChanged)
+    {
+        if (ApplicationConfiguration->WriteOptionsToFile() != 0)
+        {
+            qDebug() << "Write to AutoCost.conf failed";
+        }
+    }
 }
 
