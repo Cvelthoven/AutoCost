@@ -19,32 +19,9 @@
 //  Application configuration definitions
 //
 //---------------------------------------------------------------------------------------
-const int
-    // must be removed used in millageoverviewdatamodel and datainput dialog
-    iAccuEndPercentageDefault = 90, // -> App settings
-    iMaxMillageYear = 10000,        // -> App settings, and per year adjustable
-    iMaxNbElectricityPeriods = 10;  // -> App settings or dynamic
-
-const double
-    // must be removed used in millageoverviewdatamodel and datainput dialog
-    dKWhMaxDefault = 7.7000;//  -> App settings,
-
 const QString
-    // still use in appconfiguration must be removed
-    strApplicationName = "AutoCost",
-    strApplicationDomain = "CVelthoven.com",
-    strApplicationOrganization = "CVelthoven",
-
-    //-----------------------------------------------------------------------------------
-    //
-    //  Other QString values
-    //
     strApplicationDatabaseConnectionName = "AppDataDBConnection";
 
-//---------------------------------------------------------------------------------------
-//
-//  Enums for the application settings in configuration file
-//
 //---------------------------------------------------------------------------------------
 //
 //  Descriptive names for the Application database configuration values
@@ -64,7 +41,8 @@ enum AppAppDBOptions
 //
 //  Descriptove names for the record types
 //
-//  Used in detailcosdatamodel and datainputdialog needs to be removed
+//  Used in detailcosdatamodel and datainputdialog
+//
 enum CostRecordTypes
 {
     CostRecPeriodic = 1,

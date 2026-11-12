@@ -14,6 +14,7 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "appsettingdatamodel.h"
 #include "detailcostdatamodel.h"
 #include "tabledatamodel.h"
 #include <QObject>
@@ -24,11 +25,13 @@
 //  Class MillageOverviewDataModel definitions
 //
 //---------------------------------------------------------------------------------------
-class MillageOverviewDataModel : public TableDataModel
+class MillageOverviewDataModel : public TableDataModel,
+                                 public AppSettingDataModel
 {
     Q_OBJECT
 public:
-    MillageOverviewDataModel(QObject *parent = nullptr);
+    MillageOverviewDataModel(QObject *parent = nullptr,
+                      AppSettingDataModel *AppConfig = nullptr);
 
     //-----------------------------------------------------------------------------------
     //
@@ -44,7 +47,12 @@ protected:
     virtual Qt::Alignment columnAlignment(int column) const;
 
 private:
+    AppSettingDataModel* ApplicationConfiguration = nullptr;
+
     double dMillageCurrent = -1;
+
+    int
+        iMaxMillageYear = -1;
 
     QVector<double>
         dMillageYearEnd,

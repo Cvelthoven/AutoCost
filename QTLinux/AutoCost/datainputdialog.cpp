@@ -22,12 +22,19 @@
 //  DataInputDialog default constructor
 //
 //---------------------------------------------------------------------------------------
-DataInputDialog::DataInputDialog(QWidget *parent)
+DataInputDialog::DataInputDialog(QWidget *parent,
+                                AppSettingDataModel *AppnConf)
     : QDialog(parent),
     ui(new Ui::DataInputDialog)
 {
 
     ui->setupUi(this);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Load application configuration
+    //
+    ApplicationConfiguration = AppnConf;
 
     //-----------------------------------------------------------------------------------
     //
@@ -230,8 +237,9 @@ void DataInputDialog::loadElectricityDefaults()
     ui->lnDescription->setText("Laden");
     ui->teStartTime->setDisplayFormat(strStartTimeFormat);
     ui->teStartTime->setTime(QTime::fromString("00:00"));
-    ui->lnKWhMax->setText(QString::number(dKWhMaxDefault,'f', 1));
-    ui->lnAccuPercentageEnd->setText(QString::number(iAccuEndPercentageDefault));
+    ui->lnKWhMax->setText(QString::number(ApplicationConfiguration->getDKWhDef(),'f', 1));
+    ui->lnAccuPercentageEnd->setText(QString::number(
+                            ApplicationConfiguration->getIAccuDefEndPercentage()));
 
     //-----------------------------------------------------------------------------------
     //
@@ -469,9 +477,9 @@ void DataInputDialog::resetDialog()
     iStartHour = 0;
     iStartMinute = 0;
 
-    dDefaultKWh = dKWhMaxDefault;// default amount load during 1 hour
+    dDefaultKWh = ApplicationConfiguration->getDKWhDef();
     dTotalKWh = 0.0;        // total amount of KWh loaded during load session
-    iAccuEndPercentage = iAccuEndPercentageDefault;// default value for a load session
+    iAccuEndPercentage = ApplicationConfiguration->getIAccuDefEndPercentage();
     iAccuStartPercentage = 0;
     iCostType = 0;
     iMillage = 0;

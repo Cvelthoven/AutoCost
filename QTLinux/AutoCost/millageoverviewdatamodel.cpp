@@ -26,9 +26,17 @@
 //  Default constructor and destructor
 //
 //---------------------------------------------------------------------------------------
-MillageOverviewDataModel::MillageOverviewDataModel(QObject *parent)
+MillageOverviewDataModel::MillageOverviewDataModel(QObject *parent,
+                                AppSettingDataModel *AppnConf)
     : TableDataModel(parent)
 {
+    //-----------------------------------------------------------------------------------
+    //
+    //  Load application configuration
+    //
+    ApplicationConfiguration = AppnConf;
+    iMaxMillageYear = ApplicationConfiguration->getIMillageYear();
+
     //-----------------------------------------------------------------------------------
     //
     //  Set column headers

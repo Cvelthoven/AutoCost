@@ -11,6 +11,7 @@
 //---------------------------------------------------------------------------------------
 #include "appsettingdatamodel.h"
 #include "AutoCost.h"
+#include "datainputdialog.h"
 #include "detailcostdatamodel.h"
 #include "electricityoverviewdatamodel.h"
 #include "mainwindow.h"
@@ -127,7 +128,7 @@ MainWindow::MainWindow(QWidget *parent)
     //
     //  Create and load data
     //
-    MillageDataModelTable = new MillageOverviewDataModel(this);
+    MillageDataModelTable = new MillageOverviewDataModel(this, ApplicationConf);
     MillageDataModelTable->loadMillageData(*DetailCostDataModelTable);
 
     //-----------------------------------------------------------------------------------
@@ -464,8 +465,7 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_actionManual_Data_input_triggered()
 {
     qDebug() << "Constructor of DataInputDialog called from MainWindow on_actionManual_Data_input_triggered";
-    ManualDataInput = new DataInputDialog;
-//    ManualDataInput = new DataInputDialog(ApplicationConfiguration);
+    ManualDataInput = new DataInputDialog(this, ApplicationConf);
 
     //-----------------------------------------------------------------------------------
     //

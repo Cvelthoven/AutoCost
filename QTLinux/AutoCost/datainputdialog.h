@@ -13,6 +13,7 @@
 //---------------------------------------------------------------------------------------
 //#include "appsettings.h"
 #include "AutoCost.h"
+#include "appsettingdatamodel.h"
 #include "datainput.h"
 #include "electricitycostinputmodel.h"
 
@@ -40,12 +41,14 @@ namespace Ui {
 class DataInputDialog;
 }
 
-class DataInputDialog : public QDialog
+class DataInputDialog : public QDialog,
+                        public AppSettingDataModel
 {
     Q_OBJECT
 
 public:
-    explicit DataInputDialog(QWidget *parent = nullptr);
+    explicit DataInputDialog(QWidget *parent = nullptr,
+                      AppSettingDataModel *AppConfig = nullptr);
     ~DataInputDialog();
 
     //---------------------------------------------------------------------------------------
@@ -110,20 +113,24 @@ private:
         bPublicLoadSession = false,
         bStartLoadTimeChanged = false;
 
+    const int
+        iMaxNbElectricityPeriods = 10;
+
     double
         dAmount = 0.0,          // Amount of the record
-        dDefaultKWh = dKWhMaxDefault,   // default amount load during 1 hour
-        dKWhPeriod[iMaxNbElectricityPeriods],   // KWh loaded during a given period
-        dKWhPrice[iMaxNbElectricityPeriods],    // Price of KWh during given period
+        dDefaultKWh = -1.0,   // default amount load during 1 hour
+        dKWhPeriod[10],   // KWh loaded during a given period, must be dynamic !!!!!!
+        dKWhPrice[10],    // Price of KWh during given period, must be dynamic !!!!!
         dTotalKWh = 0.0;        // total amount of KWh loaded during load session
 
     int
-        iAccuEndPercentage = iAccuEndPercentageDefault,    // default value for a load session
+        iAccuEndPercentage = -1,    // default value for a load session
         iAccuStartPercentage = 0,
         iCostType = 0,
         iMillage = 0,
         iStartHour = 0,
         iStartMinute = 0;
+
 
     QDate
         daRecordDate;
@@ -140,6 +147,7 @@ private:
 
     DataInput *dbData;
 
+    AppSettingDataModel* ApplicationConfiguration = nullptr;
     ElectricityCostInputModel *ElectricityCostModel = nullptr;
 
 };

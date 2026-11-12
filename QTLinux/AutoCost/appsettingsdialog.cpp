@@ -39,7 +39,12 @@ AppSettingsDialog::AppSettingsDialog(QWidget *parent,
 
     ui->setupUi(this);
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Load application configuration
+    //
     ApplicationConfiguration = AppnConf;
+
     //-----------------------------------------------------------------------------------
     //
     //  Application database options
