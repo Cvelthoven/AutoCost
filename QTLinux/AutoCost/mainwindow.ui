@@ -226,7 +226,14 @@
     <property name="title">
      <string>Data input</string>
     </property>
+    <widget class="QMenu" name="menuUpdate_DB">
+     <property name="title">
+      <string>Update DB</string>
+     </property>
+     <addaction name="actionStore_Electricity_data"/>
+    </widget>
     <addaction name="actionManual_Data_input"/>
+    <addaction name="menuUpdate_DB"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuData_input"/>
@@ -245,6 +252,11 @@
   <action name="actionManual_Data_input">
    <property name="text">
     <string>Manual Data input</string>
+   </property>
+  </action>
+  <action name="actionStore_Electricity_data">
+   <property name="text">
+    <string>Store Electricity data</string>
    </property>
   </action>
  </widget>

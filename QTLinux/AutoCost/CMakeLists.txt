@@ -49,6 +49,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         tabledatamodel.h tabledatamodel.cpp
         averagecostdatamodel.h averagecostdatamodel.cpp
         appsettingdatamodel.h appsettingdatamodel.cpp
+        readcsvelectricityfile.h readcsvelectricityfile.cpp
 
 
 
