@@ -13,6 +13,13 @@
 //---------------------------------------------------------------------------------------
 #include "readcsvelectricityfile.h"
 
+#include <QDebug>
+
+//---------------------------------------------------------------------------------------
+//
+//  Not already defined in readcsvelectricityfile.h
+//
+
 //---------------------------------------------------------------------------------------
 //
 //  Class ReadCsvElectricityFile constructors and destructors
@@ -28,3 +35,41 @@ ReadCsvElectricityFile::ReadCsvElectricityFile()
 //  Class ElectricityCostInputModel methods
 //
 //---------------------------------------------------------------------------------------
+int ReadCsvElectricityFile::ReadFile(QString *strFileName)
+{
+    //-----------------------------------------------------------------------------------
+    //
+    //  Verify that strFileName is not empty
+    //
+    if (strFileName->length() == 0)
+    {
+        return 1;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Open file
+    //
+    ElectricityDataFile.setFileName(*strFileName);
+    if (!ElectricityDataFile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        return 2;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Read file line by line
+    //
+    ElectricityDataStream.setDevice(&ElectricityDataFile);
+    while (!ElectricityDataStream.atEnd())
+    {
+        QString line = ElectricityDataStream.readLine();
+        qDebug() << line;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Return success
+    //
+    return 0;
+}

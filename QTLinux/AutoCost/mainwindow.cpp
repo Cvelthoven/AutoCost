@@ -9,21 +9,15 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
-#include "appsettingdatamodel.h"
-#include "AutoCost.h"
-#include "datainputdialog.h"
-#include "detailcostdatamodel.h"
-#include "electricityoverviewdatamodel.h"
 #include "mainwindow.h"
-#include "millageoverviewdatamodel.h"
+//---------------------------------------------------------------------------------------
+//
+//  Not already defined in mainwindow.h
+//
 #include "./ui_mainwindow.h"
-#include "postgresqldb.h"
-#include "totalcostdatamodel.h"
 
 #include <QFileDialog>
-#include <QMainWindow>
 #include <QString>
-#include <QTableView>
 
 #include <QDebug>
 
@@ -452,7 +446,6 @@ void MainWindow::on_actionOptions_triggered()
 
 }
 
-
 //---------------------------------------------------------------------------------------
 //
 //  on_actionExit_triggered
@@ -474,10 +467,21 @@ void MainWindow::on_actionExit_triggered()
 //---------------------------------------------------------------------------------------
 void MainWindow::on_actionStore_Electricity_data_triggered()
 {
-    QString strFileName = QFileDialog::getOpenFileName(this,tr("Open electricity data file"));
+    QString strFileName = QFileDialog::getOpenFileName(this,
+                                                       tr("Open electricity data file"),
+                                                       QString(),
+                                                       tr("All files (*)"));
     if (strFileName.length() != 0)
     {
-        qDebug() << "Electricity file name: " << strFileName;
+        ElectricityDataFile = new ReadCsvElectricityFile;
+        if (ElectricityDataFile->ReadFile(&strFileName) == 0)
+        {
+            qDebug() << "Electricity file name: " << strFileName << " succesfull loaded.";
+        }
+        else
+        {
+            qDebug() << "Electricity file name: " << strFileName << " load failed";
+        }
     }
 }
 

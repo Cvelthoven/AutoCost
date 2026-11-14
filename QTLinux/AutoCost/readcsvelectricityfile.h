@@ -15,6 +15,9 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include <QFile>
+#include <QString>
+#include <QTextStream>
 
 //---------------------------------------------------------------------------------------
 //
@@ -25,6 +28,13 @@ class ReadCsvElectricityFile
 {
 public:
     ReadCsvElectricityFile();
+
+    int ReadFile(QString *strFileName);
+
+private:
+    QFile ElectricityDataFile;
+
+    QTextStream ElectricityDataStream;
 };
 
 #endif // READCSVELECTRICITYFILE_H
