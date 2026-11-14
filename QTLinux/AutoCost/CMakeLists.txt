@@ -35,8 +35,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         postgresqldb.h postgresqldb.cpp
 
 
-
-
         datainputdialog.h datainputdialog.cpp datainputdialog.ui
         datainput.h datainput.cpp
 
@@ -50,14 +48,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         averagecostdatamodel.h averagecostdatamodel.cpp
         appsettingdatamodel.h appsettingdatamodel.cpp
         readcsvelectricityfile.h readcsvelectricityfile.cpp
-
-
-
-
-
-
-
-
 
 
     )

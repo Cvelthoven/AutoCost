@@ -22,6 +22,7 @@
 #include "postgresqldb.h"
 #include "totalcostdatamodel.h"
 
+#include <QFileDialog>
 #include <QMainWindow>
 #include <QTableView>
 
@@ -49,6 +50,8 @@ private slots:
     void on_actionExit_triggered();
 
     void on_actionManual_Data_input_triggered();
+
+    void on_actionStore_Electricity_data_triggered();
 
 private:
     Ui::MainWindow *ui;

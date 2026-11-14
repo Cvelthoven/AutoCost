@@ -20,6 +20,7 @@
 #include "postgresqldb.h"
 #include "totalcostdatamodel.h"
 
+#include <QFileDialog>
 #include <QMainWindow>
 #include <QString>
 #include <QTableView>
@@ -452,9 +453,32 @@ void MainWindow::on_actionOptions_triggered()
 }
 
 
+//---------------------------------------------------------------------------------------
+//
+//  on_actionExit_triggered
+//
+//  Menu -> File -> Exot
+//
+//---------------------------------------------------------------------------------------
 void MainWindow::on_actionExit_triggered()
 {
     exit(0);
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  on_actionStore_Electricity_data_triggered
+//
+//  Menu -> Data input -> Update DB -> Store Electricity data
+//
+//---------------------------------------------------------------------------------------
+void MainWindow::on_actionStore_Electricity_data_triggered()
+{
+    QString strFileName = QFileDialog::getOpenFileName(this,tr("Open electricity data file"));
+    if (strFileName.length() != 0)
+    {
+        qDebug() << "Electricity file name: " << strFileName;
+    }
 }
 
 //---------------------------------------------------------------------------------------
