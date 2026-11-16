@@ -38,6 +38,13 @@ public:
     explicit DialogUpdateDatabase(QWidget *parent = nullptr);
     ~DialogUpdateDatabase();
 
+private slots:
+    void on_btDbLoadRecords_clicked();
+    void on_btReadInputFile_clicked();
+    void on_buttonBox_accepted();
+    void on_buttonBox_rejected();
+    void on_lneFileName_editingFinished();
+
 private:
     Ui::DialogUpdateDatabase *ui;
 };
