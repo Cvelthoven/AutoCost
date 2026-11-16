@@ -18,6 +18,7 @@
 #include <QFile>
 #include <QString>
 #include <QTextStream>
+#include <QVector>
 
 //---------------------------------------------------------------------------------------
 //
@@ -32,9 +33,25 @@ public:
     int ReadFile(QString *strFileName);
 
 private:
+    //-----------------------------------------------------------------------------------
+    //
+    //  Private methods
+    //
+    void ConvertLineToRecord(QString strInputLine);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Private variables
+    //
+    int
+        iLineTotal = 0;
+
     QFile ElectricityDataFile;
 
     QTextStream ElectricityDataStream;
+
+    QVector<QString>
+        vsRecord;
 };
 
 #endif // READCSVELECTRICITYFILE_H

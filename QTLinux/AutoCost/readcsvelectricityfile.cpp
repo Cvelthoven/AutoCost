@@ -13,12 +13,13 @@
 //---------------------------------------------------------------------------------------
 #include "readcsvelectricityfile.h"
 
-#include <QDebug>
-
 //---------------------------------------------------------------------------------------
 //
 //  Not already defined in readcsvelectricityfile.h
 //
+
+
+#include <QDebug>
 
 //---------------------------------------------------------------------------------------
 //
@@ -35,8 +36,25 @@ ReadCsvElectricityFile::ReadCsvElectricityFile()
 //  Class ElectricityCostInputModel methods
 //
 //---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//
+//  ConvertLineToRecord
+//
+//---------------------------------------------------------------------------------------
+void ReadCsvElectricityFile::ConvertLineToRecord(QString strInputLine)
+{
+    qDebug() << strInputLine;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  ReadFile
+//
+//---------------------------------------------------------------------------------------
 int ReadCsvElectricityFile::ReadFile(QString *strFileName)
 {
+    QString line = "";
+
     //-----------------------------------------------------------------------------------
     //
     //  Verify that strFileName is not empty
@@ -61,10 +79,36 @@ int ReadCsvElectricityFile::ReadFile(QString *strFileName)
     //  Read file line by line
     //
     ElectricityDataStream.setDevice(&ElectricityDataFile);
+    iLineTotal = 0;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Read headerline and discard it
+    //
+    if (!ElectricityDataStream.atEnd())
+    {
+        line = ElectricityDataStream.readLine();
+
+    }
+    //-----------------------------------------------------------------------------------
+    //
+    //  Data file is empty
+    //
+    else
+    {
+        return 3;
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Process data lines
+    //
     while (!ElectricityDataStream.atEnd())
     {
-        QString line = ElectricityDataStream.readLine();
-        qDebug() << line;
+        line = ElectricityDataStream.readLine();
+        ConvertLineToRecord(line);
+        iLineTotal++;
+
     }
 
     //-----------------------------------------------------------------------------------
