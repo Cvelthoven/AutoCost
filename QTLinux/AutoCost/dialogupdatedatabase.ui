@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>572</width>
     <height>357</height>
    </rect>
   </property>
@@ -170,6 +170,19 @@
    </property>
    <property name="text">
     <string>Load records</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btFileNameBrowse">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>20</y>
+     <width>86</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Select</string>
    </property>
   </widget>
  </widget>

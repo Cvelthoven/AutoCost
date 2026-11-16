@@ -17,6 +17,7 @@
 #include "datainput.h"
 #include "datainputdialog.h"
 #include "detailcostdatamodel.h"
+#include "dialogupdatedatabase.h"
 #include "electricityoverviewdatamodel.h"
 #include "millageoverviewdatamodel.h"
 #include "postgresqldb.h"
@@ -76,6 +77,7 @@ private:
     AverageCostDataModel* AverageCostDataModelTable = nullptr;
     DataInput* ManualData = nullptr;
     DetailCostDataModel* DetailCostDataModelTable = nullptr;
+    DialogUpdateDatabase* DlgUpdateDatabase = nullptr;
     ElectricityOverviewDataModel* ElectricityDataModelTable = nullptr;
     MillageOverviewDataModel* MillageDataModelTable = nullptr;
     PostGreSQLDB* AppDataDB = nullptr;

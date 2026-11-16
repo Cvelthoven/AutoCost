@@ -45,6 +45,8 @@ private slots:
     void on_buttonBox_rejected();
     void on_lneFileName_editingFinished();
 
+    void on_btFileNameBrowse_clicked();
+
 private:
     Ui::DialogUpdateDatabase *ui;
 };
