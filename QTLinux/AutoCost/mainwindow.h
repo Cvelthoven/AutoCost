@@ -21,7 +21,6 @@
 #include "electricityoverviewdatamodel.h"
 #include "millageoverviewdatamodel.h"
 #include "postgresqldb.h"
-#include "readcsvelectricityfile.h"
 #include "totalcostdatamodel.h"
 
 #include <QMainWindow>
@@ -81,7 +80,6 @@ private:
     ElectricityOverviewDataModel* ElectricityDataModelTable = nullptr;
     MillageOverviewDataModel* MillageDataModelTable = nullptr;
     PostGreSQLDB* AppDataDB = nullptr;
-    ReadCsvElectricityFile* ElectricityDataFile = nullptr;
     TotalCostDataModel* TotallCostDataModelTable = nullptr;
 
 };

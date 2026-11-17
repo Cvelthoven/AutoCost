@@ -30,6 +30,11 @@ class ReadCsvElectricityFile
 public:
     ReadCsvElectricityFile();
 
+    //-----------------------------------------------------------------------------------
+    //
+    //  Public methods
+    //
+    int getILineTotal() const;
     int ReadFile(QString *strFileName);
 
 private:

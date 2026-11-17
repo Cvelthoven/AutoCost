@@ -19,7 +19,10 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include "readcsvelectricityfile.h"
+
 #include <QDialog>
+#include <QString>
 
 //---------------------------------------------------------------------------------------
 //
@@ -49,6 +52,11 @@ private slots:
 
 private:
     Ui::DialogUpdateDatabase *ui;
+
+    QString
+        strCsvFileName = "";
+
+    ReadCsvElectricityFile* reElectricityFileData = nullptr;
 };
 
 #endif // DIALOGUPDATEDATABASE_H

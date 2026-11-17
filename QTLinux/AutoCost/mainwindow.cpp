@@ -16,7 +16,6 @@
 //
 #include "./ui_mainwindow.h"
 
-#include <QFileDialog>
 #include <QString>
 
 #include <QDebug>
@@ -468,22 +467,6 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_actionStore_Electricity_data_triggered()
 {
     DlgUpdateDatabase = new DialogUpdateDatabase();
-    // QString strFileName = QFileDialog::getOpenFileName(this,
-    //                                                    tr("Open electricity data file"),
-    //                                                    QString(),
-    //                                                    tr("All files (*)"));
-    // if (strFileName.length() != 0)
-    // {
-    //     ElectricityDataFile = new ReadCsvElectricityFile;
-    //     if (ElectricityDataFile->ReadFile(&strFileName) == 0)
-    //     {
-    //         qDebug() << "Electricity file name: " << strFileName << " succesfull loaded.";
-    //     }
-    //     else
-    //     {
-    //         qDebug() << "Electricity file name: " << strFileName << " load failed";
-    //     }
-    // }
 }
 
 //---------------------------------------------------------------------------------------

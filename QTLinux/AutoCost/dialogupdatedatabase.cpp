@@ -22,7 +22,7 @@
 //
 //  Not already defined in dialogupdatedatabase.h
 //
-
+#include <QFileDialog>
 
 //---------------------------------------------------------------------------------------
 //
@@ -33,7 +33,17 @@ DialogUpdateDatabase::DialogUpdateDatabase(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::DialogUpdateDatabase)
 {
+    //-----------------------------------------------------------------------------------
+    //
+    //  Setup dialog
+    //
     ui->setupUi(this);
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Execute dialog
+    //
+    DialogUpdateDatabase::exec();
 }
 
 DialogUpdateDatabase::~DialogUpdateDatabase()
@@ -60,9 +70,24 @@ void DialogUpdateDatabase::on_btDbLoadRecords_clicked()
 //
 //  on_btFileNameBrowse_clicked
 //
+//  Allows the user to select a file from the filesystem
+//
 //---------------------------------------------------------------------------------------
 void DialogUpdateDatabase::on_btFileNameBrowse_clicked()
 {
+    strCsvFileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Open electricity data file"),
+                                                    QString(),
+                                                    tr("All files (*)"));
+    if (strCsvFileName.length() != 0)
+    {
+        ui->lneFileName->setText(strCsvFileName);
+    }
+    else
+    {
+        ui->lneFileName->setText("");
+
+    }
 
 }
 
@@ -70,10 +95,25 @@ void DialogUpdateDatabase::on_btFileNameBrowse_clicked()
 //
 //  on_btReadInputFile_clicked
 //
+//  Reads the selected file and shows fileinformation in the dialog
+//  Uses ReadCsvElectricityFile
+//
 //---------------------------------------------------------------------------------------
 void DialogUpdateDatabase::on_btReadInputFile_clicked()
 {
-
+    if (strCsvFileName.length() != 0)
+    {
+        reElectricityFileData = new ReadCsvElectricityFile();
+        if (reElectricityFileData->ReadFile(&strCsvFileName) == 0)
+        {
+            ui->lneRecordNumber->setText(
+                QString::number(reElectricityFileData->getILineTotal()));
+        }
+        else
+        {
+            qDebug() << "Reading " << strCsvFileName << " failed";
+        }
+    }
 }
 
 //---------------------------------------------------------------------------------------
