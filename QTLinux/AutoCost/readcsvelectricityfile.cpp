@@ -17,7 +17,9 @@
 //
 //  Not already defined in readcsvelectricityfile.h
 //
-
+#include <QDateTime>
+#include <QStringList>
+#include <QVector>
 
 #include <QDebug>
 
@@ -40,10 +42,76 @@ ReadCsvElectricityFile::ReadCsvElectricityFile()
 //
 //  ConvertLineToRecord
 //
+//  The inputline consists out of the following elements:
+//      Periode
+//      Levering (kWh),
+//      Teruglevering (kWh),
+//      Marktprijskosten (€),
+//      Leveringskosten (€),
+//      Energiebelasting (€),
+//      Totale variable kosten (€),
+//      Vermindering Energiebelasting (€),
+//      Vaste leveringskosten (€),
+//      Netbeheerkosten (€),
+//      Totale vaste kosten (€),
+//      Totale kosten (€),
+//      Geschat
+//
 //---------------------------------------------------------------------------------------
 void ReadCsvElectricityFile::ConvertLineToRecord(QString strInputLine)
 {
     qDebug() << strInputLine;
+    //-----------------------------------------------------------------------------------
+    //
+    //  Local variables
+    //
+    QDateTime
+        dtDateTime;
+
+    QStringList
+        stlDataParts;
+
+    ElectricityData
+        stRecordData;
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Replace ',' with '.' for the conversion to double
+    //
+    for (int iCnt1 = 0; iCnt1 < strInputLine.length(); iCnt1++)
+    {
+        if (strInputLine[iCnt1] == ",")
+        {
+            strInputLine[iCnt1] = '.';
+        }
+    }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Split input line into data parts
+    //
+    stlDataParts = strInputLine.split(';');
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Convert the strings to electricity record parts
+    //
+    dtDateTime = QDateTime::fromString(stlDataParts[0], "dd-MM-yyyy HH:mm");
+    stRecordData.qdRecordDate = dtDateTime.date();
+    stRecordData.qtRecordTime = dtDateTime.time();
+    stRecordData.dUsedKWh = stlDataParts[1].toDouble();
+    stRecordData.dReturnKWh = stlDataParts[2].toDouble();
+    stRecordData.dMarketPrice = stlDataParts[3].toDouble();
+    stRecordData.dDeliveryCost = stlDataParts[4].toDouble();
+    stRecordData.dEnergyTax = stlDataParts[5].toDouble();
+    stRecordData.dTotalVariableCost = stlDataParts[6].toDouble();
+    stRecordData.dReductionEngeryTax = stlDataParts[7].toDouble();
+    stRecordData.dFixedDeliveryCost = stlDataParts[8].toDouble();
+    stRecordData.dNetworkCost = stlDataParts[9].toDouble();
+    stRecordData.dTotalFixedCost = stlDataParts[10].toDouble();
+    stRecordData.dTotalCost = stlDataParts[11].toDouble();
+
+    vedElectricityRecords.append(stRecordData);
 }
 
 //---------------------------------------------------------------------------------------
@@ -100,6 +168,7 @@ int ReadCsvElectricityFile::ReadFile(QString *strFileName)
         line = ElectricityDataStream.readLine();
 
     }
+
     //-----------------------------------------------------------------------------------
     //
     //  Data file is empty

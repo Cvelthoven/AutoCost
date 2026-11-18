@@ -15,10 +15,33 @@
 //  Header files
 //
 //---------------------------------------------------------------------------------------
+#include <QDateTime>
 #include <QFile>
 #include <QString>
 #include <QTextStream>
 #include <QVector>
+
+//---------------------------------------------------------------------------------------
+//
+//  Structure of the electricity data record
+//
+struct ElectricityData
+{
+    QDate qdRecordDate;
+    QTime qtRecordTime;
+    double
+        dUsedKWh,
+        dReturnKWh,
+        dMarketPrice,
+        dDeliveryCost,
+        dEnergyTax,
+        dTotalVariableCost,// No needed to store
+        dReductionEngeryTax,
+        dFixedDeliveryCost,
+        dNetworkCost,
+        dTotalFixedCost,// not needed to store
+        dTotalCost;// not needed to store
+};
 
 //---------------------------------------------------------------------------------------
 //
@@ -55,8 +78,10 @@ private:
 
     QTextStream ElectricityDataStream;
 
-    QVector<QString>
-        vsRecord;
+    QVector<ElectricityData> vedElectricityRecords;
+
+    // QVector<QString>
+    //     vsRecord;
 };
 
 #endif // READCSVELECTRICITYFILE_H
