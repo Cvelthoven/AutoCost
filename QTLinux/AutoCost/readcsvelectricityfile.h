@@ -58,6 +58,8 @@ public:
     //  Public methods
     //
     int getILineTotal() const;
+    QDate getQdFirstRecordDate() const;
+    QDate getQdLastRecordDate() const;
     int ReadFile(QString *strFileName);
 
 private:
@@ -74,14 +76,16 @@ private:
     int
         iLineTotal = 0;
 
+    QDate
+        qdFirstRecordDate,
+        qdLastRecordDate;
+
     QFile ElectricityDataFile;
 
     QTextStream ElectricityDataStream;
 
     QVector<ElectricityData> vedElectricityRecords;
 
-    // QVector<QString>
-    //     vsRecord;
 };
 
 #endif // READCSVELECTRICITYFILE_H

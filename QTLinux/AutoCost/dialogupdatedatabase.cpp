@@ -108,6 +108,10 @@ void DialogUpdateDatabase::on_btReadInputFile_clicked()
         {
             ui->lneRecordNumber->setText(
                 QString::number(reElectricityFileData->getILineTotal()));
+            ui->lneRecordFirst->setText(
+                reElectricityFileData->getQdFirstRecordDate().toString("dd-MMM-yyyy"));
+            ui->lneRecordLast->setText(
+                reElectricityFileData->getQdLastRecordDate().toString("dd-MMM-yyyy"));
         }
         else
         {

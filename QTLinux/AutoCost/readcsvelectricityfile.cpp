@@ -21,7 +21,7 @@
 #include <QStringList>
 #include <QVector>
 
-#include <QDebug>
+// #include <QDebug>
 
 //---------------------------------------------------------------------------------------
 //
@@ -60,7 +60,6 @@ ReadCsvElectricityFile::ReadCsvElectricityFile()
 //---------------------------------------------------------------------------------------
 void ReadCsvElectricityFile::ConvertLineToRecord(QString strInputLine)
 {
-    qDebug() << strInputLine;
     //-----------------------------------------------------------------------------------
     //
     //  Local variables
@@ -122,6 +121,26 @@ void ReadCsvElectricityFile::ConvertLineToRecord(QString strInputLine)
 int ReadCsvElectricityFile::getILineTotal() const
 {
     return iLineTotal;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  getQdLastRecordDate
+//
+//---------------------------------------------------------------------------------------
+QDate ReadCsvElectricityFile::getQdLastRecordDate() const
+{
+    return qdLastRecordDate;
+}
+
+//---------------------------------------------------------------------------------------
+//
+//  getQdFirstRecordDate
+//
+//---------------------------------------------------------------------------------------
+QDate ReadCsvElectricityFile::getQdFirstRecordDate() const
+{
+    return qdFirstRecordDate;
 }
 
 //---------------------------------------------------------------------------------------
@@ -189,6 +208,13 @@ int ReadCsvElectricityFile::ReadFile(QString *strFileName)
         iLineTotal++;
 
     }
+
+    //-----------------------------------------------------------------------------------
+    //
+    //  Get date of the first and the last record
+    //
+    qdFirstRecordDate = vedElectricityRecords[0].qdRecordDate;
+    qdLastRecordDate = vedElectricityRecords[iLineTotal - 1].qdRecordDate;
 
     //-----------------------------------------------------------------------------------
     //
